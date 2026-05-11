@@ -25,4 +25,4 @@ Se vuoi avviare il progetto sul tuo computer:
 
 1. **Clona il repository:**
    ```bash
-   git clone [https://github.com/TUO_USERNAME/terzo-tempo.git](https://github.com/TUO_USERNAME/terzo-tempo.git)
+   git clone [https://github.com/LucaRuggeri5/terzo-tempo-app.git](https://github.com/LucaRuggeri5/terzo-tempo-app.git)
