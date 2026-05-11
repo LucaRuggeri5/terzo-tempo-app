@@ -1,0 +1,198 @@
+.stats-container {
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.stats-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.stats-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.stats-filters select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  font-size: 13px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* TABELLA WRAPPER */
+.stats-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* Fondamentale: max-height permette lo scroll verticale interno mantenendo l'header fisso */
+  max-height: 80vh; 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-table-scroll {
+  overflow: auto; /* Permette sia scroll orizzontale che verticale */
+  -webkit-overflow-scrolling: touch;
+}
+
+.stats-row {
+  display: flex;
+  min-width: 100%;
+  width: max-content;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* HEADER FISSO IN ALTO */
+.header-row {
+  background-color: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Z-index alto per stare sopra le colonne sticky */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Effetto profondità allo scroll */
+}
+
+/* COLONNA FISSA A SINISTRA */
+.col-name {
+  width: 180px;
+  min-width: 180px;
+  padding: 14px 16px;
+  font-weight: 800;
+  font-size: 14px;
+  color: #1e293b;
+  background: white;
+  position: sticky;
+  left: 0;
+  z-index: 10; /* Minore dell'header ma maggiore delle altre celle */
+  border-right: 1px solid #e2e8f0;
+  cursor: pointer;
+}
+
+/* L'incrocio tra Header e Colonna Nome deve avere lo z-index massimo */
+.header-row .col-name {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  text-transform: uppercase;
+  z-index: 110; 
+}
+
+.col-data {
+  flex: 1;
+  min-width: 85px;
+  padding: 12px 5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+}
+
+.header-row .col-data {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.col-forma {
+  width: 130px;
+  min-width: 130px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-row .col-forma {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* NOMI DINAMICI */
+.label-partite::before { content: "Partite"; }
+.label-punti::before { content: "Punti"; }
+.label-vittorie::before { content: "Vittorie"; }
+.label-pareggi::before { content: "Pareggi"; }
+.label-sconfitte::before { content: "Sconfitte"; }
+.label-goal::before { content: "Goal Fatti"; }
+.label-dr::before { content: "Diff. Reti"; }
+.label-mp::before { content: "Media Punti"; }
+.label-winrate::before { content: "Win Rate"; }
+
+.active-sort {
+  color: #059669 !important;
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.forma-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+}
+
+.W { background-color: #10b981; }
+.D { background-color: #94a3b8; }
+.L { background-color: #ef4444; }
+
+.highlight { font-weight: 800; color: #0f172a; }
+.text-green { color: #10b981; }
+.text-red { color: #ef4444; }
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .stats-container { padding: 10px; }
+  .stats-header h1 { font-size: 18px; }
+  .stats-row { min-width: 100%; }
+  .col-name { width: 100px; min-width: 100px; padding: 10px 8px; font-size: 12px; }
+  .col-data { width: 50px; min-width: 50px; flex: none; font-size: 12px; }
+
+  .label-partite::before { content: "PG"; }
+  .label-punti::before { content: "PT"; }
+  .label-vittorie::before { content: "V"; }
+  .label-pareggi::before { content: "P"; }
+  .label-sconfitte::before { content: "S"; }
+  .label-goal::before { content: "GF"; }
+  .label-dr::before { content: "DR"; }
+  .label-mp::before { content: "MP"; }
+  .label-winrate::before { content: "WR"; }
+
+  .col-forma { width: 100px; min-width: 100px; }
+  .dot { width: 15px; height: 15px; font-size: 8px; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

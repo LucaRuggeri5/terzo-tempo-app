@@ -1,0 +1,15 @@
+.minimal-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.minimal-table th, .minimal-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.minimal-table th {
+  background-color: #f2f2f2;
+}

@@ -1,0 +1,436 @@
+/* CONTAINER & RESET */
+.player-stats-container {
+  padding: 30px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* RICERCA AVANZATA */
+.player-search-section {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 4px 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-box:focus-within {
+  border-color: #059669;
+  box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  width: 100%;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  color: #1e293b;
+}
+
+.clear-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* SUGGESTIONS LIST */
+.suggestions-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  list-style: none;
+}
+
+.sugg-name {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.sugg-rank {
+  font-size: 11px;
+  font-weight: 800;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.suggestions-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover,
+.active-suggestion {
+  background: #f0fdf4;
+}
+
+.suggestions-list li:hover .sugg-rank,
+.active-suggestion .sugg-rank {
+  background: #00ff85;
+  /* Il verde neon di Terzo Tempo */
+  color: #0f172a;
+}
+
+.suggestions-list li:hover .sugg-name,
+.active-suggestion .sugg-name {
+  color: #059669;
+}
+
+/* HERO CARD */
+.player-hero-card {
+  background: white;
+  padding: 35px 45px;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.display-name {
+  font-size: 48px;
+  font-weight: 950;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -1.5px;
+}
+
+.badge-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.hero-right-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hero-value {
+  font-size: 38px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+/* ANALISI ORIZZONTALE */
+.horizontal-analysis {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  padding: 24px !important;
+  margin-bottom: 25px;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0;
+}
+
+.adv-stat {
+  text-align: center;
+}
+
+.adv-stat span {
+  font-size: 10px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.adv-stat strong {
+  font-size: 22px;
+  color: #0f172a;
+  font-weight: 900;
+}
+
+/* LAYOUT DETAILS */
+.details-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 25px;
+}
+
+.section-card {
+  background: white;
+  padding: 25px;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.section-card h3 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #0f172a;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+/* HISTORY & PARTNER */
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.m-res {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+}
+
+.res-V {
+  background: #10b981;
+}
+
+.res-P {
+  background: #94a3b8;
+}
+
+.res-S {
+  background: #ef4444;
+}
+
+.partner-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid #bbf7d0;
+}
+
+.partner-avatar {
+  font-size: 36px;
+}
+
+.partner-name {
+  display: block;
+  font-size: 20px;
+  font-weight: 900;
+  color: #166534;
+}
+
+.partner-sub {
+  font-size: 13px;
+  color: #15803d;
+  font-weight: 600;
+}
+
+/* BADGES & COLORS */
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.fire {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fda4af;
+}
+
+.forma {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.cold {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.stable {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.rank-indicator {
+  padding: 6px 16px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  border: 1px solid #bfdbfe;
+}
+
+.text-green {
+  color: #10b981;
+}
+
+.text-orange {
+  color: #f97316;
+}
+
+.text-red {
+  color: #ef4444;
+}
+
+.text-blue {
+  color: #3b82f6;
+}
+
+.animate-in {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 120px 0;
+  color: #94a3b8;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.3;
+}
+
+/* =============================================
+   BREAKPOINT INTERMEDIO (FIX 1100px - 768px)
+   ============================================= */
+@media (max-width: 1100px) {
+  .player-hero-card {
+    padding: 25px 30px;
+  }
+
+  .display-name {
+    font-size: 36px;
+  }
+
+  .hero-right-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 30px;
+  }
+
+  .hero-value {
+    font-size: 28px;
+  }
+}
+
+/* =============================================
+   MOBILE RESPONSIVE
+   ============================================= */
+@media (max-width: 992px) {
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .horizontal-analysis {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .player-stats-container {
+    padding: 15px;
+  }
+
+  .player-hero-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .badge-container {
+    justify-content: center;
+  }
+
+  .hero-right-stats {
+    width: 100%;
+    justify-items: center;
+  }
+
+  .horizontal-analysis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m-goals {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .partner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

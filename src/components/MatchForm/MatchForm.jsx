@@ -1,0 +1,149 @@
+import React from 'react';
+import './MatchForm.css';
+
+const MatchForm = ({
+  editingMatchId,
+  matchType, setMatchType,
+  date, setDate,
+  scoreNera, setScoreNera,
+  scoreBianca, setScoreBianca,
+  teamCounts,
+  selectedMatchPlayers,
+  setActiveDrawerTeam,
+  adjustStat,
+  removePlayerFromMatch,
+  isFormValid,
+  handleMatchSubmit
+}) => {
+
+  // Funzione per calcolare se i goal assegnati ai giocatori corrispondono al totale
+  const getGoalStatus = (team) => {
+    const totalInputScore = team === 'nera' ? parseInt(scoreNera || 0) : parseInt(scoreBianca || 0);
+    
+    // Somma dei goal fatti dai giocatori di quel team + autogoal fatti dagli AVVERSARI
+    const goalsByPlayers = selectedMatchPlayers
+      .filter(p => p.squadra === (team === 'nera' ? 'Nera' : 'Bianca'))
+      .reduce((sum, p) => sum + p.goal, 0);
+
+    const autogoalsByOpponents = selectedMatchPlayers
+      .filter(p => p.squadra === (team === 'nera' ? 'Bianca' : 'Nera'))
+      .reduce((sum, p) => sum + p.ag, 0);
+
+    const assignedTotal = goalsByPlayers + autogoalsByOpponents;
+
+    return {
+      assigned: assignedTotal,
+      target: totalInputScore,
+      isOk: assignedTotal === totalInputScore && totalInputScore > 0
+    };
+  };
+
+  return (
+    <div className="main-match-card card-pro">
+      <div className="card-header-pro">
+        <h2>{editingMatchId ? "📝 Modifica Partita" : "⚽ Nuova Partita"}</h2>
+        <div className="header-controls">
+          <div className="control-field">
+            <label>Formato</label>
+            <select
+              className="modern-select"
+              value={matchType}
+              onChange={(e) => setMatchType(parseInt(e.target.value))}
+            >
+              {[8, 5, 6, 7, 11].map(n => <option key={n} value={n}>Calcio a {n}</option>)}
+            </select>
+          </div>
+          <div className="control-field">
+            <label>Data</label>
+            <input
+              type="date"
+              className="modern-date-input"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="match-score-strip">
+        <div className="score-live-input">
+          <div className="team-score-block">
+            <label>SQUADRA NERA</label>
+            <input type="number" placeholder='0' value={scoreNera} onChange={(e) => setScoreNera(e.target.value)} />
+          </div>
+          <div className="vs-sep">VS</div>
+          <div className="team-score-block">
+            <label>SQUADRA BIANCA</label>
+            <input type="number" placeholder='0' value={scoreBianca} onChange={(e) => setScoreBianca(e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="squads-builder-grid">
+        {['Nera', 'Bianca'].map(team => {
+          const goalStatus = getGoalStatus(team.toLowerCase());
+          return (
+            <div key={team} className={`squad-column-pro ${team.toLowerCase()}-theme`}>
+              <div className="squad-header-pro">
+                <h3>SQUADRA {team.toUpperCase()}</h3>
+                <div className="squad-badges-group">
+                  <span className={`squad-badge ${teamCounts[team.toLowerCase()] === matchType ? 'ok' : ''}`}>
+                    👤 {teamCounts[team.toLowerCase()]}/{matchType}
+                  </span>
+                  <span className={`squad-badge badge-goals ${goalStatus.isOk ? 'ok' : ''}`}>
+                    ⚽ {goalStatus.assigned}/{goalStatus.target}
+                  </span>
+                </div>
+              </div>
+
+              {teamCounts[team.toLowerCase()] < matchType && (
+                <button className="btn-add-p-trigger" onClick={() => setActiveDrawerTeam(team)}>
+                  + Aggiungi Convocati
+                </button>
+              )}
+
+              <div className="players-match-list">
+                {selectedMatchPlayers.filter(p => p.squadra === team).map(p => (
+                  <div key={p.playerId} className="p-match-row-pro">
+                    <span className="p-name">{p.nome}</span>
+                    <div className="p-stats-controls">
+                      {/* STAT GROUP GOAL - Diventa verde se > 0 */}
+                      <div className={`stat-group ${p.goal > 0 ? 'has-goals' : ''}`}>
+                        <label>GOAL</label>
+                        <div className="stepper-pro">
+                          <button onClick={() => adjustStat(p.playerId, 'goal', -1)}>-</button>
+                          <span>{p.goal}</span>
+                          <button onClick={() => adjustStat(p.playerId, 'goal', 1)}>+</button>
+                        </div>
+                      </div>
+                      {/* STAT GROUP AUTOGOAL - Diventa rosso se > 0 */}
+                      <div className={`stat-group ${p.ag > 0 ? 'has-ag' : ''}`}>
+                        <label>AUTOGOAL</label>
+                        <div className="stepper-pro">
+                          <button onClick={() => adjustStat(p.playerId, 'ag', -1)}>-</button>
+                          <span>{p.ag}</span>
+                          <button onClick={() => adjustStat(p.playerId, 'ag', 1)}>+</button>
+                        </div>
+                      </div>
+                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>×</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <button
+        className={`btn-save-match-pro ${isFormValid ? 'ready' : 'locked'}`}
+        disabled={!isFormValid}
+        onClick={handleMatchSubmit}
+      >
+        {isFormValid ? (editingMatchId ? "AGGIORNA RISULTATO" : "SALVA PARTITA") : "DATI INCOMPLETI"}
+      </button>
+    </div>
+  );
+};
+
+export default MatchForm;
