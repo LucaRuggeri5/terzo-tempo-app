@@ -27,7 +27,7 @@ const AppContent = () => {
       .from('players')
       .select('*')
       .order('nome');
-    
+
     if (pData) setPlayers(pData);
     if (pError) console.error("Errore caricamento giocatori:", pError);
 
@@ -36,7 +36,7 @@ const AppContent = () => {
       .from('matches')
       .select('*')
       .order('data', { ascending: false });
-    
+
     if (mData) setMatches(mData);
     if (mError) console.error("Errore caricamento partite:", mError);
   };
@@ -61,7 +61,7 @@ const AppContent = () => {
       .from('players')
       .delete()
       .eq('id', id);
-    
+
     if (!error) setPlayers(prev => prev.filter(p => p.id !== id));
   };
 
@@ -70,7 +70,7 @@ const AppContent = () => {
       .from('players')
       .update({ nome: newName })
       .eq('id', id);
-    
+
     if (!error) setPlayers(prev => prev.map(p => p.id === id ? { ...p, nome: newName } : p));
   };
 
@@ -103,7 +103,7 @@ const AppContent = () => {
       .from('matches')
       .delete()
       .eq('id', id);
-    
+
     if (!error) setMatches(prev => prev.filter(m => m.id !== id));
   };
 
@@ -127,7 +127,7 @@ const AppContent = () => {
           <Routes>
             <Route path="/" element={<RankingPage players={players} matches={matches} />} />
             <Route path="/classifica-marcatori" element={<RankingPageScore players={players} matches={matches} />} />
-            {/* <Route path="/partite" element={<MatchPage matches={matches} />} /> */}
+            <Route path="/partite" element={<MatchPage matches={matches} />} />
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
             <Route path="/statistiche-giocatori" element={<PlayerStatsPage players={players} matches={matches} />} />
             <Route path="/registro" element={
