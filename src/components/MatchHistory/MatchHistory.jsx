@@ -15,7 +15,9 @@ const MatchHistory = ({ matches, onStartEdit, onDeleteMatch }) => {
             return (
               <div key={m.id} className="history-card-pro card-pro">
                 <div className="h-top-bar">
-                  <span className="h-date">{m.data} • {m.format}</span>
+                  <span className="h-date">
+                    {new Date(m.data).toLocaleDateString('it-IT')} • {m.format}
+                  </span>
                   <div className="h-actions">
                     <button className="btn-edit" onClick={() => onStartEdit(m)}>Modifica</button>
                     <button className="btn-del" onClick={() => onDeleteMatch(m)}>Elimina</button>
@@ -35,23 +37,54 @@ const MatchHistory = ({ matches, onStartEdit, onDeleteMatch }) => {
                 </div>
 
                 <div className="h-footer-scorers">
+                  {/* COLONNA NERA */}
                   <div className="h-col">
-                    <strong>Marcatori Nera:</strong>
-                    <span className="scorers-list">
-                      {partecipanti
-                        .filter(p => p.squadra === 'Nera' && p.goal > 0)
-                        .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                        .join(', ') || '-'}
-                    </span>
+                    <div className="scorer-group">
+                      <strong>Goal Neri:</strong>
+                      <span className="scorers-list">
+                        {partecipanti
+                          .filter(p => p.squadra === 'Nera' && p.goal > 0)
+                          .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
+                          .join(', ') || '-'}
+                      </span>
+                    </div>
+                    {/* Visualizzazione Autogol della squadra Nera (fatti a favore della Bianca) */}
+                    {partecipanti.some(p => p.squadra === 'Nera' && (p.ag > 0 || p.autogoal > 0)) && (
+                      <div className="ag-group">
+                        <strong className="ag-label">Autogol Neri:</strong>
+                        <span className="ag-list">
+                          {partecipanti
+                            .filter(p => p.squadra === 'Nera' && (p.ag > 0 || p.autogoal > 0))
+                            .map(p => `${p.nome}${ (p.ag || p.autogoal) > 1 ? ` (${p.ag || p.autogoal})` : ''}`)
+                            .join(', ')}
+                        </span>
+                      </div>
+                    )}
                   </div>
+
+                  {/* COLONNA BIANCA */}
                   <div className="h-col">
-                    <strong>Marcatori Bianca:</strong>
-                    <span className="scorers-list">
-                      {partecipanti
-                        .filter(p => p.squadra === 'Bianca' && p.goal > 0)
-                        .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                        .join(', ') || '-'}
-                    </span>
+                    <div className="scorer-group">
+                      <strong>Goal Bianchi:</strong>
+                      <span className="scorers-list">
+                        {partecipanti
+                          .filter(p => p.squadra === 'Bianca' && p.goal > 0)
+                          .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
+                          .join(', ') || '-'}
+                      </span>
+                    </div>
+                    {/* Visualizzazione Autogol della squadra Bianca (fatti a favore della Nera) */}
+                    {partecipanti.some(p => p.squadra === 'Bianca' && (p.ag > 0 || p.autogoal > 0)) && (
+                      <div className="ag-group">
+                        <strong className="ag-label">Autogol Bianchi:</strong>
+                        <span className="ag-list">
+                          {partecipanti
+                            .filter(p => p.squadra === 'Bianca' && (p.ag > 0 || p.autogoal > 0))
+                            .map(p => `${p.nome}${ (p.ag || p.autogoal) > 1 ? ` (${p.ag || p.autogoal})` : ''}`)
+                            .join(', ')}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
