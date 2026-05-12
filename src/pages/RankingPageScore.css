@@ -49,12 +49,12 @@
 }
 
 .gold-score {
-  border: 2px solid #f97316 !important;
+  border: 2px solid #fbbf24 !important;
   box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.15) !important;
 }
 
 .gold-score .elite-rank {
-  color: #f97316 !important;
+  color: #fbbf24 !important;
 }
 
 /* ==========================================================================
