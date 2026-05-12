@@ -16,25 +16,23 @@ const MatchForm = ({
   handleMatchSubmit
 }) => {
 
-  // Funzione per calcolare se i goal assegnati ai giocatori corrispondono al totale
   const getGoalStatus = (team) => {
     const totalInputScore = team === 'nera' ? parseInt(scoreNera || 0) : parseInt(scoreBianca || 0);
     
-    // Somma dei goal fatti dai giocatori di quel team + autogoal fatti dagli AVVERSARI
     const goalsByPlayers = selectedMatchPlayers
       .filter(p => p.squadra === (team === 'nera' ? 'Nera' : 'Bianca'))
-      .reduce((sum, p) => sum + p.goal, 0);
+      .reduce((sum, p) => sum + (p.goal || 0), 0);
 
     const autogoalsByOpponents = selectedMatchPlayers
       .filter(p => p.squadra === (team === 'nera' ? 'Bianca' : 'Nera'))
-      .reduce((sum, p) => sum + p.ag, 0);
+      .reduce((sum, p) => sum + (p.ag || 0), 0);
 
     const assignedTotal = goalsByPlayers + autogoalsByOpponents;
 
     return {
       assigned: assignedTotal,
       target: totalInputScore,
-      isOk: assignedTotal === totalInputScore && totalInputScore > 0
+      isOk: assignedTotal === totalInputScore && totalInputScore >= 0
     };
   };
 
@@ -107,7 +105,6 @@ const MatchForm = ({
                   <div key={p.playerId} className="p-match-row-pro">
                     <span className="p-name">{p.nome}</span>
                     <div className="p-stats-controls">
-                      {/* STAT GROUP GOAL - Diventa verde se > 0 */}
                       <div className={`stat-group ${p.goal > 0 ? 'has-goals' : ''}`}>
                         <label>GOAL</label>
                         <div className="stepper-pro">
@@ -116,7 +113,6 @@ const MatchForm = ({
                           <button onClick={() => adjustStat(p.playerId, 'goal', 1)}>+</button>
                         </div>
                       </div>
-                      {/* STAT GROUP AUTOGOAL - Diventa rosso se > 0 */}
                       <div className={`stat-group ${p.ag > 0 ? 'has-ag' : ''}`}>
                         <label>AUTOGOAL</label>
                         <div className="stepper-pro">

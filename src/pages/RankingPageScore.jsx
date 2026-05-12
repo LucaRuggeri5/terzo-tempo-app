@@ -18,7 +18,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
   const scoreData = useMemo(() => {
     const statsMap = {};
     players.forEach(p => {
-      statsMap[p.id] = { ...p, goal: 0, partite: 0 };
+      statsMap[p.id] = { id: p.id, nome: p.nome, goal: 0, partite: 0 };
     });
 
     matches.forEach(match => {
@@ -27,7 +27,11 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       const y = matchDate.getFullYear().toString();
 
       if ((filterMonth === 'all' || filterMonth === m) && (filterYear === 'all' || filterYear === y)) {
-        match.partecipanti?.forEach(p => {
+        // ACCESSO CORRETTO AI DATI SUPABASE
+        const dettagli = match.match_details || {};
+        const partecipanti = dettagli.partecipanti || [];
+
+        partecipanti.forEach(p => {
           if (statsMap[p.playerId]) {
             statsMap[p.playerId].goal += (p.goal || 0);
             statsMap[p.playerId].partite += 1;
@@ -73,10 +77,8 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
         </div>
       </div>
 
-      {/* 🏆 PODIO MARCATORI: 2° - 1° - 3° */}
       {topScorers.length > 0 && (
         <div className="elite-podium">
-          {/* SECONDO BOMBER */}
           <div className={`elite-card silver ${!topScorers[1] ? 'invisible' : ''}`}>
             {topScorers[1] && (
               <>
@@ -89,7 +91,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
             )}
           </div>
 
-          {/* CAPOCANNONIERE */}
           <div className="elite-card gold gold-score">
             <div className="crown-icon">⚽</div>
             <span className="elite-rank">1</span>
@@ -99,7 +100,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
             </div>
           </div>
 
-          {/* TERZO BOMBER */}
           <div className={`elite-card bronze ${!topScorers[2] ? 'invisible' : ''}`}>
             {topScorers[2] && (
               <>
@@ -114,7 +114,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
         </div>
       )}
 
-      {/* LISTA MOBILE */}
       <div className="score-list-mobile">
         {rankedList.map((player) => (
           <div key={player.id} className="score-row-mobile">
@@ -123,9 +122,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
                 {player.displayRank}
               </span>
             </div>
-            <div className="score-name-box">
-              {player.nome}
-            </div>
+            <div className="score-name-box">{player.nome}</div>
             <div className="score-badge-box">
               <span className="goal-count">{player.goal}</span>
               <span className="goal-label">GOAL</span>
@@ -134,7 +131,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
         ))}
       </div>
 
-      {/* TABELLA */}
       <div className="table-container-elite main-score-table">
         <table className="table-elite">
           <thead>
@@ -156,7 +152,9 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
                 </td>
                 <td className="w-name name-text">{player.nome}</td>
                 <td className="w-data font-bold score-text">{player.goal}</td>
-                <td className="w-data">{(player.goal / player.partite).toFixed(2)}</td>
+                <td className="w-data">
+                  {player.partite > 0 ? (player.goal / player.partite).toFixed(2) : "0.00"}
+                </td>
                 <td className="w-data">{player.partite}</td>
               </tr>
             ))}

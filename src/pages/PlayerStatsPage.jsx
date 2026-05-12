@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import './PlayerStatsPage.css';
 
 const PlayerStatsPage = ({ players = [], matches = [] }) => {
@@ -6,39 +6,39 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  // 1. LOGICA DI RANKING (Identica alla Classifica Generale)
+  // 1. LOGICA DI RANKING (Corretta per match_details)
   const sortedRanking = useMemo(() => {
     const stats = players.map(player => {
-      let punti = 0, dr = 0, gf = 0;
+      let punti = 0, dr = 0, gf = 0, partite = 0;
       matches.forEach(m => {
-        const p = m.partecipanti?.find(part => part.playerId === player.id);
+        const dettagli = m.match_details || {};
+        const p = (dettagli.partecipanti || []).find(part => part.playerId === player.id);
         if (p) {
           punti += (p.punti || 0);
           dr += (p.dr || 0);
           gf += (p.goal || 0);
+          partite += 1;
         }
       });
-      return { id: player.id, punti, dr, gf };
+      return { id: player.id, punti, dr, gf, partite };
     });
 
-    return stats.sort((a, b) => {
-      if (b.punti !== a.punti) return b.punti - a.punti;
-      if (b.dr !== a.dr) return b.dr - a.dr;
-      return b.gf - a.gf;
-    });
+    return stats
+      .filter(s => s.partite > 0)
+      .sort((a, b) => b.punti - a.punti || b.dr - a.dr || b.gf - a.gf);
   }, [players, matches]);
 
-  // 2. FUNZIONE PER CALCOLARE IL BADGE
+  // 2. FUNZIONE PER CALCOLARE IL BADGE (Corretta per match_details)
   const calculateStatus = (playerId) => {
     const playerMatches = matches
-      .filter(m => m.partecipanti?.some(p => p.playerId === playerId))
+      .filter(m => (m.match_details?.partecipanti || []).some(p => p.playerId === playerId))
       .sort((a, b) => new Date(b.data) - new Date(a.data))
       .slice(0, 3);
 
     if (playerMatches.length < 1) return { label: 'DEBUTTANTE ⚽', class: 'stable', icon: '⚽' };
     
     const results = playerMatches.map(m => {
-      const p = m.partecipanti.find(part => part.playerId === playerId);
+      const p = m.match_details.partecipanti.find(part => part.playerId === playerId);
       return p.punti === 3 ? 'V' : (p.punti === 1 ? 'P' : 'S');
     });
 
@@ -76,7 +76,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     }
   };
 
-  // 4. STATISTICHE PERSONALI
+  // 4. STATISTICHE PERSONALI (Corretta per match_details)
   const personalStats = useMemo(() => {
     if (!selectedPlayerId) return null;
 
@@ -86,14 +86,17 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
       matchHistory: [],
       records: { maxGoal: 0, streak: 0, currentStreak: 0 },
       partners: {},
-      rank: rankIndex,
+      rank: rankIndex || '-',
       status: calculateStatus(selectedPlayerId)
     };
 
     const sortedMatches = [...matches].sort((a, b) => new Date(a.data) - new Date(b.data));
 
     sortedMatches.forEach(match => {
-      const pData = match.partecipanti?.find(p => p.playerId === selectedPlayerId);
+      const dettagli = match.match_details || {};
+      const partecipanti = dettagli.partecipanti || [];
+      const pData = partecipanti.find(p => p.playerId === selectedPlayerId);
+
       if (pData) {
         stats.partite += 1;
         stats.punti += (pData.punti || 0);
@@ -113,7 +116,8 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
         const res = pData.punti === 3 ? 'V' : (pData.punti === 1 ? 'P' : 'S');
         stats.matchHistory.unshift({ data: match.data, risultato: res, goal: pData.goal, dr: pData.dr });
 
-        match.partecipanti.forEach(comp => {
+        // Calcolo Partner (stesso punteggio nello stesso match = stessa squadra)
+        partecipanti.forEach(comp => {
           if (comp.playerId !== selectedPlayerId && comp.punti === pData.punti) {
             if (!stats.partners[comp.playerId]) {
               const pInfo = players.find(pl => pl.id === comp.playerId);
@@ -157,6 +161,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
             <ul className="suggestions-list">
               {filteredSuggestions.map((p, index) => {
                 const s = calculateStatus(p.id);
+                const rank = sortedRanking.findIndex(r => r.id === p.id) + 1;
                 return (
                   <li 
                     key={p.id} 
@@ -165,7 +170,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
                   >
                     <div className="sugg-info">
                       <span className="sugg-name">{p.nome} </span>
-                      <span className="sugg-rank">#{sortedRanking.findIndex(r => r.id === p.id) + 1}</span>
+                      <span className="sugg-rank">{rank > 0 ? `#${rank}` : 'N/D'}</span>
                     </div>
                     <span className={`sugg-badge ${s.class}`}>{s.icon}</span>
                   </li>

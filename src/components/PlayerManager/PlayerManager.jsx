@@ -5,7 +5,6 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
   const [showAdmin, setShowAdmin] = useState(false);
   const [newPlayerName, setNewPlayerName] = useState('');
   const [playerToDelete, setPlayerToDelete] = useState(null);
-
   const [editingPlayerId, setEditingPlayerId] = useState(null);
   const [editValue, setEditValue] = useState('');
 
@@ -30,7 +29,6 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
 
   return (
     <div className="admin-section-pro">
-      {/* Overlay Conferma Eliminazione */}
       {playerToDelete && (
         <div className="fixed-overlay-admin">
           <div className="confirm-modal-mini card-pro">
@@ -48,7 +46,6 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
         </div>
       )}
 
-      {/* Header Gestione */}
       <div className="admin-header-row" onClick={() => setShowAdmin(!showAdmin)}>
         <div className="admin-title">
           <span className="admin-icon">⚙️</span>
@@ -87,15 +84,7 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
                       }}
                       autoFocus
                     />
-                    <button
-                      className="pill-save-btn"
-                      onMouseDown={(e) => {
-                        e.preventDefault(); // Impedisce la perdita del focus dell'input prima del click
-                        saveEdit(p.id);
-                      }}
-                    >
-                      ✓
-                    </button>
+                    <button className="pill-save-btn" onMouseDown={(e) => { e.preventDefault(); saveEdit(p.id); }}>✓</button>
                   </div>
                 ) : (
                   <>

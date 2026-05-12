@@ -17,8 +17,9 @@ const RankingPage = ({ players = [], matches = [] }) => {
 
   const filteredData = useMemo(() => {
     const statsMap = {};
+    // Inizializziamo la mappa usando 'nome' come da nuovo schema
     players.forEach(p => {
-      statsMap[p.id] = { ...p, punti: 0, dr: 0, goal: 0, partite: 0 };
+      statsMap[p.id] = { id: p.id, nome: p.nome, punti: 0, dr: 0, goal: 0, partite: 0 };
     });
 
     matches.forEach(match => {
@@ -27,7 +28,11 @@ const RankingPage = ({ players = [], matches = [] }) => {
       const y = matchDate.getFullYear().toString();
 
       if ((filterMonth === 'all' || filterMonth === m) && (filterYear === 'all' || filterYear === y)) {
-        match.partecipanti?.forEach(p => {
+        // ACCESSO AI DATI DA match_details (Schema Supabase)
+        const dettagli = match.match_details || {};
+        const partecipanti = dettagli.partecipanti || [];
+
+        partecipanti.forEach(p => {
           if (statsMap[p.playerId]) {
             statsMap[p.playerId].punti += (p.punti || 0);
             statsMap[p.playerId].dr += (p.dr || 0);

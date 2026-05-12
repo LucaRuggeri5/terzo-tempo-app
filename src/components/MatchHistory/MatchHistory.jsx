@@ -7,50 +7,56 @@ const MatchHistory = ({ matches, onStartEdit, onDeleteMatch }) => {
       <h3 className="section-title-pro">Storico Risultati</h3>
       <div className="history-grid-pro">
         {matches.length > 0 ? (
-          matches.slice().reverse().map((m) => (
-            <div key={m.id} className="history-card-pro card-pro">
-              <div className="h-top-bar">
-                <span className="h-date">{m.data} • C{m.matchType}</span>
-                <div className="h-actions">
-                  <button className="btn-edit" onClick={() => onStartEdit(m)}>Modifica</button>
-                  <button className="btn-del" onClick={() => onDeleteMatch(m)}>Elimina</button>
-                </div>
-              </div>
+          matches.map((m) => {
+            const dettagli = m.match_details || {};
+            const partecipanti = dettagli.partecipanti || [];
+            const vincitore = dettagli.vincitore || 'Pareggio';
 
-              <div className="h-score-row">
-                <div className={`h-team ${m.vincitore === 'Nera' ? 'winner' : ''}`}>
-                  <span className="h-name">Nera</span>
-                  <span className="h-val">{m.scoreNera}</span>
+            return (
+              <div key={m.id} className="history-card-pro card-pro">
+                <div className="h-top-bar">
+                  <span className="h-date">{m.data} • {m.format}</span>
+                  <div className="h-actions">
+                    <button className="btn-edit" onClick={() => onStartEdit(m)}>Modifica</button>
+                    <button className="btn-del" onClick={() => onDeleteMatch(m)}>Elimina</button>
+                  </div>
                 </div>
-                <div className="h-sep">:</div>
-                <div className={`h-team ${m.vincitore === 'Bianca' ? 'winner' : ''}`}>
-                  <span className="h-name">Bianca</span>
-                  <span className="h-val">{m.scoreBianca}</span>
-                </div>
-              </div>
 
-              <div className="h-footer-scorers">
-                <div className="h-col">
-                  <strong>Marcatori:</strong>
-                  <span className="scorers-list">
-                    {m.partecipanti
-                      .filter(p => p.squadra === 'Nera' && (p.goal > 0 || p.ag > 0))
-                      .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                      .join(', ') || '-'}
-                  </span>
+                <div className="h-score-row">
+                  <div className={`h-team ${vincitore === 'Nera' ? 'winner' : ''}`}>
+                    <span className="h-name">Nera</span>
+                    <span className="h-val">{m.score_nera}</span>
+                  </div>
+                  <div className="h-sep">:</div>
+                  <div className={`h-team ${vincitore === 'Bianca' ? 'winner' : ''}`}>
+                    <span className="h-name">Bianca</span>
+                    <span className="h-val">{m.score_bianca}</span>
+                  </div>
                 </div>
-                <div className="h-col">
-                  <strong>Marcatori:</strong>
-                  <span className="scorers-list">
-                    {m.partecipanti
-                      .filter(p => p.squadra === 'Bianca' && (p.goal > 0 || p.ag > 0))
-                      .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                      .join(', ') || '-'}
-                  </span>
+
+                <div className="h-footer-scorers">
+                  <div className="h-col">
+                    <strong>Marcatori Nera:</strong>
+                    <span className="scorers-list">
+                      {partecipanti
+                        .filter(p => p.squadra === 'Nera' && p.goal > 0)
+                        .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
+                        .join(', ') || '-'}
+                    </span>
+                  </div>
+                  <div className="h-col">
+                    <strong>Marcatori Bianca:</strong>
+                    <span className="scorers-list">
+                      {partecipanti
+                        .filter(p => p.squadra === 'Bianca' && p.goal > 0)
+                        .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
+                        .join(', ') || '-'}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="empty-history">Nessuna partita registrata finora.</div>
         )}
