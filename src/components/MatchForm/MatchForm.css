@@ -210,22 +210,22 @@
 }
 
 /* COLORI DINAMICI STAT GROUP */
-.stat-group.has-goals label {
+.goal-group label {
   color: #10b981;
   opacity: 1;
 }
 
-.stat-group.has-goals .stepper-pro {
+.goal-group .stepper-pro {
   border-color: #10b981;
   border-width: 2px;
 }
 
-.stat-group.has-ag label {
+.ag-group label {
   color: #ef4444;
   opacity: 1;
 }
 
-.stat-group.has-ag .stepper-pro {
+.ag-group .stepper-pro {
   border-color: #ef4444;
   border-width: 2px;
 }

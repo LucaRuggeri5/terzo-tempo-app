@@ -18,7 +18,7 @@ const MatchForm = ({
 
   const getGoalStatus = (team) => {
     const totalInputScore = team === 'nera' ? parseInt(scoreNera || 0) : parseInt(scoreBianca || 0);
-    
+
     const goalsByPlayers = selectedMatchPlayers
       .filter(p => p.squadra === (team === 'nera' ? 'Nera' : 'Bianca'))
       .reduce((sum, p) => sum + (p.goal || 0), 0);
@@ -105,7 +105,8 @@ const MatchForm = ({
                   <div key={p.playerId} className="p-match-row-pro">
                     <span className="p-name">{p.nome}</span>
                     <div className="p-stats-controls">
-                      <div className={`stat-group ${p.goal > 0 ? 'has-goals' : ''}`}>
+
+                      <div className="stat-group goal-group">
                         <label>GOAL</label>
                         <div className="stepper-pro">
                           <button onClick={() => adjustStat(p.playerId, 'goal', -1)}>-</button>
@@ -113,7 +114,8 @@ const MatchForm = ({
                           <button onClick={() => adjustStat(p.playerId, 'goal', 1)}>+</button>
                         </div>
                       </div>
-                      <div className={`stat-group ${p.ag > 0 ? 'has-ag' : ''}`}>
+
+                      <div className="stat-group ag-group">
                         <label>AUTOGOAL</label>
                         <div className="stepper-pro">
                           <button onClick={() => adjustStat(p.playerId, 'ag', -1)}>-</button>
@@ -121,7 +123,11 @@ const MatchForm = ({
                           <button onClick={() => adjustStat(p.playerId, 'ag', 1)}>+</button>
                         </div>
                       </div>
-                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>×</button>
+
+                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>
+                        ×
+                      </button>
+
                     </div>
                   </div>
                 ))}
