@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { supabase } from '../../supabaseClient';
 import packageJson from '../../../package.json';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, session }) => {
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen && window.innerWidth <= 1100) {
@@ -13,14 +15,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     }
   }, [isOpen]);
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toggleSidebar();
+    navigate('/');
+  };
+
   const appVersion = packageJson.version;
 
   return (
     <>
-      <div
-        className={`sidebar-overlay ${isOpen ? 'show' : ''}`}
-        onClick={toggleSidebar}
-      ></div>
+      <div className={`sidebar-overlay ${isOpen ? 'show' : ''}`} onClick={toggleSidebar}></div>
 
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-sticky-wrapper">
@@ -57,15 +62,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </ul>
               </div>
 
-              <div className="nav-group">
-                <span className="group-title">Gestione</span>
-                <ul>
-                  <li><NavLink to="/registro" onClick={toggleSidebar}>📝 Registro Partite</NavLink></li>
-                </ul>
-              </div>
+              {/* MOSTRA GESTIONE SOLO SE LOGGATO */}
+              {session && (
+                <div className="nav-group">
+                  <span className="group-title">Gestione</span>
+                  <ul>
+                    <li><NavLink to="/registro" onClick={toggleSidebar}>📝 Registro Partite</NavLink></li>
+                  </ul>
+                </div>
+              )}
             </nav>
           </div>
+
           <div className="sidebar-footer">
+            {session ? (
+              <button className="auth-btn logout" onClick={handleLogout}>🚪 Logout Admin</button>
+            ) : (
+              <NavLink to="/login" className="auth-btn login" onClick={toggleSidebar}>🔐 Login Admin</NavLink>
+            )}
             <span className="version-label">v{appVersion}</span>
           </div>
         </div>

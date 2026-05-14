@@ -1,0 +1,128 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-header h1 {
+  margin: 10px 0;
+  font-size: 1.8rem;
+  color: #1a1a1a;
+}
+
+.login-header p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.login-icon {
+  font-size: 3rem;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #ffd700;
+  outline: none;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.login-submit-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.login-submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.login-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.back-home-btn {
+  background: none;
+  border: none;
+  color: #666;
+  margin-top: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Stile per il pulsante Auth nella Sidebar */
+.auth-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.auth-btn.login {
+  background: #0F755C;
+  color: #f3f4f6;
+}
+
+.auth-btn.logout {
+  background: #f3f4f6;
+  color: #ef4444;
+}
