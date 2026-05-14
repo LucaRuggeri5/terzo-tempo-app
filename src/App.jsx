@@ -8,7 +8,8 @@ import StatsPage from './pages/StatsPage';
 import PlayerStatsPage from './pages/PlayerStatsPage';
 import MatchPage from './pages/MatchPage';
 import MatchRegisterPage from './pages/MatchRegisterPage';
-import LoginPage from './pages/LoginPage'; // Nuova pagina
+import LoginPage from './pages/LoginPage';
+import NotFoundPage from './pages/NotFoundPage'; // Nuova pagina
 import './App.css';
 
 const AppContent = () => {
@@ -17,20 +18,22 @@ const AppContent = () => {
   const [matches, setMatches] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
 
-  // GESTIONE SESSIONE E DATI
   useEffect(() => {
-    // 1. Controlla sessione attuale
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Inizializzazione sessione
+    const initAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
-    });
+      await fetchData(); // Carichiamo i dati
+      setLoading(false); // Fine caricamento
+    };
 
-    // 2. Ascolta cambiamenti (Login/Logout)
+    initAuth();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-
-    fetchData();
 
     return () => subscription.unsubscribe();
   }, []);
@@ -47,7 +50,7 @@ const AppContent = () => {
     setSidebarOpen(false);
   }, [location]);
 
-  // --- LOGICA (Sync con DB - Funziona solo se loggati grazie a RLS) ---
+  // Funzioni di logica (addPlayer, deletePlayer, etc.) rimangono uguali...
   const addPlayer = async (name) => {
     if (!name.trim()) return;
     const { data, error } = await supabase.from('players').insert([{ nome: name.trim() }]).select();
@@ -80,9 +83,20 @@ const AppContent = () => {
     if (!error) setMatches(prev => prev.filter(m => m.id !== id));
   };
 
+  // SCHERMATA DI CARICAMENTO
+  if (loading) {
+    return (
+      <div className="app-loader">
+        <div className="loader-content">
+          <span className="loader-icon">⚽</span>
+          <p>Preparazione spogliatoi...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''}`}>
-      {/* Passiamo la sessione alla sidebar per mostrare/nascondere il link */}
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} session={session} />
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)}></div>}
 
@@ -104,27 +118,18 @@ const AppContent = () => {
             <Route path="/partite" element={<MatchPage matches={matches} />} />
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
             <Route path="/statistiche-giocatori" element={<PlayerStatsPage players={players} matches={matches} />} />
-            
-            {/* Pagina di Login */}
             <Route path="/login" element={<LoginPage session={session} />} />
-
-            {/* Protezione Rotta Registro */}
             <Route path="/registro" element={
               session ? (
                 <MatchRegisterPage
-                  players={players}
-                  matches={matches}
-                  onAddMatch={addMatch}
-                  onUpdateMatch={updateMatch}
-                  onDeleteMatch={deleteMatch}
-                  onAddPlayer={addPlayer}
-                  onDeletePlayer={deletePlayer}
-                  onUpdatePlayer={updatePlayer}
+                  players={players} matches={matches}
+                  onAddMatch={addMatch} onUpdateMatch={updateMatch} onDeleteMatch={deleteMatch}
+                  onAddPlayer={addPlayer} onDeletePlayer={deletePlayer} onUpdatePlayer={updatePlayer}
                 />
-              ) : (
-                <Navigate to="/login" />
-              )
+              ) : ( <Navigate to="/login" /> )
             } />
+            {/* CATCH ALL - PAGINA 404 */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
       </div>
