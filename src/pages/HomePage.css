@@ -19,16 +19,21 @@
 .home-hero h1 {
     font-size: 2.5rem;
     margin-bottom: 15px;
+    line-height: 1.2;
 }
 
 .home-hero .highlight {
     color: #10b981;
+    /* Evita che "Terzo Tempo ⚽🍺" si spezzi su due righe */
+    white-space: nowrap;
 }
 
 .home-hero p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-style: italic;
     opacity: 0.9;
     margin-bottom: 30px;
+    color: #cbd5e1;
 }
 
 .hero-buttons {
@@ -43,22 +48,39 @@
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s ease;
     border: none;
+    font-size: 1rem;
 }
 
 .btn-primary {
     background: #10b981;
-    color: white;
+    color: #1B2537;
 }
 
 .btn-secondary {
     background: white;
-    color: #0f172a;
+    color: #1B2537;
 }
 
 .hero-buttons button:hover {
     transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+/* Fix per Mobile */
+@media (max-width: 500px) {
+    .home-hero {
+        padding: 40px 20px;
+    }
+
+    .home-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .home-hero p {
+        font-size: 1rem;
+    }
 }
 
 /* Quotes Carousel */

@@ -78,8 +78,6 @@ L'app è configurata per il deploy continuo su **Vercel**. Ogni push sul ramo `m
 
 **Sviluppatore:** Luca Ruggeri
 
-**Project Link:** [https://github.com/LucaRuggeri5/terzo-tempo-app](https://www.google.com/search?q=https://github.com/LucaRuggeri5/terzo-tempo-app)
-
 ---
 
 *Realizzato con ❤️ per la passione del calcio e della birra post-partita.*

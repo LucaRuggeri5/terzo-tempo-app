@@ -37,8 +37,10 @@ const HomePage = ({ players, matches }) => {
             {/* HERO SECTION */}
             <section className="home-hero">
                 <div className="hero-content">
-                    <h1>Benvenuto su <span className="highlight">Terzo Tempo</span></h1>
-                    <p>Ecco dove puoi gestire le tue partite di calcetto con gli amici</p>
+                    <h1>
+                        Benvenuto su <span className="highlight">Terzo Tempo</span>
+                    </h1>
+                    <p>Il posto dove i gol contano, ma la birra dopo la partita conta di più.</p>
                     <div className="hero-buttons">
                         <button onClick={() => navigate('/classifica')} className="btn-primary">🏆 Classifica Generale</button>
                         <button onClick={() => navigate('/classifica-marcatori')} className="btn-secondary">⚽ Classifica Marcatori</button>

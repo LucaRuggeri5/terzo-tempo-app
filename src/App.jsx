@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import Sidebar from './components/Sidebar/Sidebar';
-import HomePage from './pages/HomePage'; // Nuova importazione
+import HomePage from './pages/HomePage'; 
 import RankingPage from './pages/RankingPage';
 import RankingPageScore from './pages/RankingPageScore';
 import StatsPage from './pages/StatsPage';
@@ -15,6 +15,7 @@ import './App.css';
 
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Hook per la navigazione programmata
   const [players, setPlayers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -104,7 +105,13 @@ const AppContent = () => {
           <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
             <div className="hamburger-icon"><span></span><span></span><span></span></div>
           </button>
-          <div className="mobile-brand">
+          
+          {/* MODIFICATO: Aggiunto onClick e stile cursore per tornare alla Home */}
+          <div 
+            className="mobile-brand" 
+            onClick={() => navigate('/')} 
+            style={{ cursor: 'pointer' }}
+          >
             <span className="brand-icons-mini">⚽🍺</span>
             <h2 className="brand-text-mini">TERZO<span className="highlight">TEMPO</span></h2>
           </div>
@@ -112,12 +119,8 @@ const AppContent = () => {
 
         <main className="content-area">
           <Routes>
-            {/* NUOVA HOMEPAGE */}
             <Route path="/" element={<HomePage players={players} matches={matches} />} />
-            
-            {/* CLASSIFICA SPOSTATA */}
             <Route path="/classifica" element={<RankingPage players={players} matches={matches} />} />
-            
             <Route path="/classifica-marcatori" element={<RankingPageScore players={players} matches={matches} />} />
             <Route path="/partite" element={<MatchPage matches={matches} />} />
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
