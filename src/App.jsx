@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import Sidebar from './components/Sidebar/Sidebar';
+import HomePage from './pages/HomePage'; // Nuova importazione
 import RankingPage from './pages/RankingPage';
 import RankingPageScore from './pages/RankingPageScore';
 import StatsPage from './pages/StatsPage';
@@ -9,7 +10,7 @@ import PlayerStatsPage from './pages/PlayerStatsPage';
 import MatchPage from './pages/MatchPage';
 import MatchRegisterPage from './pages/MatchRegisterPage';
 import LoginPage from './pages/LoginPage';
-import NotFoundPage from './pages/NotFoundPage'; // Nuova pagina
+import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 
 const AppContent = () => {
@@ -18,15 +19,14 @@ const AppContent = () => {
   const [matches, setMatches] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Inizializzazione sessione
     const initAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
-      await fetchData(); // Carichiamo i dati
-      setLoading(false); // Fine caricamento
+      await fetchData();
+      setLoading(false);
     };
 
     initAuth();
@@ -50,7 +50,7 @@ const AppContent = () => {
     setSidebarOpen(false);
   }, [location]);
 
-  // Funzioni di logica (addPlayer, deletePlayer, etc.) rimangono uguali...
+  // Logica Sync Database
   const addPlayer = async (name) => {
     if (!name.trim()) return;
     const { data, error } = await supabase.from('players').insert([{ nome: name.trim() }]).select();
@@ -83,7 +83,6 @@ const AppContent = () => {
     if (!error) setMatches(prev => prev.filter(m => m.id !== id));
   };
 
-  // SCHERMATA DI CARICAMENTO
   if (loading) {
     return (
       <div className="app-loader">
@@ -113,7 +112,12 @@ const AppContent = () => {
 
         <main className="content-area">
           <Routes>
-            <Route path="/" element={<RankingPage players={players} matches={matches} />} />
+            {/* NUOVA HOMEPAGE */}
+            <Route path="/" element={<HomePage players={players} matches={matches} />} />
+            
+            {/* CLASSIFICA SPOSTATA */}
+            <Route path="/classifica" element={<RankingPage players={players} matches={matches} />} />
+            
             <Route path="/classifica-marcatori" element={<RankingPageScore players={players} matches={matches} />} />
             <Route path="/partite" element={<MatchPage matches={matches} />} />
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
@@ -128,7 +132,6 @@ const AppContent = () => {
                 />
               ) : ( <Navigate to="/login" /> )
             } />
-            {/* CATCH ALL - PAGINA 404 */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

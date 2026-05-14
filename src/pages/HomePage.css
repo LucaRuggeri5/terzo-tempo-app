@@ -1,0 +1,227 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-bottom: 40px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Hero Section */
+.home-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 20px;
+    padding: 60px 40px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.home-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.home-hero .highlight {
+    color: #10b981;
+}
+
+.home-hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-buttons button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: none;
+}
+
+.btn-primary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary {
+    background: white;
+    color: #0f172a;
+}
+
+.hero-buttons button:hover {
+    transform: translateY(-3px);
+}
+
+/* Quotes Carousel */
+.quotes-section {
+    text-align: center;
+}
+
+.section-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.quotes-carousel {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.quote-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.quote-author {
+    font-weight: bold;
+    color: #10b981;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #10b981;
+    width: 20px;
+    border-radius: 10px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+/* Weather Widget */
+.weather-widget {
+    background: white;
+    border-left: 6px solid #10b981;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.weather-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.weather-icon {
+    font-size: 2rem;
+}
+
+.weather-temp h3 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.weather-temp p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.weather-message {
+    font-weight: bold;
+    color: #0f172a;
+    background: #f1f5f9;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+    .home-hero {
+        padding: 40px 20px;
+    }
+
+    .home-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .quote-text {
+        font-size: 1rem;
+    }
+}

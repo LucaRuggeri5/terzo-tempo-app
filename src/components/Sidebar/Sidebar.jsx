@@ -32,7 +32,8 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
           <button className="close-sidebar-btn" onClick={toggleSidebar}>✕</button>
 
           <div className="sidebar-header">
-            <div className="brand-container">
+            {/* Cliccando sul brand si torna in Home */}
+            <NavLink to="/" className="brand-container" onClick={toggleSidebar} style={{ textDecoration: 'none' }}>
               <div className="brand-icons">
                 <span className="brand-ball">⚽</span>
                 <span className="brand-beer">🍺</span>
@@ -40,15 +41,22 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
               <h2 className="brand-text">
                 TERZO<span className="highlight">TEMPO</span>
               </h2>
-            </div>
+            </NavLink>
           </div>
 
           <div className="sidebar-content">
             <nav className="sidebar-nav">
               <div className="nav-group">
+                <span className="group-title">Menu Principale</span>
+                <ul>
+                  <li><NavLink to="/" end onClick={toggleSidebar}>🏠 HomePage</NavLink></li>
+                </ul>
+              </div>
+
+              <div className="nav-group">
                 <span className="group-title">Ranking</span>
                 <ul>
-                  <li><NavLink to="/" end onClick={toggleSidebar}>🏆 Classifica Generale</NavLink></li>
+                  <li><NavLink to="/classifica" onClick={toggleSidebar}>🏆 Classifica Generale</NavLink></li>
                   <li><NavLink to="/classifica-marcatori" onClick={toggleSidebar}>⚽ Classifica Marcatori</NavLink></li>
                 </ul>
               </div>
@@ -62,7 +70,6 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
                 </ul>
               </div>
 
-              {/* MOSTRA GESTIONE SOLO SE LOGGATO */}
               {session && (
                 <div className="nav-group">
                   <span className="group-title">Gestione</span>
