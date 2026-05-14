@@ -5,19 +5,35 @@ const RankingPage = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
 
+  // 1. CALCOLO DINAMICO ANNI DISPONIBILI
   const availableYears = useMemo(() => {
-    const startYear = 2024;
-    const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let y = startYear; y <= currentYear; y++) {
-      years.push(y.toString());
+    if (matches.length === 0) return [];
+    const years = matches.map(m => new Date(m.data).getFullYear().toString());
+    return [...new Set(years)].sort((a, b) => b - a);
+  }, [matches]);
+
+  // 2. CALCOLO DINAMICO MESI DISPONIBILI (basato sull'anno selezionato)
+  const availableMonths = useMemo(() => {
+    if (matches.length === 0) return [];
+
+    let relevantMatches = matches;
+    if (filterYear !== 'all') {
+      relevantMatches = matches.filter(m => new Date(m.data).getFullYear().toString() === filterYear);
     }
-    return years.reverse();
-  }, []);
+
+    const monthsIdx = relevantMatches.map(m => new Date(m.data).getMonth() + 1);
+    const uniqueMonths = [...new Set(monthsIdx)].sort((a, b) => a - b);
+
+    const monthNames = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
+    
+    return uniqueMonths.map(m => ({
+      value: m.toString(),
+      label: monthNames[m - 1]
+    }));
+  }, [matches, filterYear]);
 
   const filteredData = useMemo(() => {
     const statsMap = {};
-    // Inizializziamo la mappa usando 'nome' come da nuovo schema
     players.forEach(p => {
       statsMap[p.id] = { id: p.id, nome: p.nome, punti: 0, dr: 0, goal: 0, partite: 0 };
     });
@@ -28,7 +44,6 @@ const RankingPage = ({ players = [], matches = [] }) => {
       const y = matchDate.getFullYear().toString();
 
       if ((filterMonth === 'all' || filterMonth === m) && (filterYear === 'all' || filterYear === y)) {
-        // ACCESSO AI DATI DA match_details (Schema Supabase)
         const dettagli = match.match_details || {};
         const partecipanti = dettagli.partecipanti || [];
 
@@ -67,26 +82,37 @@ const RankingPage = ({ players = [], matches = [] }) => {
       <div className="ranking-header">
         <div className="title-group">
           <h1>Classifica Generale</h1>
-          <span className="subtitle">
-            {filterYear === 'all' ? 'Storico Totale' : `Stagione ${filterYear}`}
-          </span>
         </div>
 
         <div className="filters-group">
-          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className="modern-select">
-            <option value="all">Tutti i Mesi</option>
-            {["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"].map((m, i) => (
-              <option key={i} value={(i + 1).toString()}>{m}</option>
-            ))}
-          </select>
-          <select value={filterYear} onChange={(e) => setFilterYear(e.target.value)} className="modern-select">
+          {/* SELETTORE ANNI DINAMICO */}
+          <select 
+            value={filterYear} 
+            onChange={(e) => {
+              setFilterYear(e.target.value);
+              setFilterMonth('all');
+            }} 
+            className="modern-select"
+          >
             <option value="all">Tutti gli Anni</option>
             {availableYears.map(year => <option key={year} value={year}>{year}</option>)}
+          </select>
+
+          {/* SELETTORE MESI DINAMICO */}
+          <select 
+            value={filterMonth} 
+            onChange={(e) => setFilterMonth(e.target.value)} 
+            className="modern-select"
+          >
+            <option value="all">Tutti i Mesi</option>
+            {availableMonths.map(m => (
+              <option key={m.value} value={m.value}>{m.label}</option>
+            ))}
           </select>
         </div>
       </div>
 
-      {/* 🏆 PODIO: 2° - 1° - 3° */}
+      {/* 🏆 PODIO */}
       {podium.length > 0 && (
         <div className="elite-podium">
           <div className={`elite-card silver ${!podium[1] ? 'invisible' : ''}`}>

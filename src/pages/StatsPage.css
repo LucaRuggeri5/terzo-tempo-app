@@ -40,7 +40,6 @@
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  /* Fondamentale: max-height permette lo scroll verticale interno mantenendo l'header fisso */
   max-height: 80vh; 
   overflow: hidden;
   display: flex;
@@ -48,7 +47,7 @@
 }
 
 .stats-table-scroll {
-  overflow: auto; /* Permette sia scroll orizzontale che verticale */
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -66,8 +65,8 @@
   background-color: #f8fafc;
   position: sticky;
   top: 0;
-  z-index: 100; /* Z-index alto per stare sopra le colonne sticky */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Effetto profondità allo scroll */
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 /* COLONNA FISSA A SINISTRA */
@@ -81,12 +80,11 @@
   background: white;
   position: sticky;
   left: 0;
-  z-index: 10; /* Minore dell'header ma maggiore delle altre celle */
+  z-index: 10;
   border-right: 1px solid #e2e8f0;
   cursor: pointer;
 }
 
-/* L'incrocio tra Header e Colonna Nome deve avere lo z-index massimo */
 .header-row .col-name {
   background-color: #f8fafc;
   color: #64748b;
@@ -129,19 +127,8 @@
   font-weight: 700;
 }
 
-/* NOMI DINAMICI */
-.label-partite::before { content: "Partite"; }
-.label-punti::before { content: "Punti"; }
-.label-vittorie::before { content: "Vittorie"; }
-.label-pareggi::before { content: "Pareggi"; }
-.label-sconfitte::before { content: "Sconfitte"; }
-.label-goal::before { content: "Goal Fatti"; }
-.label-dr::before { content: "Diff. Reti"; }
-.label-mp::before { content: "Media Punti"; }
-.label-winrate::before { content: "Win Rate"; }
-
 .active-sort {
-  color: #059669 !important;
+  color: #10b981 !important;
   background-color: rgba(16, 185, 129, 0.05);
 }
 
@@ -170,26 +157,35 @@
 .text-green { color: #10b981; }
 .text-red { color: #ef4444; }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE RESPONSIVE 768px */
 @media (max-width: 768px) {
   .stats-container { padding: 10px; }
   .stats-header h1 { font-size: 18px; }
   .stats-row { min-width: 100%; }
   .col-name { width: 100px; min-width: 100px; padding: 10px 8px; font-size: 12px; }
   .col-data { width: 50px; min-width: 50px; flex: none; font-size: 12px; }
-
-  .label-partite::before { content: "PG"; }
-  .label-punti::before { content: "PT"; }
-  .label-vittorie::before { content: "V"; }
-  .label-pareggi::before { content: "P"; }
-  .label-sconfitte::before { content: "S"; }
-  .label-goal::before { content: "GF"; }
-  .label-dr::before { content: "DR"; }
-  .label-mp::before { content: "MP"; }
-  .label-winrate::before { content: "WR"; }
-
   .col-forma { width: 100px; min-width: 100px; }
   .dot { width: 15px; height: 15px; font-size: 8px; }
+}
+
+/* NUOVA MEDIA QUERY SOTTO 500px */
+@media (max-width: 500px) {
+  .stats-header {
+    flex-direction: column;
+    align-items: flex-start; /* Allinea a sinistra */
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .stats-filters {
+    width: 100%;
+    justify-content: flex-start; /* Mette i selettori uno accanto all'altro */
+  }
+
+  .stats-filters select {
+    flex: 1; /* Fa sì che i select occupino lo spazio disponibile equamente */
+    max-width: 150px;
+  }
 }
 
 @keyframes fadeIn {

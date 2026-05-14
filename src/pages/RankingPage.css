@@ -6,6 +6,7 @@
   max-width: 1200px;
   margin: 0 auto;
   color: #0f172a;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 .ranking-header {
@@ -16,17 +17,9 @@
 }
 
 .title-group h1 {
-  font-size: 32px;
+  font-size: 22px;
   font-weight: 800;
   margin: 0;
-}
-
-.subtitle {
-  color: #64748b;
-  font-weight: 500;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .filters-group {

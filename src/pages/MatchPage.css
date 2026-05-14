@@ -4,6 +4,7 @@
 .history-section-pro {
     margin-top: 60px;
     padding-bottom: 40px;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
 .section-title-pro {

@@ -5,15 +5,32 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
 
+  // 1. CALCOLO DINAMICO ANNI DISPONIBILI
   const availableYears = useMemo(() => {
-    const startYear = 2024;
-    const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let y = startYear; y <= currentYear; y++) {
-      years.push(y.toString());
+    if (matches.length === 0) return [];
+    const years = matches.map(m => new Date(m.data).getFullYear().toString());
+    return [...new Set(years)].sort((a, b) => b - a);
+  }, [matches]);
+
+  // 2. CALCOLO DINAMICO MESI DISPONIBILI (basato sull'anno selezionato)
+  const availableMonths = useMemo(() => {
+    if (matches.length === 0) return [];
+
+    let relevantMatches = matches;
+    if (filterYear !== 'all') {
+      relevantMatches = matches.filter(m => new Date(m.data).getFullYear().toString() === filterYear);
     }
-    return years.reverse();
-  }, []);
+
+    const monthsIdx = relevantMatches.map(m => new Date(m.data).getMonth() + 1);
+    const uniqueMonths = [...new Set(monthsIdx)].sort((a, b) => a - b);
+
+    const monthNames = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
+    
+    return uniqueMonths.map(m => ({
+      value: m.toString(),
+      label: monthNames[m - 1]
+    }));
+  }, [matches, filterYear]);
 
   const scoreData = useMemo(() => {
     const statsMap = {};
@@ -27,7 +44,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       const y = matchDate.getFullYear().toString();
 
       if ((filterMonth === 'all' || filterMonth === m) && (filterYear === 'all' || filterYear === y)) {
-        // ACCESSO CORRETTO AI DATI SUPABASE
         const dettagli = match.match_details || {};
         const partecipanti = dettagli.partecipanti || [];
 
@@ -45,6 +61,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       .sort((a, b) => b.goal - a.goal || a.partite - b.partite);
   }, [players, matches, filterMonth, filterYear]);
 
+  // Gestione dei Rank per i parimerito
   let currentRank = 1;
   const rankedList = scoreData.map((player, index) => {
     if (index > 0 && player.goal !== scoreData[index - 1].goal) {
@@ -60,19 +77,30 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       <div className="ranking-header">
         <div className="title-group">
           <h1>Classifica Marcatori</h1>
-          <span className="subtitle-score">I migliori bomber</span>
         </div>
 
         <div className="filters-group">
-          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className="modern-select">
-            <option value="all">Tutti i Mesi</option>
-            {["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"].map((m, i) => (
-              <option key={i} value={(i + 1).toString()}>{m}</option>
-            ))}
-          </select>
-          <select value={filterYear} onChange={(e) => setFilterYear(e.target.value)} className="modern-select">
+          <select 
+            value={filterYear} 
+            onChange={(e) => {
+              setFilterYear(e.target.value);
+              setFilterMonth('all'); // Reset mese al cambio anno
+            }} 
+            className="modern-select"
+          >
             <option value="all">Tutti gli Anni</option>
             {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+          </select>
+
+          <select 
+            value={filterMonth} 
+            onChange={(e) => setFilterMonth(e.target.value)} 
+            className="modern-select"
+          >
+            <option value="all">Tutti i Mesi</option>
+            {availableMonths.map(m => (
+              <option key={m.value} value={m.value}>{m.label}</option>
+            ))}
           </select>
         </div>
       </div>

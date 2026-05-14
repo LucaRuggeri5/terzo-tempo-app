@@ -3,14 +3,6 @@
 /* ==========================================================================
    STILI CORE & COLORI
    ========================================================================== */
-.subtitle-score {
-  color: #f97316;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
 .score-text {
   color: #f97316;
   font-size: 17px !important;
