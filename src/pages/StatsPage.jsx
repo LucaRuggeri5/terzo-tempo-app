@@ -4,17 +4,38 @@ import './StatsPage.css';
 const StatsPage = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
-  const [sortConfig, setSortConfig] = useState({ key: 'punti', direction: 'desc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'nome', direction: 'asc' });
 
+  // 1. CALCOLO DINAMICO ANNI DISPONIBILI
   const availableYears = useMemo(() => {
-    const startYear = 2024;
-    const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let y = startYear; y <= currentYear; y++) {
-      years.push(y.toString());
+    if (matches.length === 0) return [];
+    
+    // Estraiamo tutti gli anni dalle partite esistenti
+    const years = matches.map(m => new Date(m.data).getFullYear().toString());
+    // Rimuoviamo i duplicati e ordiniamo dal più recente
+    return [...new Set(years)].sort((a, b) => b - a);
+  }, [matches]);
+
+  // 2. CALCOLO DINAMICO MESI DISPONIBILI (in base all'anno selezionato)
+  const availableMonths = useMemo(() => {
+    if (matches.length === 0) return [];
+
+    let relevantMatches = matches;
+    // Se è selezionato un anno specifico, mostriamo solo i mesi di quell'anno
+    if (filterYear !== 'all') {
+      relevantMatches = matches.filter(m => new Date(m.data).getFullYear().toString() === filterYear);
     }
-    return years.reverse();
-  }, []);
+
+    const monthsIdx = relevantMatches.map(m => new Date(m.data).getMonth() + 1);
+    const uniqueMonths = [...new Set(monthsIdx)].sort((a, b) => a - b);
+
+    const monthNames = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
+    
+    return uniqueMonths.map(m => ({
+      value: m.toString(),
+      label: monthNames[m - 1]
+    }));
+  }, [matches, filterYear]);
 
   const statsData = useMemo(() => {
     const statsMap = {};
@@ -43,7 +64,7 @@ const StatsPage = ({ players = [], matches = [] }) => {
           s.partite += 1;
           s.punti += (p.punti || 0);
           s.goalFatti += (p.goal || 0);
-          s.autogoal += (p.ag || 0); // Corretto da autogoal a ag come nel form
+          s.autogoal += (p.ag || 0);
           s.dr += (p.dr || 0);
           
           if (p.punti === 3) { s.vittorie += 1; s.forma.push('W'); }
@@ -92,20 +113,29 @@ const StatsPage = ({ players = [], matches = [] }) => {
     setSortConfig({ key, direction });
   };
 
+  const getSortIcon = (key) => {
+    if (sortConfig.key !== key) return '';
+    return sortConfig.direction === 'asc' ? ' ↑' : ' ↓';
+  };
+
   return (
     <div className="stats-container">
       <div className="stats-header">
         <h1>Statistiche Generali</h1>
         <div className="stats-filters">
-          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)}>
-            <option value="all">Tutti i Mesi</option>
-            {["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"].map((m, i) => (
-              <option key={i} value={(i + 1).toString()}>{m}</option>
-            ))}
-          </select>
-          <select value={filterYear} onChange={(e) => setFilterYear(e.target.value)}>
+          <select value={filterYear} onChange={(e) => {
+            setFilterYear(e.target.value);
+            setFilterMonth('all'); // Reset mese quando cambi anno per sicurezza
+          }}>
             <option value="all">Tutti gli Anni</option>
             {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+          </select>
+
+          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)}>
+            <option value="all">Tutti i Mesi</option>
+            {availableMonths.map(m => (
+              <option key={m.value} value={m.value}>{m.label}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -114,17 +144,17 @@ const StatsPage = ({ players = [], matches = [] }) => {
         <div className="stats-table-scroll">
           <div className="stats-row header-row">
             <div className={`col-name sticky-col ${sortConfig.key === 'nome' ? 'active-sort' : ''}`} onClick={() => requestSort('nome')}>
-              Giocatore {sortConfig.key === 'nome' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              Giocatore{getSortIcon('nome')}
             </div>
-            <div className="col-data" onClick={() => requestSort('partite')}>P</div>
-            <div className="col-data" onClick={() => requestSort('punti')}>PT</div>
-            <div className="col-data" onClick={() => requestSort('vittorie')}>V</div>
-            <div className="col-data" onClick={() => requestSort('pareggi')}>N</div>
-            <div className="col-data" onClick={() => requestSort('sconfitte')}>P</div>
-            <div className="col-data" onClick={() => requestSort('goalFatti')}>GF</div>
-            <div className="col-data" onClick={() => requestSort('dr')}>DR</div>
-            <div className="col-data" onClick={() => requestSort('mediaPunti')}>MP</div>
-            <div className="col-data" onClick={() => requestSort('percentualeVittoria')}>%W</div>
+            <div className={`col-data ${sortConfig.key === 'partite' ? 'active-sort' : ''}`} onClick={() => requestSort('partite')}>PG{getSortIcon('partite')}</div>
+            <div className={`col-data ${sortConfig.key === 'punti' ? 'active-sort' : ''}`} onClick={() => requestSort('punti')}>PT{getSortIcon('punti')}</div>
+            <div className={`col-data ${sortConfig.key === 'vittorie' ? 'active-sort' : ''}`} onClick={() => requestSort('vittorie')}>V{getSortIcon('vittorie')}</div>
+            <div className={`col-data ${sortConfig.key === 'pareggi' ? 'active-sort' : ''}`} onClick={() => requestSort('pareggi')}>P{getSortIcon('pareggi')}</div>
+            <div className={`col-data ${sortConfig.key === 'sconfitte' ? 'active-sort' : ''}`} onClick={() => requestSort('sconfitte')}>S{getSortIcon('sconfitte')}</div>
+            <div className={`col-data ${sortConfig.key === 'goalFatti' ? 'active-sort' : ''}`} onClick={() => requestSort('goalFatti')}>GF{getSortIcon('goalFatti')}</div>
+            <div className={`col-data ${sortConfig.key === 'dr' ? 'active-sort' : ''}`} onClick={() => requestSort('dr')}>DR{getSortIcon('dr')}</div>
+            <div className={`col-data ${sortConfig.key === 'mediaPunti' ? 'active-sort' : ''}`} onClick={() => requestSort('mediaPunti')}>MP{getSortIcon('mediaPunti')}</div>
+            <div className={`col-data ${sortConfig.key === 'percentualeVittoria' ? 'active-sort' : ''}`} onClick={() => requestSort('percentualeVittoria')}>%W{getSortIcon('percentualeVittoria')}</div>
             <div className="col-forma">Forma</div>
           </div>
 

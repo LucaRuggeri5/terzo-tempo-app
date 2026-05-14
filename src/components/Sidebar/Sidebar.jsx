@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
               <div className="nav-group">
                 <span className="group-title">Menu Principale</span>
                 <ul>
-                  <li><NavLink to="/" end onClick={toggleSidebar}>🏠 HomePage</NavLink></li>
+                  <li><NavLink to="/" end onClick={toggleSidebar}>🏠 Home</NavLink></li>
                 </ul>
               </div>
 
