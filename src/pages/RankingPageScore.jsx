@@ -12,7 +12,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
     return [...new Set(years)].sort((a, b) => b - a);
   }, [matches]);
 
-  // 2. CALCOLO DINAMICO MESI DISPONIBILI (basato sull'anno selezionato)
+  // 2. CALCOLO DINAMICO MESI DISPONIBILI
   const availableMonths = useMemo(() => {
     if (matches.length === 0) return [];
 
@@ -23,7 +23,6 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
 
     const monthsIdx = relevantMatches.map(m => new Date(m.data).getMonth() + 1);
     const uniqueMonths = [...new Set(monthsIdx)].sort((a, b) => a - b);
-
     const monthNames = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
     
     return uniqueMonths.map(m => ({
@@ -32,6 +31,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
     }));
   }, [matches, filterYear]);
 
+  // 3. LOGICA DI CALCOLO CLASSIFICA
   const scoreData = useMemo(() => {
     const statsMap = {};
     players.forEach(p => {
@@ -61,7 +61,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       .sort((a, b) => b.goal - a.goal || a.partite - b.partite);
   }, [players, matches, filterMonth, filterYear]);
 
-  // Gestione dei Rank per i parimerito
+  // 4. GESTIONE RANK (Parimerito)
   let currentRank = 1;
   const rankedList = scoreData.map((player, index) => {
     if (index > 0 && player.goal !== scoreData[index - 1].goal) {
@@ -70,7 +70,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
     return { ...player, displayRank: currentRank };
   });
 
-  const topScorers = rankedList.slice(0, 3);
+  const podium = rankedList.slice(0, 3);
 
   return (
     <div className="ranking-container">
@@ -84,12 +84,14 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
             value={filterYear} 
             onChange={(e) => {
               setFilterYear(e.target.value);
-              setFilterMonth('all'); // Reset mese al cambio anno
+              setFilterMonth('all');
             }} 
             className="modern-select"
           >
             <option value="all">Tutti gli Anni</option>
-            {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+            {availableYears.map(y => (
+              <option key={y} value={y}>{y}</option>
+            ))}
           </select>
 
           <select 
@@ -105,36 +107,40 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
         </div>
       </div>
 
-      {topScorers.length > 0 && (
+      {/* 🏆 PODIO (Solo Desktop/Tablet) */}
+      {podium.length > 0 && (
         <div className="elite-podium">
-          <div className={`elite-card silver ${!topScorers[1] ? 'invisible' : ''}`}>
-            {topScorers[1] && (
+          {/* SECONDO POSTO */}
+          <div className={`elite-card silver ${!podium[1] ? 'invisible' : ''}`}>
+            {podium[1] && (
               <>
                 <span className="elite-rank">2</span>
-                <div className="elite-info elite-info-score">
-                  <span className="elite-name">{topScorers[1].nome}</span>
-                  <span className="score-pill">{topScorers[1].goal} GOAL</span>
+                <div className="elite-info-score">
+                  <span className="elite-name">{podium[1].nome}</span>
+                  <span className="score-pill">{podium[1].goal} GOAL</span>
                 </div>
               </>
             )}
           </div>
 
+          {/* PRIMO POSTO */}
           <div className="elite-card gold gold-score">
             <div className="crown-icon">⚽</div>
             <span className="elite-rank">1</span>
-            <div className="elite-info elite-info-score">
-              <span className="elite-name">{topScorers[0].nome}</span>
-              <span className="score-pill">{topScorers[0].goal} GOAL</span>
+            <div className="elite-info-score">
+              <span className="elite-name">{podium[0].nome}</span>
+              <span className="score-pill">{podium[0].goal} GOAL</span>
             </div>
           </div>
 
-          <div className={`elite-card bronze ${!topScorers[2] ? 'invisible' : ''}`}>
-            {topScorers[2] && (
+          {/* TERZO POSTO */}
+          <div className={`elite-card bronze ${!podium[2] ? 'invisible' : ''}`}>
+            {podium[2] && (
               <>
                 <span className="elite-rank">3</span>
-                <div className="elite-info elite-info-score">
-                  <span className="elite-name">{topScorers[2].nome}</span>
-                  <span className="score-pill">{topScorers[2].goal} GOAL</span>
+                <div className="elite-info-score">
+                  <span className="elite-name">{podium[2].nome}</span>
+                  <span className="score-pill">{podium[2].goal} GOAL</span>
                 </div>
               </>
             )}
@@ -142,23 +148,7 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
         </div>
       )}
 
-      <div className="score-list-mobile">
-        {rankedList.map((player) => (
-          <div key={player.id} className="score-row-mobile">
-            <div className="score-rank-box">
-              <span className={`rank-dot ${player.displayRank <= 3 ? `dot-${player.displayRank}` : ''}`}>
-                {player.displayRank}
-              </span>
-            </div>
-            <div className="score-name-box">{player.nome}</div>
-            <div className="score-badge-box">
-              <span className="goal-count">{player.goal}</span>
-              <span className="goal-label">GOAL</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
+      {/* TABELLA UNICA ADATTIVA */}
       <div className="table-container-elite main-score-table">
         <table className="table-elite">
           <thead>
@@ -166,13 +156,16 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
               <th className="w-pos">Pos</th>
               <th className="w-name">Giocatore</th>
               <th className="w-data">Gol</th>
-              <th className="w-data">Media/P</th>
-              <th className="w-data">Partite</th>
+              <th className="w-data hide-mobile">Media/P</th>
+              <th className="w-data hide-mobile">Partite</th>
             </tr>
           </thead>
           <tbody>
             {rankedList.map((player) => (
-              <tr key={player.id} className={player.displayRank <= 3 ? 'row-highlight' : ''}>
+              <tr 
+                key={player.id} 
+                className={player.displayRank <= 3 ? 'row-highlight' : ''}
+              >
                 <td className="w-pos">
                   <span className={`rank-dot ${player.displayRank <= 3 ? `dot-${player.displayRank}` : ''}`}>
                     {player.displayRank}
@@ -180,16 +173,19 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
                 </td>
                 <td className="w-name name-text">{player.nome}</td>
                 <td className="w-data font-bold score-text">{player.goal}</td>
-                <td className="w-data">
+                <td className="w-data hide-mobile">
                   {player.partite > 0 ? (player.goal / player.partite).toFixed(2) : "0.00"}
                 </td>
-                <td className="w-data">{player.partite}</td>
+                <td className="w-data hide-mobile">{player.partite}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {rankedList.length === 0 && <p className="no-data-msg">Nessun gol registrato.</p>}
+      
+      {rankedList.length === 0 && (
+        <p className="no-data-msg">Nessun gol registrato in questo periodo.</p>
+      )}
     </div>
   );
 };

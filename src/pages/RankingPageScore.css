@@ -1,20 +1,20 @@
 @import url('./RankingPage.css');
 
 /* ==========================================================================
-   STILI CORE & COLORI
+   STILI CORE MARCATORI
    ========================================================================== */
 .score-text {
-  color: #f97316;
-  font-size: 17px !important;
+  color: #f97316 !important; /* Arancione Vivace per i Goal */
+  font-size: 1.1rem !important;
   font-weight: 900 !important;
 }
 
-.score-list-mobile {
-  display: none;
+.main-score-table {
+  margin-top: 20px;
 }
 
 /* ==========================================================================
-   PODIO & COMPONENTI
+   PODIO SPECIFICO
    ========================================================================== */
 .elite-info-score {
   display: flex;
@@ -36,63 +36,29 @@
   padding: 4px 12px;
   border-radius: 50px;
   margin-top: 5px;
-  white-space: nowrap;
-  box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.2);
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
 }
 
 .gold-score {
   border: 2px solid #fbbf24 !important;
-  box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.15) !important;
-}
-
-.gold-score .elite-rank {
-  color: #fbbf24 !important;
+  background: linear-gradient(to bottom right, #ffffff, #fff9e6) !important;
 }
 
 /* ==========================================================================
-   BREAK INTERMEDIO (1100px - 701px)
-   ========================================================================== */
-@media (max-width: 1100px) and (min-width: 701px) {
-  .elite-podium {
-    transform: scale(0.85);
-    margin-bottom: 20px;
-    gap: 8px;
-  }
-
-  .elite-card {
-    width: 210px;
-    padding: 15px;
-    gap: 10px;
-  }
-
-  .elite-rank {
-    font-size: 28px;
-    min-width: 30px;
-  }
-
-  .elite-name {
-    font-size: 14px;
-  }
-
-  .table-elite td,
-  .table-elite th {
-    padding: 12px;
-  }
-}
-
-/* ==========================================================================
-   MOBILE (< 700px)
+   MOBILE OPTIMIZATION (< 700px)
    ========================================================================== */
 @media (max-width: 700px) {
+  /* Nascondiamo il podio ingombrante */
+  .elite-podium {
+    display: none;
+  }
+
+  /* Reset layout Header */
   .ranking-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-
-  .title-group {
-    width: 100%;
+    gap: 15px;
+    margin-bottom: 20px;
   }
 
   .filters-group {
@@ -102,67 +68,37 @@
     gap: 10px;
   }
 
-  .modern-select {
-    width: 100%;
+  /* Tabella Mobile Ultra-Slim */
+  .table-elite td, 
+  .table-elite th {
+    padding: 14px 10px;
   }
 
-  .elite-podium,
-  .main-score-table {
-    display: none;
+  .hide-mobile {
+    display: none !important;
   }
 
-  .score-list-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 5px;
-  }
-
-  .score-row-mobile {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 12px;
-    display: grid;
-    grid-template-columns: 40px 1fr 70px;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .score-rank-box {
-    display: flex;
-    justify-content: center;
-  }
-
-  .score-name-box {
-    font-size: 16px;
+  .name-text {
+    font-size: 15px;
     font-weight: 700;
-    color: #0f172a;
+    max-width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .score-badge-box {
-    background: #f97316;
-    color: white;
-    border-radius: 12px;
-    height: 45px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
+  .score-text {
+    font-size: 1.2rem !important;
   }
 
-  .goal-count {
-    font-size: 18px;
-    font-weight: 900;
+  .rank-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
   }
+}
 
-  .goal-label {
-    font-size: 8px;
-    font-weight: 700;
-    margin-top: 2px;
-  }
+/* Fallback per colonne nascoste su desktop */
+.hide-mobile {
+  display: table-cell;
 }
