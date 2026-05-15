@@ -8,11 +8,16 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Gestione scroll del body quando la sidebar è aperta su mobile
     if (isOpen && window.innerWidth <= 1100) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [isOpen]);
 
   const handleLogout = async () => {
@@ -25,14 +30,16 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
 
   return (
     <>
-      <div className={`sidebar-overlay ${isOpen ? 'show' : ''}`} onClick={toggleSidebar}></div>
+      <div 
+        className={`sidebar-overlay ${isOpen ? 'show' : ''}`} 
+        onClick={toggleSidebar}
+      ></div>
 
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-sticky-wrapper">
-          <button className="close-sidebar-btn" onClick={toggleSidebar}>✕</button>
-
+          {/* Header con pulsante di chiusura */}
           <div className="sidebar-header">
-            {/* Cliccando sul brand si torna in Home */}
+            <button className="close-sidebar-btn" onClick={toggleSidebar}>✕</button>
             <NavLink to="/" className="brand-container" onClick={toggleSidebar} style={{ textDecoration: 'none' }}>
               <div className="brand-icons">
                 <span className="brand-ball">⚽</span>
@@ -44,6 +51,7 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
             </NavLink>
           </div>
 
+          {/* Area centrale con scroll */}
           <div className="sidebar-content">
             <nav className="sidebar-nav">
               <div className="nav-group">
@@ -81,12 +89,15 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
             </nav>
           </div>
 
+          {/* Footer fisso in basso */}
           <div className="sidebar-footer">
-            {session ? (
-              <button className="auth-btn logout" onClick={handleLogout}>🚪 Logout Admin</button>
-            ) : (
-              <NavLink to="/login" className="auth-btn login" onClick={toggleSidebar}>🔐 Login Admin</NavLink>
-            )}
+            <div className="auth-container">
+              {session ? (
+                <button className="auth-btn logout" onClick={handleLogout}>🚪 Logout Admin</button>
+              ) : (
+                <NavLink to="/login" className="auth-btn login" onClick={toggleSidebar}>🔐 Login Admin</NavLink>
+              )}
+            </div>
             <span className="version-label">v{appVersion}</span>
           </div>
         </div>
