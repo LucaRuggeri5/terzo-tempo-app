@@ -12,7 +12,7 @@ const RankingPage = ({ players = [], matches = [] }) => {
     return [...new Set(years)].sort((a, b) => b - a);
   }, [matches]);
 
-  // 2. CALCOLO DINAMICO MESI DISPONIBILI (basato sull'anno selezionato)
+  // 2. CALCOLO DINAMICO MESI DISPONIBILI
   const availableMonths = useMemo(() => {
     if (matches.length === 0) return [];
 
@@ -85,7 +85,6 @@ const RankingPage = ({ players = [], matches = [] }) => {
         </div>
 
         <div className="filters-group">
-          {/* SELETTORE ANNI DINAMICO */}
           <select 
             value={filterYear} 
             onChange={(e) => {
@@ -98,7 +97,6 @@ const RankingPage = ({ players = [], matches = [] }) => {
             {availableYears.map(year => <option key={year} value={year}>{year}</option>)}
           </select>
 
-          {/* SELETTORE MESI DINAMICO */}
           <select 
             value={filterMonth} 
             onChange={(e) => setFilterMonth(e.target.value)} 
@@ -112,7 +110,7 @@ const RankingPage = ({ players = [], matches = [] }) => {
         </div>
       </div>
 
-      {/* 🏆 PODIO */}
+      {/* 🏆 PODIO - Nascosto sotto i 700px tramite CSS */}
       {podium.length > 0 && (
         <div className="elite-podium">
           <div className={`elite-card silver ${!podium[1] ? 'invisible' : ''}`}>
@@ -150,40 +148,7 @@ const RankingPage = ({ players = [], matches = [] }) => {
         </div>
       )}
 
-      {/* LISTA MOBILE */}
-      <div className="ranking-list-mobile">
-        {rankedList.map((player) => (
-          <div key={player.id} className="ranking-card-mobile">
-            <div className="ranking-card-top">
-              <div className="ranking-rank-box">
-                <span className={`rank-dot ${player.displayRank <= 3 ? `dot-${player.displayRank}` : ''}`}>
-                  {player.displayRank}
-                </span>
-              </div>
-              <div className="ranking-name-box">{player.nome}</div>
-              <div className="ranking-pts-box">{player.punti} PT</div>
-            </div>
-            <div className="ranking-card-stats">
-              <div className="stat-item">
-                <span>Partite</span>
-                <strong>{player.partite}</strong>
-              </div>
-              <div className="stat-item">
-                <span>DR</span>
-                <strong className={player.dr > 0 ? 'text-green' : player.dr < 0 ? 'text-red' : ''}>
-                  {player.dr > 0 ? `+${player.dr}` : player.dr}
-                </strong>
-              </div>
-              <div className="stat-item">
-                <span>Goal</span>
-                <strong>{player.goal}</strong>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* TABELLA */}
+      {/* TABELLA UNICA ADATTIVA */}
       <div className="table-container-elite main-ranking-table">
         <table className="table-elite">
           <thead>
@@ -191,9 +156,9 @@ const RankingPage = ({ players = [], matches = [] }) => {
               <th className="w-pos">Rank</th>
               <th className="w-name">Giocatore</th>
               <th className="w-data">Punti</th>
-              <th className="w-data">Partite</th>
+              <th className="w-data hide-mobile">Partite</th>
               <th className="w-data">DR</th>
-              <th className="w-data">Goal</th>
+              <th className="w-data hide-mobile">Goal</th>
             </tr>
           </thead>
           <tbody>
@@ -206,11 +171,11 @@ const RankingPage = ({ players = [], matches = [] }) => {
                 </td>
                 <td className="w-name name-text">{player.nome}</td>
                 <td className="w-data font-bold">{player.punti}</td>
-                <td className="w-data">{player.partite}</td>
+                <td className="w-data hide-mobile">{player.partite}</td>
                 <td className={`w-data font-bold ${player.dr > 0 ? 'text-green' : player.dr < 0 ? 'text-red' : ''}`}>
                   {player.dr > 0 ? `+${player.dr}` : player.dr}
                 </td>
-                <td className="w-data">{player.goal}</td>
+                <td className="w-data hide-mobile">{player.goal}</td>
               </tr>
             ))}
           </tbody>
