@@ -8,7 +8,6 @@ const HomePage = ({ players, matches }) => {
 
     const quotes = [
         { text: "Se penso quello che dico sai cosa viene fuori...", author: "Antonio Cassano" },
-        { text: "Rispetto l'omofobia", author: "Francesco Totti" },
         { text: "Tom! Gli undici giocatori più forti con la quale che hai giocato? Tom!", author: "Antonio Cassano" },
         { text: "Non chiamatemi arrogante, ma sono campione al Circolo Italia e penso di essere speciale.", author: "José Mourinho" },
         { text: "I rigori al Circolo Italia li sbaglia solo chi ha il coraggio di tirarli", author: "Roberto Baggio" },
@@ -73,21 +72,7 @@ const HomePage = ({ players, matches }) => {
                 </div>
             </section>
 
-            {/* WEATHER WIDGET (SIMULATO) */}
-            <section className="weather-widget">
-                <div className="weather-content">
-                    <div className="weather-main">
-                        <span className="weather-icon">☀️</span>
-                        <div className="weather-temp">
-                            <h3>24°C</h3>
-                            <p>Roma, IT</p>
-                        </div>
-                    </div>
-                    <div className="weather-message">
-                        "Si gioca in qualsiasi caso, sempre!"
-                    </div>
-                </div>
-            </section>
+
 
             {/* CAROSELLO CITAZIONI */}
             <section className="quotes-section">

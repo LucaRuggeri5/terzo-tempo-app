@@ -174,52 +174,7 @@
     color: #64748b;
 }
 
-/* Weather Widget */
-.weather-widget {
-    background: white;
-    border-left: 6px solid #10b981;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
 
-.weather-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.weather-main {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.weather-icon {
-    font-size: 2rem;
-}
-
-.weather-temp h3 {
-    margin: 0;
-    font-size: 1.4rem;
-}
-
-.weather-temp p {
-    margin: 0;
-    font-size: 0.8rem;
-    color: #64748b;
-}
-
-.weather-message {
-    font-weight: bold;
-    color: #0f172a;
-    background: #f1f5f9;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
 
 @keyframes fadeIn {
     from {
