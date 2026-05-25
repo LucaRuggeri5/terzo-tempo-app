@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
+import OverlayPlayerStats from '../components/OverlayPlayerStats/OverlayPlayerStats';
 import './RankingPage.css';
 
 const RankingPage = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   // 1. CALCOLO DINAMICO ANNI DISPONIBILI
   const availableYears = useMemo(() => {
@@ -75,7 +77,7 @@ const RankingPage = ({ players = [], matches = [] }) => {
     return { ...player, displayRank: currentRank };
   });
 
-  const podium = filteredData.slice(0, 3);
+  const podium = rankedList.slice(0, 3);
 
   return (
     <div className="ranking-container">
@@ -110,10 +112,13 @@ const RankingPage = ({ players = [], matches = [] }) => {
         </div>
       </div>
 
-      {/* 🏆 PODIO - Nascosto sotto i 700px tramite CSS */}
+      {/* 🏆 PODIO */}
       {podium.length > 0 && (
         <div className="elite-podium">
-          <div className={`elite-card silver ${!podium[1] ? 'invisible' : ''}`}>
+          <div 
+            className={`elite-card silver clickable-card ${!podium[1] ? 'invisible' : ''}`}
+            onClick={() => podium[1] && setSelectedPlayer({ data: podium[1], rank: podium[1].displayRank })}
+          >
             {podium[1] && (
               <>
                 <span className="elite-rank">2</span>
@@ -125,7 +130,10 @@ const RankingPage = ({ players = [], matches = [] }) => {
             )}
           </div>
 
-          <div className="elite-card gold">
+          <div 
+            className="elite-card gold clickable-card"
+            onClick={() => setSelectedPlayer({ data: podium[0], rank: podium[0].displayRank })}
+          >
             <div className="crown-icon">👑</div>
             <span className="elite-rank">1</span>
             <div className="elite-info-rank">
@@ -134,7 +142,10 @@ const RankingPage = ({ players = [], matches = [] }) => {
             </div>
           </div>
 
-          <div className={`elite-card bronze ${!podium[2] ? 'invisible' : ''}`}>
+          <div 
+            className={`elite-card bronze clickable-card ${!podium[2] ? 'invisible' : ''}`}
+            onClick={() => podium[2] && setSelectedPlayer({ data: podium[2], rank: podium[2].displayRank })}
+          >
             {podium[2] && (
               <>
                 <span className="elite-rank">3</span>
@@ -163,7 +174,11 @@ const RankingPage = ({ players = [], matches = [] }) => {
           </thead>
           <tbody>
             {rankedList.map((player) => (
-              <tr key={player.id} className={player.displayRank <= 3 ? 'row-highlight' : ''}>
+              <tr 
+                key={player.id} 
+                className={`ranking-row-clickable ${player.displayRank <= 3 ? 'row-highlight' : ''}`}
+                onClick={() => setSelectedPlayer({ data: player, rank: player.displayRank })}
+              >
                 <td className="w-pos">
                   <span className={`rank-dot ${player.displayRank <= 3 ? `dot-${player.displayRank}` : ''}`}>
                     {player.displayRank}
@@ -182,6 +197,18 @@ const RankingPage = ({ players = [], matches = [] }) => {
         </table>
       </div>
       {rankedList.length === 0 && <p className="no-data-msg">Nessuna partita registrata.</p>}
+
+      {/* RENDER DELL'OVERLAY SE SELEZIONATO */}
+      {selectedPlayer && (
+        <OverlayPlayerStats 
+          player={selectedPlayer.data}
+          currentRank={selectedPlayer.rank}
+          matches={matches}
+          filterYear={filterYear}
+          filterMonth={filterMonth}
+          onClose={() => setSelectedPlayer(null)}
+        />
+      )}
     </div>
   );
 };

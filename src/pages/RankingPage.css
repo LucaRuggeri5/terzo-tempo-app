@@ -261,3 +261,21 @@
   color: #64748b;
   font-style: italic;
 }
+
+
+.clickable-card, .ranking-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.ranking-row-clickable:hover {
+  background-color: #f8fafc;
+}
+
+.clickable-card:hover {
+  transform: translateY(-2px);
+}
+
+.clickable-card.gold:hover {
+  transform: scale(1.17); /* Mantiene la proporzione della card d'oro */
+}

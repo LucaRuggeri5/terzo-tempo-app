@@ -176,7 +176,7 @@ const StatsPage = ({ players = [], matches = [] }) => {
                 <div className="forma-dots">
                   {s.forma.map((res, i) => (
                     <span key={i} className={`dot ${res}`}>
-                      {res === 'W' ? 'V' : res === 'D' ? 'N' : 'P'}
+                      {res === 'W' ? 'V' : res === 'D' ? 'P' : 'S'}
                     </span>
                   ))}
                 </div>

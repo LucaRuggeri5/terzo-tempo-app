@@ -102,3 +102,129 @@
 .hide-mobile {
   display: table-cell;
 }
+
+
+@import url('./RankingPage.css');
+
+/* ==========================================================================
+   STILI CORE MARCATORI
+   ========================================================================== */
+.score-text {
+  color: #f97316 !important; /* Arancione Vivace per i Goal */
+  font-size: 1.1rem !important;
+  font-weight: 900 !important;
+}
+
+.main-score-table {
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   PODIO SPECIFICO
+   ========================================================================== */
+.elite-info-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: white;
+  background: #f97316;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-top: 5px;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+}
+
+.gold-score {
+  border: 2px solid #fbbf24 !important;
+  background: linear-gradient(to bottom right, #ffffff, #fff9e6) !important;
+}
+
+/* ==========================================================================
+   MOBILE OPTIMIZATION (< 700px)
+   ========================================================================== */
+@media (max-width: 700px) {
+  /* Nascondiamo il podio ingombrante */
+  .elite-podium {
+    display: none;
+  }
+
+  /* Reset layout Header */
+  .ranking-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .filters-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Tabella Mobile Ultra-Slim */
+  .table-elite td, 
+  .table-elite th {
+    padding: 14px 10px;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .name-text {
+    font-size: 15px;
+    font-weight: 700;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .score-text {
+    font-size: 1.2rem !important;
+  }
+
+  .rank-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
+
+/* Fallback per colonne nascoste su desktop */
+.hide-mobile {
+  display: table-cell;
+}
+
+/* ==========================================================================
+   INTERATTIVITÀ OVERLAY
+   ========================================================================== */
+.clickable-card, .ranking-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.ranking-row-clickable:hover {
+  background-color: #f8fafc;
+}
+
+.clickable-card:hover {
+  transform: translateY(-2px);
+}
+
+.clickable-card.gold-score:hover {
+  transform: scale(1.17); /* Preserva il fattore d'ingrandimento nativo della card d'oro */
+}
