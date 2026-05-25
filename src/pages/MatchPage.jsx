@@ -2,45 +2,41 @@ import React, { useState } from 'react';
 import './MatchPage.css';
 
 const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
-  // Stato per gestire quali schede sono espanse
-  const [expandedMatches, setExpandedMatches] = useState({});
+  // Stato per salvare la partita di cui si vogliono vedere le formazioni nel modal
+  const [selectedMatch, setSelectedMatch] = useState(null);
 
-  const toggleSquads = (matchId) => {
-    setExpandedMatches(prev => ({
-      ...prev,
-      [matchId]: !prev[matchId]
-    }));
+  const openModal = (match) => {
+    setSelectedMatch(match);
   };
 
-  // Verifichiamo se c'è almeno una partita espansa nel grid
-  const isAnyExpanded = Object.values(expandedMatches).some(val => val === true);
+  const closeModal = () => {
+    setSelectedMatch(null);
+  };
 
   return (
     <div className="history-section-pro">
       <h3 className="section-title-pro">Storico Partite</h3>
       
-      <div className={`history-grid-pro ${isAnyExpanded ? 'any-expanded' : ''}`}>
+      <div className="history-grid-pro">
         {matches.length > 0 ? (
           matches.map((m) => {
             const dettagli = m.match_details || {};
             const partecipanti = dettagli.partecipanti || [];
             const vincitore = dettagli.vincitore || 'Pareggio';
-            const isExpanded = !!expandedMatches[m.id];
-
-            const squadraNera = partecipanti.filter(p => p.squadra === 'Nera');
-            const squadraBianca = partecipanti.filter(p => p.squadra === 'Bianca');
 
             return (
-              <div key={m.id} className={`history-card-pro card-pro ${isExpanded ? 'is-expanded' : ''}`}>
+              <div key={m.id} className="history-card-pro card-pro">
                 <div className="h-top-bar">
                   <span className="h-date">
                     {new Date(m.data).toLocaleDateString('it-IT')} • {m.format}
                   </span>
+                  {/* Pulsante per aprire il modal con le formazioni */}
                   <button 
-                    className={`btn-view-squads ${isExpanded ? 'active' : ''}`}
-                    onClick={() => toggleSquads(m.id)}
+                    className="btn-info-modal"
+                    onClick={() => openModal(m)}
+                    title="Visualizza Formazioni"
                   >
-                    👥 Formazioni {isExpanded ? '▲' : '▼'}
+                    ℹ️ Formazioni
                   </button>
                 </div>
 
@@ -103,53 +99,6 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
                     )}
                   </div>
                 </div>
-
-                {/* 📂 TENDINA CON ANIMAZIONE AD ALTEZZA REALE */}
-                <div className={`squads-dropdown ${isExpanded ? 'open' : ''}`}>
-                  <div className="squads-dropdown-container">
-                    <div className="dropdown-divider"></div>
-                    
-                    {/* LISTA NERA */}
-                    <div className="squads-list-block">
-                      <div className="squad-list-header text-black">
-                        <span className="team-indicator-dot dot-black"></span>
-                        Formazione Nera
-                      </div>
-                      <ul className="inline-players-list">
-                        {squadraNera.length > 0 ? (
-                          squadraNera.map(p => (
-                            <li key={p.playerId || p.id || p.nome} className="inline-player-item">
-                              <span className="player-shirt-icon">👕</span>
-                              <span className="player-name-text">{p.nome}</span>
-                            </li>
-                          ))
-                        ) : (
-                          <li className="no-players-text">Nessun giocatore</li>
-                        )}
-                      </ul>
-                    </div>
-
-                    {/* LISTA BIANCA */}
-                    <div className="squads-list-block">
-                      <div className="squad-list-header text-white">
-                        <span className="team-indicator-dot dot-white"></span>
-                        Formazione Bianca
-                      </div>
-                      <ul className="inline-players-list">
-                        {squadraBianca.length > 0 ? (
-                          squadraBianca.map(p => (
-                            <li key={p.playerId || p.id || p.nome} className="inline-player-item">
-                              <span className="player-shirt-icon">👕</span>
-                              <span className="player-name-text">{p.nome}</span>
-                            </li>
-                          ))
-                        ) : (
-                          <li className="no-players-text">Nessun giocatore</li>
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
             );
           })
@@ -157,6 +106,80 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
           <div className="empty-history">Nessuna partita registrata finora.</div>
         )}
       </div>
+
+      {/* 🏆 STRUTTURA DEL MODAL POP-UP */}
+      {selectedMatch && (() => {
+        const dettagli = selectedMatch.match_details || {};
+        const partecipanti = dettagli.partecipanti || [];
+        const squadraNera = partecipanti.filter(p => p.squadra === 'Nera');
+        const squadraBianca = partecipanti.filter(p => p.squadra === 'Bianca');
+
+        return (
+          <div className="modal-overlay-pro" onClick={closeModal}>
+            <div className="modal-content-pro" onClick={(e) => e.stopPropagation()}>
+              
+              <div className="modal-header-pro">
+                <div className="modal-title-container">
+                  <h4>Dettaglio Formazioni</h4>
+                  <span className="modal-subtitle">
+                    {new Date(selectedMatch.data).toLocaleDateString('it-IT')} • {selectedMatch.format}
+                  </span>
+                </div>
+                <button className="modal-close-btn" onClick={closeModal}>&times;</button>
+              </div>
+
+              <div className="modal-score-banner">
+                <div className="modal-banner-team text-black">Nera <span>{selectedMatch.score_nera}</span></div>
+                <div className="modal-banner-sep">-</div>
+                <div className="modal-banner-team text-white">Bianca <span>{selectedMatch.score_bianca}</span></div>
+              </div>
+
+              <div className="modal-body-squads">
+                {/* BLOCCO SQUADRA NERA */}
+                <div className="modal-squad-block">
+                  <div className="modal-squad-header block-black">
+                    ⚫ Formazione Nera ({squadraNera.length})
+                  </div>
+                  <ul className="modal-players-list">
+                    {squadraNera.length > 0 ? (
+                      squadraNera.map(p => (
+                        <li key={p.playerId || p.id || p.nome} className="modal-player-item">
+                          {/* Cerchietto Tattico Nero */}
+                          <div className="modal-player-badge badge-black">👕</div>
+                          <span className="modal-player-name">{p.nome}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="modal-no-players">Nessun giocatore</li>
+                    )}
+                  </ul>
+                </div>
+
+                {/* BLOCCO SQUADRA BIANCA */}
+                <div className="modal-squad-block">
+                  <div className="modal-squad-header block-white">
+                    ⚪ Formazione Bianca ({squadraBianca.length})
+                  </div>
+                  <ul className="modal-players-list">
+                    {squadraBianca.length > 0 ? (
+                      squadraBianca.map(p => (
+                        <li key={p.playerId || p.id || p.nome} className="modal-player-item">
+                          {/* Cerchietto Tattico Bianco */}
+                          <div className="modal-player-badge badge-white">👕</div>
+                          <span className="modal-player-name">{p.nome}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="modal-no-players">Nessun giocatore</li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };

@@ -22,15 +22,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
-    /* DEFAULT: Tutte le card sono alte uguali per riga quando chiuse */
     align-items: stretch; 
-    /* Transizione sull'allineamento per evitare lo scatto immediato in chiusura */
-    transition: align-items 0.35s ease-in-out;
-}
-
-/* FIX: Se almeno una card è aperta, disattiviamo lo stretch per evitare i buchi bianchi */
-.history-grid-pro.any-expanded {
-    align-items: start;
 }
 
 .empty-history {
@@ -51,16 +43,11 @@
     padding: 25px;
     border-radius: 24px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease, min-height 0.35s ease-in-out;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
     border: 1px solid #f1f5f9;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.history-card-pro.is-expanded {
-    border-color: #cbd5e1;
-    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
 }
 
 .h-top-bar {
@@ -76,8 +63,8 @@
     color: #94a3b8;
 }
 
-/* BOTTONE MENU A TENDINA */
-.btn-view-squads {
+/* BOTTONE APERTURA MODAL FORMAZIONI */
+.btn-info-modal {
     background: #f1f5f9;
     color: #475569;
     border: none;
@@ -87,14 +74,12 @@
     font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.btn-view-squads:hover {
-    background: #e2e8f0;
-    color: #1e293b;
-}
-
-.btn-view-squads.active {
+.btn-info-modal:hover {
     background: #0f172a;
     color: #ffffff;
 }
@@ -188,104 +173,189 @@
 }
 
 /* ==========================================================================
-   TENDINA FORMAZIONI (DROPDOWN INTERNO - FIX FLUIDITÀ)
+   🏆 INTERFACCIA MODAL POP-UP (FORMAZIONI)
    ========================================================================== */
-.squads-dropdown {
-    display: grid;
-    grid-template-rows: 0fr; /* Parte da altezza zero reale */
-    opacity: 0;
-    transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-    pointer-events: none;
+.modal-overlay-pro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    animation: modalFadeIn 0.25s ease-out;
 }
 
-.squads-dropdown.open {
-    grid-template-rows: 1fr; /* Si espande esattamente all'altezza del contenuto */
-    opacity: 1;
-    pointer-events: auto;
-    margin-top: 15px;
-}
-
-/* Questo wrapper interno è obbligatorio per far funzionare il trucco del grid-template-rows */
-.squads-dropdown-container {
+.modal-content-pro {
+    background: #ffffff;
+    width: 100%;
+    max-width: 650px;
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-header-pro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    background: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-title-container h4 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.modal-subtitle {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #94a3b8;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    color: #0f172a;
+}
+
+.modal-score-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: #1e293b;
+    color: white;
+    padding: 15px;
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-banner-team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.modal-banner-team span {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.modal-banner-team.text-black { color: #38bdf8; }
+.modal-banner-team.text-white { color: #f1f5f9; }
+.modal-banner-sep { color: #64748b; }
+
+.modal-body-squads {
+    padding: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    padding-top: 15px; /* Spostiamo il padding qui dentro per non interrompere lo zero statico */
+    gap: 25px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
-.dropdown-divider {
-    height: 1px;
-    background: #f1f5f9;
-    grid-column: 1 / -1; /* Prende tutta la larghezza dentro il container grid */
-}
-
-.squads-list-block {
+.modal-squad-block {
     display: flex;
     flex-direction: column;
 }
 
-.squad-list-header {
-    font-size: 11px;
+.modal-squad-header {
+    font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
-.text-black { color: #1e293b; }
-.text-white { color: #64748b; }
+.block-black { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
+.block-white { background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; }
 
-.team-indicator-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-.dot-black { background: #0f172a; box-shadow: 0 0 0 1px #94a3b8; }
-.dot-white { background: #ffffff; box-shadow: 0 0 0 1px #0f172a; }
-
-.inline-players-list {
+.modal-players-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
-.inline-player-item {
+.modal-player-item {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #475569;
+    align-items: center;
+    gap: 12px;
     background: #f8fafc;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 8px 14px;
+    border-radius: 14px;
     border: 1px solid #f1f5f9;
 }
 
-.player-shirt-icon {
+/* 🟢 STRUTTURA DEL CERCHIETTO TATTICO STILE NUMERO MAGLIA */
+.modal-player-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
     flex-shrink: 0;
-    font-size: 14px;
-    line-height: 1.2;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
 
-.player-name-text {
-    font-size: 12px;
+/* Badge Squadra Nera */
+.badge-black {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #ffffff;
+}
+
+/* Badge Squadra Bianca */
+.badge-white {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+}
+
+.modal-player-name {
+    font-size: 13px;
     font-weight: 700;
     color: #334155;
-    line-height: 1.4;
-    word-break: break-word;
 }
 
-.no-players-text {
-    font-size: 11px;
+.modal-no-players {
+    font-size: 12px;
     color: #94a3b8;
     font-style: italic;
+    text-align: center;
+    padding: 10px;
 }
 
 /* ==========================================================================
@@ -294,6 +364,27 @@
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+    .modal-body-squads {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .modal-content-pro {
+        border-radius: 24px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -307,10 +398,5 @@
 
     .h-val {
         font-size: 28px;
-    }
-    
-    .squads-dropdown-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
     }
 }
