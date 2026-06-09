@@ -1,33 +1,38 @@
 <!doctype html>
 <html lang="it">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-  <title>Terzo Tempo</title>
-  <meta name="description"
-    content="Gestisci le tue partite di calcetto tra amici con Terzo Tempo. Crea formazioni, gestisci i risultati, tieni traccia dello storico e sfida i tuoi amici." />
+  <title>Terzo Tempo | Gestione Partite di Calcetto</title>
+  <meta name="description" content="Organizza le tue partite di calcetto con Terzo Tempo. Crea formazioni, gestisci i risultati, tieni traccia dello storico e sfida i tuoi amici. La piattaforma definitiva per il calcio a 5 amatoriale." />
 
+  <!-- PWA & Favicons -->
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="TerzoTempo" />
   <link rel="manifest" href="/site.webmanifest" />
 
-  <meta property="og:title" content="TerzoTempo" />
-  <meta property="og:description" content="Gestisci le tue partite tra amici con Terzo Tempo. Gestisci i risultati, tieni traccia dello storico e sfida i tuoi amici." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terzo Tempo | Organizza la tua partita" />
+  <meta property="og:description" content="Gestisci le tue partite di calcetto, tieni traccia dello storico e sfida i tuoi amici con Terzo Tempo." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://terzo-tempo-app.vercel.app/" /> <meta property="og:image" content="https://terzo-tempo-app.vercel.app/og-image.png" />
+  <meta property="og:url" content="https://terzo-tempo-app.vercel.app/" />
+  <meta property="og:image" content="https://terzo-tempo-app.vercel.app/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TerzoTempo" />
-  <meta property="twitter:description" content="Gestisci le tue partite tra amici con Terzo Tempo. Gestisci i risultati, tieni traccia dello storico e sfida i tuoi amici." />
-  <meta property="twitter:image" content="https://terzo-tempo-app.vercel.app/og-image.png" />
+  <meta name="twitter:title" content="Terzo Tempo" />
+  <meta name="twitter:description" content="Gestisci le tue partite di calcetto con Terzo Tempo." />
+  <meta name="twitter:image" content="https://terzo-tempo-app.vercel.app/og-image.png" />
 
+  <!-- Colorazione Browser -->
   <meta name="theme-color" content="#121214" />
 </head>
 
@@ -35,5 +40,4 @@
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
-
 </html>
