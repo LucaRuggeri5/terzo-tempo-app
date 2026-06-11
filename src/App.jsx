@@ -14,6 +14,12 @@ import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 import './index.css';
 
+import logoChampions from './assets/LogoTemi/logo_champions_league.svg';
+
+import logoEuropa from './assets/LogoTemi/logo_europa_league.svg';
+
+import logoConference from './assets/LogoTemi/logo_conference_league.svg';
+
 const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,12 +29,8 @@ const AppContent = () => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // STATO DEL TEMA (Carica da localStorage o imposta champions di default)
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('terzo-tempo-theme') || 'champions';
-  });
+  const [theme, setTheme] = useState(() => localStorage.getItem('terzo-tempo-theme') || 'champions');
 
-  // EFFETTO PER APPLICARE IL TEMA AL BODY
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('terzo-tempo-theme', theme);
@@ -41,71 +43,29 @@ const AppContent = () => {
       await fetchData();
       setLoading(false);
     };
-
     initAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
     return () => subscription.unsubscribe();
   }, []);
 
   const fetchData = async () => {
     const { data: pData } = await supabase.from('players').select('*').order('nome');
     if (pData) setPlayers(pData);
-
     const { data: mData } = await supabase.from('matches').select('*').order('data', { ascending: false });
     if (mData) setMatches(mData);
   };
 
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [location]);
+  useEffect(() => { setSidebarOpen(false); }, [location]);
 
-  // Logica Sync Database
-  const addPlayer = async (name) => {
-    if (!name.trim()) return;
-    const { data, error } = await supabase.from('players').insert([{ nome: name.trim() }]).select();
-    if (!error && data) setPlayers(prev => [...prev, data[0]]);
+  const handleThemeCycle = () => {
+    setTheme(prev => prev === 'champions' ? 'europa' : prev === 'europa' ? 'conference' : 'champions');
   };
 
-  const deletePlayer = async (id) => {
-    const { error } = await supabase.from('players').delete().eq('id', id);
-    if (!error) setPlayers(prev => prev.filter(p => p.id !== id));
+  const currentThemeLogo = () => {
+    if (theme === 'champions') return logoChampions;
+    if (theme === 'europa') return logoEuropa;
+    return logoConference;
   };
-
-  const updatePlayer = async (id, newName) => {
-    const { error } = await supabase.from('players').update({ nome: newName }).eq('id', id);
-    if (!error) setPlayers(prev => prev.map(p => p.id === id ? { ...p, nome: newName } : p));
-  };
-
-  const addMatch = async (newMatch) => {
-    const { data, error } = await supabase.from('matches').insert([newMatch]).select();
-    if (!error && data) setMatches(prev => [data[0], ...prev]);
-  };
-
-  const updateMatch = async (updatedMatch) => {
-    const { id, ...otherData } = updatedMatch;
-    const { data, error } = await supabase.from('matches').update(otherData).eq('id', id).select();
-    if (!error && data) setMatches(prev => prev.map(m => m.id === id ? data[0] : m));
-  };
-
-  const deleteMatch = async (id) => {
-    const { error } = await supabase.from('matches').delete().eq('id', id);
-    if (!error) setMatches(prev => prev.filter(m => m.id !== id));
-  };
-
-  if (loading) {
-    return (
-      <div className="app-loader">
-        <div className="loader-content">
-          <span className="loader-icon">⚽</span>
-          <p>Preparazione spogliatoi...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''}`}>
@@ -113,44 +73,26 @@ const AppContent = () => {
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)}></div>}
 
       <div className="main-layout">
-        {/* L'header ora è sempre visibile in cima per ospitare i selettori di torneo dei temi */}
         <header className="mobile-header">
-          <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
-            <div className="hamburger-icon"><span></span><span></span><span></span></div>
-          </button>
-          
-          {/* SELETTORE DEI TEMI / COPPE */}
-          <div className="theme-selector-container">
-            <button 
-              className={`theme-btn btn-ucl ${theme === 'champions' ? 'active' : ''}`}
-              onClick={() => setTheme('champions')}
-              title="Tema Champions League"
-            >
-              ⭐ <span className="theme-btn-text">UCL</span>
-            </button>
-            <button 
-              className={`theme-btn btn-uel ${theme === 'europa' ? 'active' : ''}`}
-              onClick={() => setTheme('europa')}
-              title="Tema Europa League"
-            >
-              🟠 <span className="theme-btn-text">UEL</span>
-            </button>
-            <button 
-              className={`theme-btn btn-uecl ${theme === 'conference' ? 'active' : ''}`}
-              onClick={() => setTheme('conference')}
-              title="Tema Conference League"
-            >
-              🟢 <span className="theme-btn-text">UECL</span>
+          <div className="header-left">
+            <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
+              <div className="hamburger-icon"><span></span><span></span><span></span></div>
             </button>
           </div>
 
-          <div 
-            className="mobile-brand" 
-            onClick={() => navigate('/')} 
-            style={{ cursor: 'pointer' }}
-          >
-            <span className="brand-icons-mini">⚽🍺</span>
-            <h2 className="brand-text-mini">TERZO<span className="highlight">TEMPO</span></h2>
+          <div className="header-center-right">
+            <button 
+              className={`theme-cycle-btn theme-${theme}`}
+              onClick={handleThemeCycle}
+              title="Cambia Torneo"
+            >
+              <img src={currentThemeLogo()} alt="Logo Torneo" className="theme-cycle-logo" />
+            </button>
+
+            <div className="mobile-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+              <span className="brand-icons-mini">⚽🍺</span>
+              <h2 className="brand-text-mini">TERZO<span className="highlight">TEMPO</span></h2>
+            </div>
           </div>
         </header>
 
@@ -163,15 +105,7 @@ const AppContent = () => {
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
             <Route path="/statistiche-giocatori" element={<PlayerStatsPage players={players} matches={matches} />} />
             <Route path="/login" element={<LoginPage session={session} />} />
-            <Route path="/registro" element={
-              session ? (
-                <MatchRegisterPage
-                  players={players} matches={matches}
-                  onAddMatch={addMatch} onUpdateMatch={updateMatch} onDeleteMatch={deleteMatch}
-                  onAddPlayer={addPlayer} onDeletePlayer={deletePlayer} onUpdatePlayer={updatePlayer}
-                />
-              ) : ( <Navigate to="/login" /> )
-            } />
+            <Route path="/registro" element={session ? <MatchRegisterPage players={players} matches={matches} /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
