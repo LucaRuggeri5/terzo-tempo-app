@@ -20,7 +20,7 @@
 
 /* Tasto Logo Ciclico */
 .theme-cycle-btn {
-  background: rgba(41, 40, 40, 0.9); /* Sfondo neutro che bilancia i loghi neri/bianchi */
+  background: rgba(255, 255, 255, 0.250); /* Sfondo neutro che bilancia i loghi neri/bianchi */
   border: 1px solid rgba(0,0,0,0.1);
   width: 42px;
   height: 42px;
