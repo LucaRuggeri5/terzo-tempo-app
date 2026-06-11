@@ -8,7 +8,7 @@ const MatchForm = ({
   scoreNera, setScoreNera,
   scoreBianca, setScoreBianca,
   teamCounts,
-  selectedMatchPlayers,
+  selectedMatchPlayers = [],
   setActiveDrawerTeam,
   adjustStat,
   removePlayerFromMatch,
@@ -67,12 +67,12 @@ const MatchForm = ({
         <div className="score-live-input">
           <div className="team-score-block">
             <label>SQUADRA NERA</label>
-            <input type="number" placeholder='0' value={scoreNera} onChange={(e) => setScoreNera(e.target.value)} />
+            <input type="number" placeholder="0" value={scoreNera} onChange={(e) => setScoreNera(e.target.value)} />
           </div>
           <div className="vs-sep">VS</div>
           <div className="team-score-block">
             <label>SQUADRA BIANCA</label>
-            <input type="number" placeholder='0' value={scoreBianca} onChange={(e) => setScoreBianca(e.target.value)} />
+            <input type="number" placeholder="0" value={scoreBianca} onChange={(e) => setScoreBianca(e.target.value)} />
           </div>
         </div>
       </div>
@@ -124,10 +124,7 @@ const MatchForm = ({
                         </div>
                       </div>
 
-                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>
-                        ×
-                      </button>
-
+                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>×</button>
                     </div>
                   </div>
                 ))}

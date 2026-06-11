@@ -12,15 +12,27 @@ import MatchRegisterPage from './pages/MatchRegisterPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
+import './index.css';
 
 const AppContent = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Hook per la navigazione programmata
+  const navigate = useNavigate();
   const [players, setPlayers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // STATO DEL TEMA (Carica da localStorage o imposta champions di default)
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('terzo-tempo-theme') || 'champions';
+  });
+
+  // EFFETTO PER APPLICARE IL TEMA AL BODY
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('terzo-tempo-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -101,12 +113,37 @@ const AppContent = () => {
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)}></div>}
 
       <div className="main-layout">
+        {/* L'header ora è sempre visibile in cima per ospitare i selettori di torneo dei temi */}
         <header className="mobile-header">
           <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
             <div className="hamburger-icon"><span></span><span></span><span></span></div>
           </button>
           
-          {/* MODIFICATO: Aggiunto onClick e stile cursore per tornare alla Home */}
+          {/* SELETTORE DEI TEMI / COPPE */}
+          <div className="theme-selector-container">
+            <button 
+              className={`theme-btn btn-ucl ${theme === 'champions' ? 'active' : ''}`}
+              onClick={() => setTheme('champions')}
+              title="Tema Champions League"
+            >
+              ⭐ <span className="theme-btn-text">UCL</span>
+            </button>
+            <button 
+              className={`theme-btn btn-uel ${theme === 'europa' ? 'active' : ''}`}
+              onClick={() => setTheme('europa')}
+              title="Tema Europa League"
+            >
+              🟠 <span className="theme-btn-text">UEL</span>
+            </button>
+            <button 
+              className={`theme-btn btn-uecl ${theme === 'conference' ? 'active' : ''}`}
+              onClick={() => setTheme('conference')}
+              title="Tema Conference League"
+            >
+              🟢 <span className="theme-btn-text">UECL</span>
+            </button>
+          </div>
+
           <div 
             className="mobile-brand" 
             onClick={() => navigate('/')} 

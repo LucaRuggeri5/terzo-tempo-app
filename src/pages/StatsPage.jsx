@@ -9,10 +9,7 @@ const StatsPage = ({ players = [], matches = [] }) => {
   // 1. CALCOLO DINAMICO ANNI DISPONIBILI
   const availableYears = useMemo(() => {
     if (matches.length === 0) return [];
-    
-    // Estraiamo tutti gli anni dalle partite esistenti
     const years = matches.map(m => new Date(m.data).getFullYear().toString());
-    // Rimuoviamo i duplicati e ordiniamo dal più recente
     return [...new Set(years)].sort((a, b) => b - a);
   }, [matches]);
 
@@ -21,7 +18,6 @@ const StatsPage = ({ players = [], matches = [] }) => {
     if (matches.length === 0) return [];
 
     let relevantMatches = matches;
-    // Se è selezionato un anno specifico, mostriamo solo i mesi di quell'anno
     if (filterYear !== 'all') {
       relevantMatches = matches.filter(m => new Date(m.data).getFullYear().toString() === filterYear);
     }
@@ -125,13 +121,13 @@ const StatsPage = ({ players = [], matches = [] }) => {
         <div className="stats-filters">
           <select value={filterYear} onChange={(e) => {
             setFilterYear(e.target.value);
-            setFilterMonth('all'); // Reset mese quando cambi anno per sicurezza
-          }}>
+            setFilterMonth('all'); 
+          }} className="modern-select">
             <option value="all">Tutti gli Anni</option>
             {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
           </select>
 
-          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)}>
+          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className="modern-select">
             <option value="all">Tutti i Mesi</option>
             {availableMonths.map(m => (
               <option key={m.value} value={m.value}>{m.label}</option>
@@ -142,47 +138,52 @@ const StatsPage = ({ players = [], matches = [] }) => {
 
       <div className="stats-table-wrapper">
         <div className="stats-table-scroll">
-          <div className="stats-row header-row">
-            <div className={`col-name sticky-col ${sortConfig.key === 'nome' ? 'active-sort' : ''}`} onClick={() => requestSort('nome')}>
-              Giocatore{getSortIcon('nome')}
-            </div>
-            <div className={`col-data ${sortConfig.key === 'partite' ? 'active-sort' : ''}`} onClick={() => requestSort('partite')}>PG{getSortIcon('partite')}</div>
-            <div className={`col-data ${sortConfig.key === 'punti' ? 'active-sort' : ''}`} onClick={() => requestSort('punti')}>PT{getSortIcon('punti')}</div>
-            <div className={`col-data ${sortConfig.key === 'vittorie' ? 'active-sort' : ''}`} onClick={() => requestSort('vittorie')}>V{getSortIcon('vittorie')}</div>
-            <div className={`col-data ${sortConfig.key === 'pareggi' ? 'active-sort' : ''}`} onClick={() => requestSort('pareggi')}>P{getSortIcon('pareggi')}</div>
-            <div className={`col-data ${sortConfig.key === 'sconfitte' ? 'active-sort' : ''}`} onClick={() => requestSort('sconfitte')}>S{getSortIcon('sconfitte')}</div>
-            <div className={`col-data ${sortConfig.key === 'goalFatti' ? 'active-sort' : ''}`} onClick={() => requestSort('goalFatti')}>GF{getSortIcon('goalFatti')}</div>
-            <div className={`col-data ${sortConfig.key === 'dr' ? 'active-sort' : ''}`} onClick={() => requestSort('dr')}>DR{getSortIcon('dr')}</div>
-            <div className={`col-data ${sortConfig.key === 'mediaPunti' ? 'active-sort' : ''}`} onClick={() => requestSort('mediaPunti')}>MP{getSortIcon('mediaPunti')}</div>
-            <div className={`col-data ${sortConfig.key === 'percentualeVittoria' ? 'active-sort' : ''}`} onClick={() => requestSort('percentualeVittoria')}>%W{getSortIcon('percentualeVittoria')}</div>
-            <div className="col-forma">Forma</div>
-          </div>
-
-          {sortedData.map((s) => (
-            <div key={s.id} className="stats-row">
-              <div className="col-name sticky-col">{s.nome}</div>
-              <div className="col-data">{s.partite}</div>
-              <div className="col-data highlight">{s.punti}</div>
-              <div className="col-data">{s.vittorie}</div>
-              <div className="col-data">{s.pareggi}</div>
-              <div className="col-data">{s.sconfitte}</div>
-              <div className="col-data">{s.goalFatti}</div>
-              <div className={`col-data ${s.dr > 0 ? 'text-green' : s.dr < 0 ? 'text-red' : ''}`}>
-                {s.dr > 0 ? `+${s.dr}` : s.dr}
-              </div>
-              <div className="col-data">{s.mediaPunti}</div>
-              <div className="col-data">{s.percentualeVittoria}%</div>
-              <div className="col-forma">
-                <div className="forma-dots">
-                  {s.forma.map((res, i) => (
-                    <span key={i} className={`dot ${res}`}>
-                      {res === 'W' ? 'V' : res === 'D' ? 'P' : 'S'}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
+          <table className="stats-table-native">
+            <thead>
+              <tr className="header-row">
+                <th className={`col-name sticky-col ${sortConfig.key === 'nome' ? 'active-sort' : ''}`} onClick={() => requestSort('nome')}>
+                  Giocatore{getSortIcon('nome')}
+                </th>
+                <th className={`col-data ${sortConfig.key === 'partite' ? 'active-sort' : ''}`} onClick={() => requestSort('partite')}>PG{getSortIcon('partite')}</th>
+                <th className={`col-data ${sortConfig.key === 'punti' ? 'active-sort' : ''}`} onClick={() => requestSort('punti')}>PT{getSortIcon('punti')}</th>
+                <th className={`col-data ${sortConfig.key === 'vittorie' ? 'active-sort' : ''}`} onClick={() => requestSort('vittorie')}>V{getSortIcon('vittorie')}</th>
+                <th className={`col-data ${sortConfig.key === 'pareggi' ? 'active-sort' : ''}`} onClick={() => requestSort('pareggi')}>P{getSortIcon('pareggi')}</th>
+                <th className={`col-data ${sortConfig.key === 'sconfitte' ? 'active-sort' : ''}`} onClick={() => requestSort('sconfitte')}>S{getSortIcon('sconfitte')}</th>
+                <th className={`col-data ${sortConfig.key === 'goalFatti' ? 'active-sort' : ''}`} onClick={() => requestSort('goalFatti')}>GF{getSortIcon('goalFatti')}</th>
+                <th className={`col-data ${sortConfig.key === 'dr' ? 'active-sort' : ''}`} onClick={() => requestSort('dr')}>DR{getSortIcon('dr')}</th>
+                <th className={`col-data ${sortConfig.key === 'mediaPunti' ? 'active-sort' : ''}`} onClick={() => requestSort('mediaPunti')}>MP{getSortIcon('mediaPunti')}</th>
+                <th className={`col-data ${sortConfig.key === 'percentualeVittoria' ? 'active-sort' : ''}`} onClick={() => requestSort('percentualeVittoria')}>%W{getSortIcon('percentualeVittoria')}</th>
+                <th className="col-forma">Forma</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedData.map((s) => (
+                <tr key={s.id} className="stats-row">
+                  <td className="col-name sticky-col">{s.nome}</td>
+                  <td className="col-data">{s.partite}</td>
+                  <td className="col-data highlight">{s.punti}</td>
+                  <td className="col-data">{s.vittorie}</td>
+                  <td className="col-data">{s.pareggi}</td>
+                  <td className="col-data">{s.sconfitte}</td>
+                  <td className="col-data">{s.goalFatti}</td>
+                  <td className={`col-data ${s.dr > 0 ? 'text-green' : s.dr < 0 ? 'text-red' : ''}`}>
+                    {s.dr > 0 ? `+${s.dr}` : s.dr}
+                  </td>
+                  <td className="col-data">{s.mediaPunti}</td>
+                  <td className="col-data">{s.percentualeVittoria}%</td>
+                  <td className="col-forma">
+                    <div className="forma-dots">
+                      {s.forma.map((res, i) => (
+                        <span key={i} className={`dot ${res}`}>
+                          {res === 'W' ? 'V' : res === 'D' ? 'P' : 'S'}
+                        </span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
       {sortedData.length === 0 && <p className="no-data">Nessun dato disponibile per questo periodo.</p>}

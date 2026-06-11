@@ -8,10 +8,10 @@
   position: fixed;
   left: 0;
   top: 0;
-  background-color: #0f172a;
-  color: #f8fafc;
+  background-color: var(--bg-sidebar);
+  color: var(--text-main);
   z-index: 9999;
-  border-right: 1px solid #1e293b;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -60,7 +60,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 5px;
-  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+  filter: drop-shadow(0 0 8px rgba(var(--color-accent-rgb), 0.4));
 }
 
 .brand-text {
@@ -68,13 +68,14 @@
   font-weight: 900;
   letter-spacing: -1px;
   margin: 0;
-  color: #ffffff;
+  color: var(--text-main);
   display: flex;
   gap: 5px;
 }
 
 .brand-text .highlight {
-  color: #10b981;
+  color: var(--color-highlight);
+  text-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.3);
 }
 
 /* ==========================================================================
@@ -85,7 +86,7 @@
   overflow-y: auto; /* Abilita lo scroll solo qui */
   padding: 10px 15px;
   scrollbar-width: thin;
-  scrollbar-color: #1e293b transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 /* Styling scrollbar per Chrome/Safari */
@@ -93,7 +94,7 @@
   width: 5px;
 }
 .sidebar-content::-webkit-scrollbar-thumb {
-  background-color: #1e293b;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
@@ -104,11 +105,12 @@
 .group-title {
   font-size: 11px;
   font-weight: 800;
-  color: #475569;
+  color: var(--text-muted);
   text-transform: uppercase;
   margin-bottom: 12px;
   margin-left: 15px;
   display: block;
+  opacity: 0.7;
 }
 
 .sidebar-nav ul {
@@ -120,7 +122,7 @@
   display: flex;
   align-items: center;
   padding: 12px 15px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
@@ -130,15 +132,16 @@
 }
 
 .sidebar-nav a:hover {
-  background: #1e293b;
-  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-main);
 }
 
 .sidebar-nav a.active {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-  border-left: 4px solid #10b981;
+  background: rgba(var(--color-accent-rgb), 0.15);
+  color: var(--color-highlight);
+  border-left: 4px solid var(--color-highlight);
   border-radius: 4px 12px 12px 4px;
+  box-shadow: inset 5px 0 15px rgba(var(--color-accent-rgb), 0.05);
 }
 
 /* ==========================================================================
@@ -147,8 +150,8 @@
 .sidebar-footer {
   flex-shrink: 0; /* Fondamentale: non si deve mai schiacciare */
   padding: 20px;
-  border-top: 1px solid #1e293b;
-  background-color: #0f172a; /* Copre eventuale contenuto che scorre sotto */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-sidebar); /* Copre eventuale contenuto che scorre sotto */
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -162,15 +165,19 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 14px;
-  transition: opacity 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
   border: none;
   cursor: pointer;
   width: 100%;
 }
 
+.auth-btn:active {
+  transform: scale(0.98);
+}
+
 .auth-btn.login {
-  background-color: #10b981;
-  color: #020617;
+  background-color: var(--color-highlight);
+  color: #0b0e14;
 }
 
 .auth-btn.logout {
@@ -181,10 +188,10 @@
 
 .version-label {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: 600;
   letter-spacing: 1px;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* ==========================================================================
@@ -194,11 +201,12 @@
   .sidebar {
     width: 280px;
     transform: translateX(-100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .sidebar.open {
     transform: translateX(0);
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
   }
 
   .close-sidebar-btn {
@@ -213,7 +221,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 6, 23, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     z-index: 9998;
     opacity: 0;

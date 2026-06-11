@@ -72,8 +72,6 @@ const HomePage = ({ players, matches }) => {
                 </div>
             </section>
 
-
-
             {/* CAROSELLO CITAZIONI */}
             <section className="quotes-section">
                 <h3 className="section-title">Cosa dicono di noi:</h3>

@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import './MatchPage.css';
 
-const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
-  // Stato per salvare la partita di cui si vogliono vedere le formazioni nel modal
+const MatchPage = ({ matches = [], onStartEdit, onDeleteMatch }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
-
-  const openModal = (match) => {
-    setSelectedMatch(match);
-  };
-
-  const closeModal = () => {
-    setSelectedMatch(null);
-  };
 
   return (
     <div className="history-section-pro">
@@ -30,10 +21,9 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
                   <span className="h-date">
                     {new Date(m.data).toLocaleDateString('it-IT')} • {m.format}
                   </span>
-                  {/* Pulsante per aprire il modal con le formazioni */}
                   <button 
                     className="btn-info-modal"
-                    onClick={() => openModal(m)}
+                    onClick={() => setSelectedMatch(m)}
                     title="Visualizza Formazioni"
                   >
                     ℹ️ Formazioni
@@ -53,51 +43,29 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
                 </div>
 
                 <div className="h-footer-scorers">
-                  <div className="h-col">
-                    <div className="scorer-group">
-                      <strong>Goal Neri:</strong>
-                      <span className="scorers-list">
-                        {partecipanti
-                          .filter(p => p.squadra === 'Nera' && p.goal > 0)
-                          .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                          .join(', ') || '-'}
-                      </span>
-                    </div>
-                    {partecipanti.some(p => p.squadra === 'Nera' && (p.ag > 0 || p.autogoal > 0)) && (
-                      <div className="ag-group">
-                        <strong className="ag-label">Autogol Neri:</strong>
-                        <span className="ag-list">
-                          {partecipanti
-                            .filter(p => p.squadra === 'Nera' && (p.ag > 0 || p.autogoal > 0))
-                            .map(p => `${p.nome}${(p.ag || p.autogoal) > 1 ? ` (${p.ag || p.autogoal})` : ''}`)
-                            .join(', ')}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  {['Nera', 'Bianca'].map(team => {
+                    const scorers = partecipanti.filter(p => p.squadra === team && p.goal > 0);
+                    const autogoals = partecipanti.filter(p => p.squadra === team && (p.ag > 0 || p.autogoal > 0));
 
-                  <div className="h-col">
-                    <div className="scorer-group">
-                      <strong>Goal Bianchi:</strong>
-                      <span className="scorers-list">
-                        {partecipanti
-                          .filter(p => p.squadra === 'Bianca' && p.goal > 0)
-                          .map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`)
-                          .join(', ') || '-'}
-                      </span>
-                    </div>
-                    {partecipanti.some(p => p.squadra === 'Bianca' && (p.ag > 0 || p.autogoal > 0)) && (
-                      <div className="ag-group">
-                        <strong className="ag-label">Autogol Bianchi:</strong>
-                        <span className="ag-list">
-                          {partecipanti
-                            .filter(p => p.squadra === 'Bianca' && (p.ag > 0 || p.autogoal > 0))
-                            .map(p => `${p.nome}${(p.ag || p.autogoal) > 1 ? ` (${p.ag || p.autogoal})` : ''}`)
-                            .join(', ')}
-                        </span>
+                    return (
+                      <div key={team} className="h-col">
+                        <div className="scorer-group">
+                          <strong>Goal {team === 'Nera' ? 'Neri' : 'Bianchi'}:</strong>
+                          <span className="scorers-list">
+                            {scorers.map(p => `${p.nome}${p.goal > 1 ? ` (${p.goal})` : ''}`).join(', ') || '-'}
+                          </span>
+                        </div>
+                        {autogoals.length > 0 && (
+                          <div className="ag-group">
+                            <strong className="ag-label">Autogol {team === 'Nera' ? 'Neri' : 'Bianchi'}:</strong>
+                            <span className="ag-list">
+                              {autogoals.map(p => `${p.nome}${(p.ag || p.autogoal) > 1 ? ` (${p.ag || p.autogoal})` : ''}`).join(', ')}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
             );
@@ -107,15 +75,16 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
         )}
       </div>
 
-      {/* 🏆 STRUTTURA DEL MODAL POP-UP */}
+      {/* modal POP-UP DETTAGLIO FORMAZIONI */}
       {selectedMatch && (() => {
-        const dettagli = selectedMatch.match_details || {};
-        const partecipanti = dettagli.partecipanti || [];
-        const squadraNera = partecipanti.filter(p => p.squadra === 'Nera');
-        const squadraBianca = partecipanti.filter(p => p.squadra === 'Bianca');
+        const partecipanti = selectedMatch.match_details?.partecipanti || [];
+        const squadre = {
+          Nera: partecipanti.filter(p => p.squadra === 'Nera'),
+          Bianca: partecipanti.filter(p => p.squadra === 'Bianca')
+        };
 
         return (
-          <div className="modal-overlay-pro" onClick={closeModal}>
+          <div className="modal-overlay-pro" onClick={() => setSelectedMatch(null)}>
             <div className="modal-content-pro" onClick={(e) => e.stopPropagation()}>
               
               <div className="modal-header-pro">
@@ -125,7 +94,7 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
                     {new Date(selectedMatch.data).toLocaleDateString('it-IT')} • {selectedMatch.format}
                   </span>
                 </div>
-                <button className="modal-close-btn" onClick={closeModal}>&times;</button>
+                <button className="modal-close-btn" onClick={() => setSelectedMatch(null)}>&times;</button>
               </div>
 
               <div className="modal-score-banner">
@@ -135,45 +104,25 @@ const MatchPage = ({ matches, onStartEdit, onDeleteMatch }) => {
               </div>
 
               <div className="modal-body-squads">
-                {/* BLOCCO SQUADRA NERA */}
-                <div className="modal-squad-block">
-                  <div className="modal-squad-header block-black">
-                    ⚫ Formazione Nera ({squadraNera.length})
+                {Object.entries(squadre).map(([squadraNome, listaGiocatori]) => (
+                  <div key={squadraNome} className="modal-squad-block">
+                    <div className={`modal-squad-header block-${squadraNome.toLowerCase()}`}>
+                      {squadraNome === 'Nera' ? '⚫' : '⚪'} Formazione {squadraNome} ({listaGiocatori.length})
+                    </div>
+                    <ul className="modal-players-list">
+                      {listaGiocatori.length > 0 ? (
+                        listaGiocatori.map(p => (
+                          <li key={p.playerId || p.id || p.nome} className="modal-player-item">
+                            <div className={`modal-player-badge badge-${squadraNome.toLowerCase()}`}>👕</div>
+                            <span className="modal-player-name">{p.nome}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="modal-no-players">Nessun giocatore</li>
+                      )}
+                    </ul>
                   </div>
-                  <ul className="modal-players-list">
-                    {squadraNera.length > 0 ? (
-                      squadraNera.map(p => (
-                        <li key={p.playerId || p.id || p.nome} className="modal-player-item">
-                          {/* Cerchietto Tattico Nero */}
-                          <div className="modal-player-badge badge-black">👕</div>
-                          <span className="modal-player-name">{p.nome}</span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="modal-no-players">Nessun giocatore</li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* BLOCCO SQUADRA BIANCA */}
-                <div className="modal-squad-block">
-                  <div className="modal-squad-header block-white">
-                    ⚪ Formazione Bianca ({squadraBianca.length})
-                  </div>
-                  <ul className="modal-players-list">
-                    {squadraBianca.length > 0 ? (
-                      squadraBianca.map(p => (
-                        <li key={p.playerId || p.id || p.nome} className="modal-player-item">
-                          {/* Cerchietto Tattico Bianco */}
-                          <div className="modal-player-badge badge-white">👕</div>
-                          <span className="modal-player-name">{p.nome}</span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="modal-no-players">Nessun giocatore</li>
-                    )}
-                  </ul>
-                </div>
+                ))}
               </div>
 
             </div>

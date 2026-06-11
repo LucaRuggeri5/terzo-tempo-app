@@ -1,0 +1,68 @@
+/* ==========================================================================
+   TEMI DELL'APPLICAZIONE (CSS VARIABLES)
+   ========================================================================== */
+
+/* Tema di Default: Champions League */
+:root, [data-theme="champions"] {
+  --bg-primary: #121620;          /* Sfondo principale dell'app molto scuro */
+  --bg-card: #1c2333;             /* Sfondo delle card e dei componenti */
+  --bg-sidebar: #0b0e14;          /* Sfondo della sidebar */
+  --text-main: #ffffff;           /* Colore testo principale */
+  --text-muted: #94a3b8;          /* Colore testo secondario */
+  --color-accent: #0f2d8a;        /* Blu Champions Notturno */
+  --color-highlight: #00f2fe;     /* Ciano/Neon Elettrico vibrante */
+  --color-accent-rgb: 15, 45, 138;
+}
+
+/* Tema: Europa League */
+[data-theme="europa"] {
+  --bg-primary: #141212;
+  --bg-card: #1f1a1a;
+  --bg-sidebar: #0d0b0b;
+  --text-main: #ffffff;
+  --text-muted: #a3a3a3;
+  --color-accent: #e65c00;        /* Arancione Europa League */
+  --color-highlight: #f79315;     /* Giallo/Arancio Oro */
+  --color-accent-rgb: 230, 92, 0;
+}
+
+/* Tema: Conference League */
+[data-theme="conference"] {
+  --bg-primary: #0f1410;
+  --bg-card: #171f18;
+  --bg-sidebar: #090d0a;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --color-accent: #08ae0e;        /* Verde Conference vivo */
+  --color-highlight: #00ff88;     /* Verde Neon chiaro */
+  --color-accent-rgb: 8, 174, 14;
+}
+
+/* ==========================================================================
+   RESET & REGOLE GLOBALI BASATE SUI TEMI
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+}
+
+body, html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* Sincronizzazione automatica di elementi standard per supportare i temi scuri */
+input, select, textarea {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  border: 1px solid var(--text-muted);
+}
+
+a {
+  color: var(--color-highlight);
+  text-decoration: none;
+}

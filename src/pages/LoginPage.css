@@ -1,36 +1,53 @@
+/* ==========================================================================
+   LOGIN PAGE SYSTEM
+   ========================================================================== */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 75vh;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .login-card {
-  background: white;
+  background: var(--bg-card);
   padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 400px;
   text-align: center;
+  box-sizing: border-box;
+  animation: loginFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes loginFadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .login-header h1 {
-  margin: 10px 0;
-  font-size: 1.8rem;
-  color: #1a1a1a;
+  margin: 12px 0 6px 0;
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--text-main);
 }
 
 .login-header p {
-  color: #666;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
   margin-bottom: 30px;
 }
 
 .login-icon {
-  font-size: 3rem;
+  font-size: 40px;
+  display: inline-block;
 }
 
+/* INPUT ED ALLINEAMENTI */
 .login-form {
   text-align: left;
 }
@@ -42,87 +59,130 @@
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #eee;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-group input:focus {
-  border-color: #ffd700;
-  outline: none;
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.25);
 }
 
+/* PULSANTI DI AZIONE ACCENTATI */
 .login-submit-btn {
   width: 100%;
   padding: 14px;
-  background: #1a1a1a;
-  color: white;
+  background: var(--color-highlight);
+  color: #0b0e14;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  box-shadow: 0 5px 15px rgba(var(--color-accent-rgb), 0.2);
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .login-submit-btn:hover {
-  background: #333;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 
 .login-submit-btn:disabled {
-  background: #ccc;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
+/* ERROR CHIP */
 .login-error {
-  background: #fee2e2;
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  font-size: 0.9rem;
+  font-size: 13px;
+  font-weight: 600;
   text-align: center;
 }
 
 .back-home-btn {
   background: none;
   border: none;
-  color: #666;
-  margin-top: 20px;
-  text-decoration: underline;
+  color: var(--text-muted);
+  margin-top: 25px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.15s;
 }
 
-/* Stile per il pulsante Auth nella Sidebar */
+.back-home-btn:hover {
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   STILE PULSANTI AUTH INTERFACCIA GLOBALE (SIDEBAR BAR)
+   ========================================================================== */
 .auth-btn {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
-  font-weight: bold;
-  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-sizing: border-box;
   cursor: pointer;
   border: none;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.auth-btn:active {
+  transform: scale(0.98);
 }
 
 .auth-btn.login {
-  background: #0F755C;
-  color: #f3f4f6;
+  background: var(--color-highlight);
+  color: #0b0e14;
+  box-shadow: 0 4px 12px rgba(var(--color-accent-rgb), 0.2);
 }
 
 .auth-btn.logout {
-  background: #f3f4f6;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+.auth-btn.logout:hover {
+  background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
+}
+
+@media (max-width: 450px) {
+  .login-card { padding: 25px 20px; border-radius: 20px; }
+  .display-name { font-size: 20px; }
 }

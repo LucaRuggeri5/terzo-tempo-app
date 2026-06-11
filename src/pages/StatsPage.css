@@ -1,7 +1,11 @@
+/* ==========================================================================
+   LAYOUT GENERALE E CONTAINER
+   ========================================================================== */
 .stats-container {
-  padding: 20px;
-  max-width: 100%;
+  padding: 30px;
+  max-width: 1200px;
   margin: 0 auto;
+  color: var(--text-main);
   animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -9,38 +13,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  gap: 10px;
+  margin-bottom: 30px;
+  gap: 15px;
 }
 
 .stats-header h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--text-main);
+  margin: 0;
 }
 
 .stats-filters {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
-.stats-filters select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  font-weight: 700;
-  font-size: 13px;
-  background-color: white;
-  cursor: pointer;
-}
-
-/* TABELLA WRAPPER */
-.stats-table-wrapper {
-  background: white;
+/* Stilizzazione uniformata dei select moderni basata sui temi */
+.stats-filters .modern-select {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  max-height: 80vh; 
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stats-filters .modern-select:focus {
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.2);
+}
+
+/* ==========================================================================
+   STRUTTURA TABELLA NATIVA ED ELITE SCROLL
+   ========================================================================== */
+.stats-table-wrapper {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-height: 75vh; 
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -51,139 +67,180 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.stats-row {
-  display: flex;
-  min-width: 100%;
-  width: max-content;
-  border-bottom: 1px solid #f1f5f9;
-  align-items: center;
-  justify-content: space-around;
+.stats-table-native {
+  width: 100%;
+  border-collapse: separate; /* Necessario per mantenere i bordi intatti con le colonne sticky */
+  border-spacing: 0;
 }
 
-/* HEADER FISSO IN ALTO */
-.header-row {
-  background-color: #f8fafc;
+.stats-row {
+  transition: background-color 0.15s ease;
+}
+
+.stats-row:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Righe e colonne di separazione interna */
+.stats-table-native td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* ==========================================================================
+   HEADER FISSO (STICKY IN ALTO)
+   ========================================================================== */
+.header-row th {
+  background-color: rgba(0, 0, 0, 0.2) !important;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* COLONNA FISSA A SINISTRA */
+/* ==========================================================================
+   COLONNA FISSA (STICKY A SINISTRA PER IL NOME)
+   ========================================================================== */
 .col-name {
   width: 180px;
   min-width: 180px;
-  padding: 14px 16px;
+  padding: 16px 20px;
   font-weight: 800;
   font-size: 14px;
-  color: #1e293b;
-  background: white;
+  color: var(--text-main);
+  background: var(--bg-card); /* Copre gli elementi retrostanti durante lo scroll */
   position: sticky;
   left: 0;
   z-index: 10;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
   cursor: pointer;
 }
 
+/* Intersezione cruciale: Angolo alto sinistro (Header + Nome Giocatore) */
 .header-row .col-name {
-  background-color: #f8fafc;
-  color: #64748b;
+  background-color: #161c27 !important; /* Colore solido leggermente più scuro per stacco visivo totale */
+  color: var(--text-muted);
   font-size: 11px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   z-index: 110; 
 }
 
+/* Sfumatura dinamica quando il tema cambia */
+[data-theme="europa"] .header-row .col-name { background-color: #1a1616 !important; }
+[data-theme="conference"] .header-row .col-name { background-color: #131914 !important; }
+
+/* ==========================================================================
+   CELLE DATI E ORDINAMENTI
+   ========================================================================== */
 .col-data {
-  flex: 1;
-  min-width: 85px;
-  padding: 12px 5px;
+  padding: 16px 12px;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-muted);
   cursor: pointer;
 }
 
 .header-row .col-data {
   font-size: 10px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .col-forma {
-  width: 130px;
-  min-width: 130px;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 140px;
+  min-width: 140px;
+  padding: 12px;
+  text-align: center;
 }
 
 .header-row .col-forma {
   font-size: 10px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-transform: uppercase;
-  font-weight: 700;
-}
-
-.active-sort {
-  color: #10b981 !important;
-  background-color: rgba(16, 185, 129, 0.05);
-}
-
-.forma-dots {
-  display: flex;
-  gap: 4px;
-}
-
-.dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  font-size: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
   font-weight: 800;
 }
 
-.W { background-color: #10b981; }
-.D { background-color: #94a3b8; }
-.L { background-color: #ef4444; }
-
-.highlight { font-weight: 800; color: #0f172a; }
-.text-green { color: #10b981; }
-.text-red { color: #ef4444; }
-
-/* MOBILE RESPONSIVE 768px */
-@media (max-width: 768px) {
-  .stats-container { padding: 10px; }
-  .stats-header h1 { font-size: 18px; }
-  .stats-row { min-width: 100%; }
-  .col-name { width: 100px; min-width: 100px; padding: 10px 8px; font-size: 12px; }
-  .col-data { width: 50px; min-width: 50px; flex: none; font-size: 12px; }
-  .col-forma { width: 100px; min-width: 100px; }
-  .dot { width: 15px; height: 15px; font-size: 8px; }
+/* Evidenziazione colonna selezionata per l'ordinamento */
+.active-sort {
+  color: var(--color-highlight) !important;
+  background-color: rgba(var(--color-accent-rgb), 0.15) !important;
 }
 
-/* NUOVA MEDIA QUERY SOTTO 500px */
+/* ==========================================================================
+   STATO FORMA (DOTS INTERNI)
+   ========================================================================== */
+.forma-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 900;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.W { background-color: #10b981; } /* Vittoria - Verde Smeraldo vivo */
+.D { background-color: #64748b; } /* Pareggio - Grigio Slate neutro */
+.L { background-color: #ef4444; } /* Sconfitta - Rosso corallo */
+
+/* Elementi in risalto */
+.highlight { 
+  font-weight: 900; 
+  color: var(--text-main); 
+  font-size: 15px;
+}
+
+.text-green { color: var(--color-highlight) !important; }
+.text-red { color: #f87171 !important; }
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (BREAKPOINTS COMPLETI)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .stats-container { padding: 15px; }
+  .stats-header h1 { font-size: 19px; }
+  .col-name { width: 110px; min-width: 110px; padding: 12px 10px; font-size: 13px; }
+  .col-data { padding: 12px 8px; font-size: 13px; }
+  .col-forma { width: 115px; min-width: 115px; }
+  .dot { width: 17px; height: 17px; font-size: 9px; border-radius: 4px; }
+}
+
 @media (max-width: 500px) {
   .stats-header {
     flex-direction: column;
-    align-items: flex-start; /* Allinea a sinistra */
+    align-items: flex-start;
     gap: 15px;
     margin-bottom: 25px;
   }
 
   .stats-filters {
     width: 100%;
-    justify-content: flex-start; /* Mette i selettori uno accanto all'altro */
+    justify-content: flex-start;
   }
 
-  .stats-filters select {
-    flex: 1; /* Fa sì che i select occupino lo spazio disponibile equamente */
+  .stats-filters .modern-select {
+    flex: 1;
     max-width: 150px;
   }
 }

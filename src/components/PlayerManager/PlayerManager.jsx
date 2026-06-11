@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './PlayerManager.css';
 
-const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer }) => {
+const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlayer }) => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [newPlayerName, setNewPlayerName] = useState('');
   const [playerToDelete, setPlayerToDelete] = useState(null);
@@ -30,8 +30,8 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
   return (
     <div className="admin-section-pro">
       {playerToDelete && (
-        <div className="fixed-overlay-admin">
-          <div className="confirm-modal-mini card-pro">
+        <div className="fixed-overlay-admin" onClick={() => setPlayerToDelete(null)}>
+          <div className="confirm-modal-mini card-pro" onClick={(e) => e.stopPropagation()}>
             <div className="modal-icon-mini">🗑️</div>
             <h4>Elimina Giocatore?</h4>
             <p>Vuoi davvero rimuovere <strong>{playerToDelete.nome}</strong>?</p>
@@ -52,7 +52,7 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
           <h3>Gestione Giocatori</h3>
         </div>
         <button className={`admin-toggle-btn ${showAdmin ? 'active' : ''}`}>
-          {showAdmin ? "⬆️" : "⬇️"}
+          {showAdmin ? "▲" : "▼"}
         </button>
       </div>
 
@@ -70,7 +70,7 @@ const PlayerManager = ({ players, onAddPlayer, onDeletePlayer, onUpdatePlayer })
           </div>
 
           <div className="admin-player-chips-container">
-            {players && players.map((p) => (
+            {players.map((p) => (
               <div key={p.id} className={`player-pill-pro ${editingPlayerId === p.id ? 'is-editing' : ''}`}>
                 {editingPlayerId === p.id ? (
                   <div className="pill-edit-wrapper">

@@ -1,3 +1,6 @@
+/* ==========================================================================
+   NOT FOUND 404 SYSTEM
+   ========================================================================== */
 .notfound-container {
   display: flex;
   justify-content: center;
@@ -5,37 +8,68 @@
   min-height: 70vh;
   text-align: center;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+.notfound-content {
+  max-width: 450px;
+  animation: notFoundFade 0.4s ease-out;
+}
+
+@keyframes notFoundFade {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .notfound-emoji {
-  font-size: 4rem;
+  font-size: 50px;
   margin-bottom: 20px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
 }
 
 .notfound-content h1 {
-  font-size: 2.5rem;
-  color: #1a1a1a;
-  margin-bottom: 10px;
+  font-size: 32px;
+  font-weight: 950;
+  color: var(--text-main);
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
 }
 
 .notfound-content p {
-  color: #666;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 35px 0;
 }
 
+/* PULSANTE EMERGENZA "RIENTRA IN CAMPO" COORDINATO AI TORNEI */
 .back-btn {
-  padding: 12px 25px;
-  background: #ffd700;
-  color: #1a1a1a;
+  padding: 14px 30px;
+  background: var(--color-highlight);
+  color: #0b0e14;
   border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: transform 0.2s;
+  box-shadow: 0 5px 20px rgba(var(--color-accent-rgb), 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .back-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 6px 25px rgba(var(--color-accent-rgb), 0.4);
+}
+
+.back-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+  .notfound-content h1 { font-size: 26px; }
+  .notfound-content p { font-size: 14px; margin-bottom: 25px; }
+  .back-btn { padding: 12px 24px; font-size: 13px; }
 }

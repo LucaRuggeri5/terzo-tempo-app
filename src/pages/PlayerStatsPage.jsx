@@ -6,13 +6,12 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  // 1. LOGICA DI RANKING (Corretta per match_details)
+  // 1. LOGICA DI RANKING COMPATTA
   const sortedRanking = useMemo(() => {
-    const stats = players.map(player => {
+    return players.map(player => {
       let punti = 0, dr = 0, gf = 0, partite = 0;
       matches.forEach(m => {
-        const dettagli = m.match_details || {};
-        const p = (dettagli.partecipanti || []).find(part => part.playerId === player.id);
+        const p = (m.match_details?.partecipanti || []).find(part => part.playerId === player.id);
         if (p) {
           punti += (p.punti || 0);
           dr += (p.dr || 0);
@@ -21,14 +20,12 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
         }
       });
       return { id: player.id, punti, dr, gf, partite };
-    });
-
-    return stats
-      .filter(s => s.partite > 0)
-      .sort((a, b) => b.punti - a.punti || b.dr - a.dr || b.gf - a.gf);
+    })
+    .filter(s => s.partite > 0)
+    .sort((a, b) => b.punti - a.punti || b.dr - a.dr || b.gf - a.gf);
   }, [players, matches]);
 
-  // 2. FUNZIONE PER CALCOLARE IL BADGE (Corretta per match_details)
+  // 2. STILE E CALCOLO BADGE DI STATO ESTERNALIZZATO
   const calculateStatus = (playerId) => {
     const playerMatches = matches
       .filter(m => (m.match_details?.partecipanti || []).some(p => p.playerId === playerId))
@@ -48,7 +45,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     return { label: 'STABILE ⚖️', class: 'stable', icon: '⚖️' };
   };
 
-  // 3. RICERCA AVANZATA
+  // 3. AUTOCOMPLETE & GESTIONE INPUT TASTIERA
   const filteredSuggestions = useMemo(() => {
     if (!searchTerm || selectedPlayerId) return [];
     return players
@@ -76,7 +73,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     }
   };
 
-  // 4. STATISTICHE PERSONALI (Corretta per match_details)
+  // 4. ELABORAZIONE STATISTICHE CRUNCHING DEL PROFILO SELEZIONATO
   const personalStats = useMemo(() => {
     if (!selectedPlayerId) return null;
 
@@ -93,8 +90,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     const sortedMatches = [...matches].sort((a, b) => new Date(a.data) - new Date(b.data));
 
     sortedMatches.forEach(match => {
-      const dettagli = match.match_details || {};
-      const partecipanti = dettagli.partecipanti || [];
+      const partecipanti = match.match_details?.partecipanti || [];
       const pData = partecipanti.find(p => p.playerId === selectedPlayerId);
 
       if (pData) {
@@ -116,7 +112,6 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
         const res = pData.punti === 3 ? 'V' : (pData.punti === 1 ? 'P' : 'S');
         stats.matchHistory.unshift({ data: match.data, risultato: res, goal: pData.goal, dr: pData.dr });
 
-        // Calcolo Partner (stesso punteggio nello stesso match = stessa squadra)
         partecipanti.forEach(comp => {
           if (comp.playerId !== selectedPlayerId && comp.punti === pData.punti) {
             if (!stats.partners[comp.playerId]) {
@@ -141,10 +136,10 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
       <div className="player-search-section">
         <div className="search-wrapper">
           <div className={`search-box ${searchTerm ? 'has-content' : ''}`}>
-            <span className="search-icon">🔍 </span>
+            <span className="search-icon">🔍</span>
             <input 
               type="text" 
-              placeholder="Cerca un giocatore" 
+              placeholder="Cerca un giocatore..." 
               value={searchTerm}
               onKeyDown={handleKeyDown}
               onChange={(e) => {
@@ -154,7 +149,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
               }}
               className="search-input"
             />
-            {searchTerm && <button onClick={() => {setSearchTerm(''); setSelectedPlayerId(null);}} className="clear-btn">✕</button>}
+            {searchTerm && <button onClick={() => { setSearchTerm(''); setSelectedPlayerId(null); }} className="clear-btn">✕</button>}
           </div>
           
           {filteredSuggestions.length > 0 && (
@@ -169,7 +164,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
                     className={index === activeIndex ? 'active-suggestion' : ''}
                   >
                     <div className="sugg-info">
-                      <span className="sugg-name">{p.nome} </span>
+                      <span className="sugg-name">{p.nome}</span>
                       <span className="sugg-rank">{rank > 0 ? `#${rank}` : 'N/D'}</span>
                     </div>
                     <span className={`sugg-badge ${s.class}`}>{s.icon}</span>
@@ -224,35 +219,31 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
           </div>
 
           <div className="details-layout">
-            <div className="left-col">
-              <div className="section-card">
-                <h3>Ultime 5 Prestazioni</h3>
-                <div className="history-list">
-                  {personalStats.matchHistory.slice(0, 5).map((m, i) => (
-                    <div key={i} className="history-item">
-                      <span className="m-date">{new Date(m.data).toLocaleDateString('it-IT', { day: '2-digit', month: 'short' })}</span>
-                      <span className={`m-res res-${m.risultato}`}>{m.risultato}</span>
-                      <span className="m-goals">⚽ {m.goal} Goal</span>
-                      <span className={`m-dr ${m.dr >= 0 ? 'plus' : 'minus'}`}>{m.dr > 0 ? `+${m.dr}` : m.dr} DR</span>
-                    </div>
-                  ))}
-                </div>
+            <div className="left-col section-card">
+              <h3>Ultime 5 Prestazioni</h3>
+              <div className="history-list">
+                {personalStats.matchHistory.slice(0, 5).map((m, i) => (
+                  <div key={i} className="history-item">
+                    <span className="m-date">{new Date(m.data).toLocaleDateString('it-IT', { day: '2-digit', month: 'short' })}</span>
+                    <span className={`m-res res-${m.risultato}`}>{m.risultato}</span>
+                    <span className="m-goals">⚽ {m.goal} Goal</span>
+                    <span className={`m-dr ${m.dr >= 0 ? 'plus' : 'minus'}`}>{m.dr > 0 ? `+${m.dr}` : m.dr} DR</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="right-col">
-              <div className="section-card">
-                <h3>Partner in Crime</h3>
-                {personalStats.bestPartner ? (
-                  <div className="partner-content">
-                    <div className="partner-avatar">🤝</div>
-                    <div className="partner-info">
-                      <span className="partner-name">{personalStats.bestPartner.nome}</span>
-                      <span className="partner-sub">Vincete il <strong>{Math.round((personalStats.bestPartner.win / personalStats.bestPartner.total) * 100)}%</strong> dei match</span>
-                    </div>
+            <div className="right-col section-card">
+              <h3>Partner in Crime</h3>
+              {personalStats.bestPartner ? (
+                <div className="partner-content">
+                  <div className="partner-avatar">🤝</div>
+                  <div className="partner-info">
+                    <span className="partner-name">{personalStats.bestPartner.nome}</span>
+                    <span className="partner-sub">Vincete il <strong>{Math.round((personalStats.bestPartner.win / personalStats.bestPartner.total) * 100)}%</strong> dei match</span>
                   </div>
-                ) : <p className="empty-info">Affinità non disponibile.</p>}
-              </div>
+                </div>
+              ) : <p className="empty-info">Affinità non sufficiente o dati insufficienti.</p>}
             </div>
           </div>
         </div>

@@ -8,12 +8,13 @@
 
 /* Hero Section */
 .home-hero {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, var(--bg-sidebar) 0%, var(--bg-card) 100%);
     border-radius: 20px;
     padding: 60px 40px;
-    color: white;
+    color: var(--text-main);
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .home-hero h1 {
@@ -23,8 +24,8 @@
 }
 
 .home-hero .highlight {
-    color: #10b981;
-    /* Evita che "Terzo Tempo ⚽🍺" si spezzi su due righe */
+    color: var(--color-highlight);
+    text-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.3);
     white-space: nowrap;
 }
 
@@ -33,7 +34,7 @@
     font-style: italic;
     opacity: 0.9;
     margin-bottom: 30px;
-    color: #cbd5e1;
+    color: var(--text-muted);
 }
 
 .hero-buttons {
@@ -54,33 +55,19 @@
 }
 
 .btn-primary {
-    background: #10b981;
-    color: #1B2537;
+    background: var(--color-highlight);
+    color: #0b0e14; /* Testo scuro ad alto contrasto per i bottoni neon */
 }
 
 .btn-secondary {
-    background: white;
-    color: #1B2537;
+    background: var(--color-accent);
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .hero-buttons button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-}
-
-/* Fix per Mobile */
-@media (max-width: 500px) {
-    .home-hero {
-        padding: 40px 20px;
-    }
-
-    .home-hero h1 {
-        font-size: 1.8rem;
-    }
-
-    .home-hero p {
-        font-size: 1rem;
-    }
+    box-shadow: 0 5px 15px rgba(var(--color-accent-rgb), 0.4);
 }
 
 /* Quotes Carousel */
@@ -91,33 +78,34 @@
 .section-title {
     font-size: 0.9rem;
     text-transform: uppercase;
-    color: #64748b;
+    color: var(--text-muted);
     letter-spacing: 1px;
     margin-bottom: 15px;
 }
 
 .quotes-carousel {
-    background: white;
+    background: var(--bg-card);
     padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     min-height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .quote-text {
     font-size: 1.2rem;
     font-style: italic;
-    color: #1e293b;
+    color: var(--text-main);
     margin-bottom: 10px;
 }
 
 .quote-author {
     font-weight: bold;
-    color: #10b981;
+    color: var(--color-highlight);
 }
 
 .carousel-dots {
@@ -131,12 +119,12 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #cbd5e1;
+    background: var(--bg-primary);
     cursor: pointer;
 }
 
 .dot.active {
-    background: #10b981;
+    background: var(--color-highlight);
     width: 20px;
     border-radius: 10px;
 }
@@ -149,13 +137,14 @@
 }
 
 .stat-card {
-    background: white;
+    background: var(--bg-card);
     padding: 20px;
     border-radius: 16px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .stat-icon {
@@ -166,29 +155,26 @@
     display: block;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #0f172a;
+    color: var(--text-main);
 }
 
 .stat-label {
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--text-muted);
 }
-
-
 
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Mobile responsive adjustments */
+/* Fix per Mobile */
 @media (max-width: 600px) {
     .home-hero {
         padding: 40px 20px;
@@ -196,6 +182,10 @@
 
     .home-hero h1 {
         font-size: 1.8rem;
+    }
+
+    .home-hero p {
+        font-size: 1rem;
     }
 
     .quote-text {
