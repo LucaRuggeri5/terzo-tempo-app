@@ -1,7 +1,25 @@
 /* Layout base e Header */
-.app-container { display: flex; width: 100%; }
-.main-layout { flex: 1; margin-left: 280px; display: flex; flex-direction: column; padding-top: 70px; }
-.content-area { padding: 40px; max-width: 1215px; width: 100%; margin: 0 auto; }
+.app-container { 
+  display: flex; 
+  width: 100%; 
+}
+
+.main-layout { 
+  flex: 1; 
+  margin-left: 280px; 
+  display: flex; 
+  flex-direction: column; 
+  padding-top: 70px; 
+  /* Preparazione per le transizioni fluide di colore dello sfondo generale */
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.content-area { 
+  padding: 40px; 
+  max-width: 1215px; 
+  width: 100%; 
+  margin: 0 auto; 
+}
 
 .mobile-header {
   display: flex;
@@ -14,13 +32,14 @@
   top: 0; left: 280px; right: 0;
   z-index: 1500;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.4s ease;
 }
 
 .header-center-right { display: flex; align-items: center; gap: 15px; }
 
 /* Tasto Logo Ciclico */
 .theme-cycle-btn {
-  background: rgba(255, 255, 255, 0.250); /* Sfondo neutro che bilancia i loghi neri/bianchi */
+  background: rgba(255, 255, 255, 0.250);
   border: 1px solid rgba(0,0,0,0.1);
   width: 42px;
   height: 42px;
@@ -30,10 +49,7 @@
   align-items: center;
   justify-content: center;
   padding: 6px;
-  transition: all 0.3s ease;
 }
-
-.theme-cycle-btn:hover { transform: scale(1.05); }
 
 .theme-cycle-logo {
   width: 100%;
@@ -62,7 +78,7 @@
 }
 
 .mini-icon-item.mini-beer {
-  color: #ffb000; /* Splendido giallo birra dorato */
+  color: #ffb000;
 }
 
 .brand-text-mini { 
@@ -75,7 +91,6 @@
   gap: 2px;
 }
 
-/* Risoluzione definitiva font micro / disallineato */
 .brand-text-mini-highlight { 
   font-size: inherit !important;
   font-weight: inherit !important;
@@ -87,6 +102,27 @@
 .hamburger-icon { display: flex; flex-direction: column; gap: 5px; }
 .hamburger-icon span { display: block; width: 22px; height: 2px; background-color: var(--color-highlight); }
 
+/* ==========================================================================
+   ANIMAZIONE DINAMICA CAMBIO TEMA DIAGONAL SHIMMER FLAS
+   ========================================================================== */
+   
+   .theme-reveal-active::after {
+     content: '';
+     position: fixed;
+     top: 0; left: -150%; width: 150%; height: 100%;
+     background: linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.15), transparent);
+     transform: skewX(-20deg);
+     z-index: 9999;
+     animation: shimmerFlash 1s ease-out;
+     pointer-events: none;
+   }
+   @keyframes shimmerFlash {
+     to { left: 150%; }
+   }
+
+
+
+/* Responsive design */
 @media (max-width: 1100px) {
   .main-layout { margin-left: 0; }
   .mobile-header { left: 0; padding: 0 16px; }

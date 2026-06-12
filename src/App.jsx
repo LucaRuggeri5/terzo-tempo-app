@@ -32,6 +32,8 @@ const AppContent = () => {
   const [loading, setLoading] = useState(true);
 
   const [theme, setTheme] = useState(() => localStorage.getItem('terzo-tempo-theme') || 'champions');
+  // Stato per gestire l'innesco dell'animazione a onda su tutta l'app
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -60,7 +62,15 @@ const AppContent = () => {
   useEffect(() => { setSidebarOpen(false); }, [location]);
 
   const handleThemeCycle = () => {
+    // Attiva l'animazione di transizione dinamica
+    setIsTransitioning(true);
+    
     setTheme(prev => prev === 'champions' ? 'europa' : prev === 'europa' ? 'conference' : 'champions');
+
+    // Rimuove la classe di transizione dopo il completamento dell'effetto CSS (600ms)
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 600);
   };
 
   const currentThemeLogo = () => {
@@ -70,7 +80,7 @@ const AppContent = () => {
   };
 
   return (
-    <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''}`}>
+    <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''} ${isTransitioning ? 'theme-reveal-active' : ''}`}>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} session={session} />
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)}></div>}
 
