@@ -16,10 +16,15 @@ import {
     soccerPitch as SoccerPitch
 } from '@lucide/lab';
 
+// IMPORTAZIONE DELLE IMMAGINI DI SFONDO DALLA CARTELLA ASSETS
+import championsBg from '../assets/Background/champions_background.jpg'; // adatta l'estensione (.jpg/.png/.webp) se differente
+import europaBg from '../assets/Background/europa_background.jpg';
+import conferenceBg from '../assets/Background/conference_background.jpg';
 
 const HomePage = ({ players, matches }) => {
     const navigate = useNavigate();
     const [currentQuote, setCurrentQuote] = useState(0);
+    const [activeTheme, setActiveTheme] = useState('champions');
 
     const quotes = [
         { text: "Se penso quello che dico sai cosa viene fuori...", author: "Antonio Cassano" },
@@ -31,6 +36,23 @@ const HomePage = ({ players, matches }) => {
         { text: "Nun te preoccupà, mo je faccio er cucchiaio", author: "Francesco Totti" }
     ];
 
+    // Sincronizza lo sfondo con il tema globale impostato sul body di App.jsx
+    useEffect(() => {
+        const updateTheme = () => {
+            const currentTheme = document.body.getAttribute('data-theme') || 'champions';
+            setActiveTheme(currentTheme);
+        };
+
+        // Aggiorna subito all'avvio del componente
+        updateTheme();
+
+        // MutationObserver per intercettare istantaneamente il cambio tema avviato da App.jsx
+        const observer = new MutationObserver(updateTheme);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+
+        return () => observer.disconnect();
+    }, []);
+
     // Carosello automatico ogni 5 secondi
     useEffect(() => {
         const timer = setInterval(() => {
@@ -38,6 +60,13 @@ const HomePage = ({ players, matches }) => {
         }, 5000);
         return () => clearInterval(timer);
     }, [quotes.length]);
+
+    // Funzione per recuperare l'immagine corretta in base al tema
+    const getHeroBackground = () => {
+        if (activeTheme === 'europa') return europaBg;
+        if (activeTheme === 'conference') return conferenceBg;
+        return championsBg;
+    };
 
     // Calcoli rapidi per le card
     const totalPlayers = players.length;
@@ -48,8 +77,11 @@ const HomePage = ({ players, matches }) => {
 
     return (
         <div className="home-container">
-            {/* HERO SECTION / JUMBOTRON */}
-            <section className="home-hero">
+            {/* HERO SECTION / JUMBOTRON CON SFONDO VARIABILE */}
+            <section 
+                className="home-hero" 
+                style={{ '--hero-bg-image': `url(${getHeroBackground()})` }}
+            >
                 <div className="hero-content">
                     <h1 className="hero-main-title">
                         Benvenuto su <span className="hero-title-highlight">Terzo Tempo</span>

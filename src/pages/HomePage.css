@@ -7,21 +7,34 @@
 }
 
 /* ==========================================================================
-   ENHANCED HERO SECTION (JUMBOTRON)
+   ENHANCED HERO SECTION (JUMBOTRON CON IMMAGINE DINAMICA)
    ========================================================================== */
 .home-hero {
-    background: linear-gradient(135deg, var(--bg-sidebar) 0%, var(--bg-card) 100%);
+    /* Unisce un gradiente scuro protettivo all'immagine dinamica passata da React */
+    background: linear-gradient(
+        135deg, 
+        rgba(11, 14, 20, 0.88) 0%, 
+        rgba(20, 27, 39, 0.75) 100%
+      ), 
+      var(--hero-bg-image);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    
     border-radius: 24px;
-    padding: 80px 40px; /* Incrementato il padding verticale per dare più respiro e importanza */
+    padding: 90px 40px; /* Aumentato leggermente per dare maggiore sfogo visivo alle immagini */
     color: var(--text-main);
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     position: relative;
     overflow: hidden;
+    
+    /* Transizione premium sul cambio immagine di sfondo */
+    transition: background-image 0.4s ease-in-out, border-color 0.3s ease;
 }
 
-/* Effetto di luce radiale soffusa dietro al contenuto per modernizzare il jumbotron */
+/* Effetto luce radiale aggiuntivo tarato per far esplodere i colori del torneo attivo */
 .home-hero::before {
     content: '';
     position: absolute;
@@ -29,23 +42,30 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.05) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.12) 0%, transparent 65%);
     pointer-events: none;
+    z-index: 0;
 }
+
+/* Bordo luminoso che si adatta alle tonalità della competizione attiva */
+body[data-theme="champions"] .home-hero { border-color: var(--color-accent); }
+body[data-theme="europa"] .home-hero { border-color: var(--color-accent); }
+body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 800px;
     margin: 0 auto;
 }
 
 .hero-main-title {
-    font-size: 3.5rem; /* Reso più grande e imponente su desktop */
+    font-size: 3.6rem;
     font-weight: 900;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
     margin-bottom: 20px;
     line-height: 1.15;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
 /* Forzatura specifica per evitare il rimpicciolimento anomalo del testo evidenziato */
@@ -53,18 +73,19 @@
     font-size: inherit; 
     font-weight: inherit;
     color: var(--color-highlight);
-    text-shadow: 0 0 25px rgba(var(--color-accent-rgb), 0.4);
+    text-shadow: 0 0 30px rgba(var(--color-accent-rgb), 0.6);
     white-space: nowrap;
     display: inline-block;
 }
 
 .hero-subtitle {
-    font-size: 1.35rem; /* Leggermente aumentato per proporzione */
+    font-size: 1.4rem;
     font-style: italic;
-    opacity: 0.85;
-    margin-bottom: 40px;
-    color: var(--text-muted);
-    font-weight: 500;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    margin-bottom: 45px;
+    color: #e2e8f0; /* Più chiaro per eccellere visivamente sopra le foto di sfondo */
+    font-weight: 600;
+    opacity: 0.95;
 }
 
 .hero-buttons {
@@ -79,13 +100,14 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 14px 28px; /* Pulsanti del Jumbotron leggermente più grandi */
+    padding: 14px 28px;
     border-radius: 14px;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-icon {
@@ -100,14 +122,15 @@
 }
 
 .btn-secondary {
-    background: var(--bg-primary);
+    background: rgba(15, 23, 42, 0.6);
     color: var(--text-main);
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px); /* Rende il tasto opaco in modo trasparente e moderno sull'immagine */
 }
 
 .hero-buttons button:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(var(--color-accent-rgb), 0.4);
+    box-shadow: 0 8px 25px rgba(var(--color-accent-rgb), 0.5);
 }
 
 .hero-buttons button:active {
@@ -271,20 +294,20 @@
    ========================================================================== */
 @media (max-width: 700px) {
     .home-hero {
-        padding: 50px 20px;
+        padding: 60px 20px;
     }
 
     .hero-main-title {
-        font-size: 2.2rem; /* Ridimensionamento proporzionato ed enorme anche su mobile */
+        font-size: 2.3rem;
     }
 
     .hero-subtitle {
-        font-size: 1.05rem;
-        margin-bottom: 30px;
+        font-size: 1.1rem;
+        margin-bottom: 35px;
     }
 
     .hero-buttons button {
-        width: 100%; /* I pulsanti si impilano a tutta larghezza per una migliore ergonomia touch */
+        width: 100%;
         padding: 12px 20px;
     }
 
