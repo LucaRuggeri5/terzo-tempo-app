@@ -34,108 +34,173 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  font-weight: bold;
   cursor: pointer;
   z-index: 10;
 }
 
 /* ==========================================================================
-   HEADER
+   HEADER & LOGO DI SFONDO CON ICONE SULLA SCRITTA
    ========================================================================== */
 .sidebar-header {
-  padding: 40px 20px 20px 20px;
+  padding: 40px 20px 25px 20px;
   flex-shrink: 0; /* Impedisce all'header di rimpicciolirsi */
   text-align: center;
+  position: relative;
 }
 
 .brand-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 12px;
 }
 
+/* Contenitore per le icone sopra alla scritta */
 .brand-icons {
-  font-size: 24px;
+  position: relative;
+  width: 80px;
+  height: 48px;
   display: flex;
-  gap: 10px;
-  margin-bottom: 5px;
-  filter: drop-shadow(0 0 8px rgba(var(--color-accent-rgb), 0.4));
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+/* Wrapper assoluto per le icone per allinearle in riga */
+.brand-vignette-icons {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.brand-icon-item {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.brand-icon-item.ball-icon {
+  color: var(--color-accent);
+}
+
+.brand-icon-item.beer-icon {
+  color: #ffb000; /* Splendido giallo/oro birra intenso */
+  filter: drop-shadow(0 0 8px rgba(255, 176, 0, 0.4));
+}
+
+.brand-logo-glow {
+  width: 50px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-highlight);
+  filter: blur(14px);
+  opacity: 0.25;
+  box-shadow: 0 0 25px var(--color-highlight);
+  animation: pulseGlow 3s infinite ease-in-out;
 }
 
 .brand-text {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -1px;
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.5px;
   margin: 0;
   color: var(--text-main);
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
 }
 
-.brand-text .highlight {
+/* Protezione e uguaglianza del font-size per "TEMPO" */
+.brand-text-highlight {
+  font-size: inherit !important;
+  font-weight: inherit !important;
   color: var(--color-highlight);
-  text-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.3);
+  text-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.4);
 }
 
 /* ==========================================================================
-   CONTENT (SCROLLABILE)
+   CONTENT (SCROLLABILE CON GESTIONE ICONE NAV-LINK)
    ========================================================================== */
 .sidebar-content {
   flex: 1; /* Prende tutto lo spazio centrale */
   overflow-y: auto; /* Abilita lo scroll solo qui */
   padding: 10px 15px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
 }
 
 /* Styling scrollbar per Chrome/Safari */
 .sidebar-content::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .sidebar-content::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
 }
 
 .nav-group {
-  margin-bottom: 25px;
+  margin-bottom: 22px;
 }
 
 .group-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   margin-left: 15px;
   display: block;
-  opacity: 0.7;
+  opacity: 0.6;
+  letter-spacing: 0.5px;
 }
 
 .sidebar-nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
+/* STRUTTURA AD INCASTRO DEI LINK NAVIGAZIONE CON ICONE LUCIDE */
 .sidebar-nav a {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 11px 16px;
   color: var(--text-muted);
   text-decoration: none;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13.5px;
   border-radius: 12px;
-  margin-bottom: 5px;
-  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  gap: 12px; /* Fornisce lo spazio perfetto tra l'icona Lucide ed il testo */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Controllo geometrico centralizzato sul tratto delle icone */
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.2px; /* Tratto leggermente più spesso per risaltare sul fondo scuro */
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .sidebar-nav a:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--text-main);
 }
 
+.sidebar-nav a:hover .nav-icon {
+  color: var(--text-main);
+  transform: translateX(1px);
+}
+
+/* STATO ATTIVO */
 .sidebar-nav a.active {
   background: rgba(var(--color-accent-rgb), 0.15);
   color: var(--color-highlight);
@@ -144,8 +209,13 @@
   box-shadow: inset 5px 0 15px rgba(var(--color-accent-rgb), 0.05);
 }
 
+.sidebar-nav a.active .nav-icon {
+  color: var(--color-highlight);
+  stroke-width: 2.5px;
+}
+
 /* ==========================================================================
-   FOOTER (FISSO IN BASSO)
+   FOOTER CON TASTI DI LOG-AUTH INTERNI
    ========================================================================== */
 .sidebar-footer {
   flex-shrink: 0; /* Fondamentale: non si deve mai schiacciare */
@@ -154,21 +224,33 @@
   background-color: var(--bg-sidebar); /* Copre eventuale contenuto che scorre sotto */
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   text-align: center;
 }
 
 .auth-btn {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  transition: transform 0.2s, opacity 0.2s;
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
   border: none;
   cursor: pointer;
   width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.auth-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5px;
 }
 
 .auth-btn:active {
@@ -178,12 +260,17 @@
 .auth-btn.login {
   background-color: var(--color-highlight);
   color: #0b0e14;
+  box-shadow: 0 4px 12px rgba(var(--color-accent-rgb), 0.2);
 }
 
 .auth-btn.logout {
-  background-color: transparent;
+  background-color: rgba(239, 68, 68, 0.06);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+.auth-btn.logout:hover {
+  background-color: rgba(239, 68, 68, 0.12);
   color: #ef4444;
-  border: 1px solid #ef4444;
 }
 
 .version-label {
@@ -191,28 +278,37 @@
   color: var(--text-muted);
   font-weight: 600;
   letter-spacing: 1px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 /* ==========================================================================
-   RESPONSIVE (1100px)
+   RESPONSIVE DESIGN AD INCASTRO FLUIDO (1100px)
    ========================================================================== */
 @media (max-width: 1100px) {
   .sidebar {
     width: 280px;
     transform: translateX(-100%);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .sidebar.open {
     transform: translateX(0);
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
+    box-shadow: 25px 0 60px rgba(0, 0, 0, 0.65);
   }
 
   .close-sidebar-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+  .close-sidebar-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    color: #ef4444;
   }
 
   .sidebar-overlay {
@@ -221,12 +317,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(11, 14, 20, 0.5);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 9998;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
   }
 
   .sidebar-overlay.show {

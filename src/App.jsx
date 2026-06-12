@@ -14,10 +14,12 @@ import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 import './index.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT PER HEADER MOBILE
+import { Beer, Icon } from 'lucide-react';
+import { soccerBall as SoccerBall } from '@lucide/lab';
+
 import logoChampions from './assets/LogoTemi/logo_champions_league.svg';
-
 import logoEuropa from './assets/LogoTemi/logo_europa_league.svg';
-
 import logoConference from './assets/LogoTemi/logo_conference_league.svg';
 
 const AppContent = () => {
@@ -90,8 +92,13 @@ const AppContent = () => {
             </button>
 
             <div className="mobile-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-              <span className="brand-icons-mini">⚽🍺</span>
-              <h2 className="brand-text-mini">TERZO<span className="highlight">TEMPO</span></h2>
+              <div className="brand-icons-mini">
+                <Icon iconNode={SoccerBall} className="mini-icon-item" />
+                <Beer className="mini-icon-item mini-beer" />
+              </div>
+              <h2 className="brand-text-mini">
+                TERZO<span className="brand-text-mini-highlight">TEMPO</span>
+              </h2>
             </div>
           </div>
         </header>

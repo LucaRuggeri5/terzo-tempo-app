@@ -43,7 +43,6 @@ const OverlayPlayerStats = ({ player, matches, filterYear, filterMonth, currentR
         <button className="player-overlay-close" onClick={onClose}>&times;</button>
         
         <div className="player-overlay-header">
-          <div className="player-overlay-avatar">⚽</div>
           <h2>{player.nome}</h2>
           <span className="player-overlay-badge">Rank #{currentRank}</span>
         </div>

@@ -20,10 +20,18 @@
 }
 
 .card-header-pro h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 24px;
   font-weight: 800;
   color: var(--text-main);
   margin: 0;
+}
+
+.header-title-icon {
+  color: var(--color-highlight);
+  stroke-width: 2.2px;
 }
 
 .header-controls {
@@ -32,13 +40,19 @@
 }
 
 .control-field label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 10px;
   font-weight: 800;
   color: var(--text-muted);
   margin-bottom: 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.label-icon-inline {
+  opacity: 0.6;
 }
 
 .modern-select,
@@ -130,7 +144,7 @@
   flex-direction: column;
 }
 
-/* Preservazione della differenziazione Nera/Bianca ma calata nel tema scuro */
+/* Differenziazione Nera/Bianca bilanciata nel tema scuro */
 .nera-theme {
   background: rgba(0, 0, 0, 0.25);
   color: #ffffff;
@@ -163,6 +177,9 @@
 }
 
 .squad-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-muted);
   padding: 4px 10px;
@@ -172,14 +189,27 @@
   white-space: nowrap;
 }
 
+.badge-inner-icon {
+  opacity: 0.7;
+}
+
 .squad-badge.ok {
   background: var(--color-highlight) !important;
   color: #0b0e14 !important;
   box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.3);
 }
 
+.squad-badge.ok .badge-inner-icon {
+  color: #0b0e14 !important;
+  opacity: 1;
+}
+
 /* GRIGLIA PULSANTI TRIGGER AGGIUNTA CONVOCATI */
 .btn-add-p-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   padding: 12px;
   border-radius: 14px;
@@ -223,7 +253,7 @@
 
 .p-stats-controls {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -239,7 +269,7 @@
 .goal-group label { color: var(--color-highlight); }
 .ag-group label { color: #f87171; }
 
-/* CONTROLLI STEPPER */
+/* CONTROLLI STEPPER INTERNI */
 .stepper-pro {
   display: flex;
   align-items: center;
@@ -257,9 +287,11 @@
   height: 24px;
   border: none;
   background: rgba(255, 255, 255, 0.04);
-  font-weight: 800;
   cursor: pointer;
   color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .stepper-pro button:hover { background: rgba(255, 255, 255, 0.08); }
 
@@ -271,16 +303,23 @@
   color: var(--text-main);
 }
 
-.btn-remove-p {
+.btn-remove-p-lucide {
   background: none;
   border: none;
-  color: #f87171;
-  font-size: 18px;
+  color: var(--text-muted);
   cursor: pointer;
-  padding: 0;
-  line-height: 1;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  margin-top: 13px; /* Bilancia l'altezza del label superiore degli stepper */
 }
-.btn-remove-p:hover { color: #ef4444; }
+.btn-remove-p-lucide:hover { 
+  color: #ef4444; 
+  background: rgba(239, 68, 68, 0.08);
+}
 
 /* ==========================================================================
    AZIONE FINALE DI SALVATAGGIO
@@ -353,7 +392,7 @@
     padding-top: 10px;
   }
   
-  .btn-remove-p { position: absolute; top: 12px; right: 12px; }
+  .btn-remove-p-lucide { position: absolute; top: 10px; right: 10px; margin-top: 0; }
   .stepper-pro button { width: 32px; height: 32px; }
   .stepper-pro span { width: 32px; font-size: 13px; }
   .btn-save-match-pro { padding: 16px; font-size: 14px; }

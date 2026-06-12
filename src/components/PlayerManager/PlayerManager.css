@@ -39,19 +39,27 @@
   margin: 0;
 }
 
-.admin-icon {
-  font-size: 16px;
+.admin-icon-lucide-gear {
+  color: var(--text-muted);
+  stroke-width: 2.2px;
+}
+.admin-header-row:hover .admin-icon-lucide-gear {
+  color: var(--color-highlight);
 }
 
 .admin-toggle-btn {
   background: rgba(var(--color-accent-rgb), 0.15);
   border: 1px solid rgba(var(--color-accent-rgb), 0.3);
   color: var(--color-highlight);
-  padding: 6px 14px;
+  width: 36px;
+  height: 32px;
+  padding: 0;
   border-radius: 8px;
-  font-weight: 800;
-  font-size: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .admin-toggle-btn.active {
@@ -73,13 +81,28 @@
 
 .admin-add-player {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 25px;
 }
 
-.admin-add-player input {
+.input-with-icon-wrapper {
+  position: relative;
   flex: 1;
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.input-inner-icon-lucide {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  stroke-width: 2px;
+  pointer-events: none;
+}
+
+.admin-add-player input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
   font-size: 14px;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.15);
@@ -88,6 +111,7 @@
   color: var(--text-main);
   outline: none;
   transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .admin-add-player input:focus {
@@ -96,6 +120,10 @@
 }
 
 .admin-add-player button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: var(--color-highlight);
   color: #0b0e14;
   border: none;
@@ -105,7 +133,11 @@
   font-size: 13px;
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.admin-add-player button:hover {
+  opacity: 0.95;
 }
 
 .admin-add-player button:active {
@@ -130,6 +162,11 @@
   min-height: 42px;
   width: 100%;
   box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.player-pill-pro:hover {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .player-pill-pro.is-editing {
@@ -151,28 +188,34 @@
 .pill-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   margin-left: 8px;
   padding-left: 8px;
   border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.pill-edit-icon {
-  font-size: 12px;
-  color: var(--text-muted);
+.pill-action-btn {
+  background: none;
+  border: none;
+  padding: 4px;
   cursor: pointer;
-  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-muted);
+  transition: all 0.15s ease;
 }
-.pill-edit-icon:hover { color: var(--color-highlight); }
 
-.pill-delete {
-  color: var(--text-muted);
-  font-size: 16px;
-  cursor: pointer;
-  line-height: 1;
-  transition: color 0.15s;
+.pill-action-btn.action-edit:hover { 
+  color: var(--color-highlight); 
+  background: rgba(255, 255, 255, 0.03);
 }
-.pill-delete:hover { color: #f87171; }
+
+.pill-action-btn.action-delete:hover { 
+  color: #f87171; 
+  background: rgba(239, 68, 68, 0.05);
+}
 
 /* Edit Mode Wrapper */
 .pill-edit-wrapper {
@@ -200,13 +243,13 @@
   background: var(--color-highlight);
   color: #0b0e14;
   border: none;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  font-size: 12px;
-  font-weight: 900;
   cursor: pointer;
+  transition: transform 0.1s ease;
 }
+.pill-save-btn:active { transform: scale(0.9); }
 
 /* OVERLAY MODALE DI CONFERMA ELIMINAZIONE */
 .fixed-overlay-admin {
@@ -215,7 +258,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(11, 14, 20, 0.6);
+  background: rgba(11, 14, 20, 0.75);
   backdrop-filter: blur(8px);
   padding: 20px;
   z-index: 10000;
@@ -233,9 +276,20 @@
   animation: modalPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
 
-.modal-icon-mini {
-  font-size: 40px;
-  margin-bottom: 15px;
+.modal-icon-mini-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.modal-icon-mini-lucide {
+  stroke-width: 2px;
 }
 
 .confirm-modal-mini h4 {
@@ -266,6 +320,7 @@
   font-weight: 800;
   font-size: 13px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .btn-cancel-mini {
@@ -277,8 +332,9 @@
 .btn-danger-mini {
   background: #ef4444;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
-.btn-danger-mini:hover { background: #dc2626; }
+.btn-danger-mini:hover { background: #dc2626; transform: translateY(-1px); }
 
 .empty-msg {
   grid-column: 1 / -1;
@@ -287,6 +343,14 @@
   font-style: italic;
   font-size: 13px;
   padding: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.inline-icon-manager {
+  opacity: 0.5;
 }
 
 /* ==========================================================================

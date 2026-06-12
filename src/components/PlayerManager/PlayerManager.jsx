@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
 import './PlayerManager.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  Users, 
+  Settings, 
+  ChevronUp, 
+  ChevronDown, 
+  UserPlus, 
+  UserCheck,
+  UserX,
+  Pencil, 
+  Trash2, 
+  Check, 
+  X 
+} from 'lucide-react';
+
 const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlayer }) => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [newPlayerName, setNewPlayerName] = useState('');
@@ -32,7 +47,9 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
       {playerToDelete && (
         <div className="fixed-overlay-admin" onClick={() => setPlayerToDelete(null)}>
           <div className="confirm-modal-mini card-pro" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-icon-mini">🗑️</div>
+            <div className="modal-icon-mini-wrapper">
+              <Trash2 size={32} className="modal-icon-mini-lucide" />
+            </div>
             <h4>Elimina Giocatore?</h4>
             <p>Vuoi davvero rimuovere <strong>{playerToDelete.nome}</strong>?</p>
             <div className="modal-actions-mini">
@@ -48,25 +65,30 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
 
       <div className="admin-header-row" onClick={() => setShowAdmin(!showAdmin)}>
         <div className="admin-title">
-          <span className="admin-icon">⚙️</span>
+          <Settings size={18} className="admin-icon-lucide-gear" />
           <h3>Gestione Giocatori</h3>
         </div>
-        <button className={`admin-toggle-btn ${showAdmin ? 'active' : ''}`}>
-          {showAdmin ? "▲" : "▼"}
+        <button className={`admin-toggle-btn ${showAdmin ? 'active' : ''}`} type="button">
+          {showAdmin ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>
 
       {showAdmin && (
         <div className="admin-content-pro card-pro">
           <div className="admin-add-player">
-            <input
-              type="text"
-              placeholder="Nome e Cognome..."
-              value={newPlayerName}
-              onChange={(e) => setNewPlayerName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
-            />
-            <button onClick={handleAdd}>Aggiungi Giocatore</button>
+            <div className="input-with-icon-wrapper">
+              <Users size={16} className="input-inner-icon-lucide" />
+              <input
+                type="text"
+                placeholder="Nome e Cognome..."
+                value={newPlayerName}
+                onChange={(e) => setNewPlayerName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
+              />
+            </div>
+            <button onClick={handleAdd}>
+              <UserPlus size={16} /> Aggiungi Giocatore
+            </button>
           </div>
 
           <div className="admin-player-chips-container">
@@ -84,20 +106,30 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
                       }}
                       autoFocus
                     />
-                    <button className="pill-save-btn" onMouseDown={(e) => { e.preventDefault(); saveEdit(p.id); }}>✓</button>
+                    <button className="pill-save-btn" onMouseDown={(e) => { e.preventDefault(); saveEdit(p.id); }}>
+                      <Check size={12} />
+                    </button>
                   </div>
                 ) : (
                   <>
                     <span className="pill-name">{p.nome}</span>
                     <div className="pill-actions">
-                      <span className="pill-edit-icon" onClick={() => startEditing(p)}>✎</span>
-                      <span className="pill-delete" onClick={() => setPlayerToDelete(p)}>×</span>
+                      <button className="pill-action-btn action-edit" onClick={() => startEditing(p)} title="Modifica">
+                        <Pencil size={13} />
+                      </button>
+                      <button className="pill-action-btn action-delete" onClick={() => setPlayerToDelete(p)} title="Elimina">
+                        <X size={15} />
+                      </button>
                     </div>
                   </>
                 )}
               </div>
             ))}
-            {players.length === 0 && <p className="empty-msg">Nessun giocatore nel database.</p>}
+            {players.length === 0 && (
+              <p className="empty-msg">
+                <UserX size={16} className="inline-icon-manager" /> Nessun giocatore nel database.
+              </p>
+            )}
           </div>
         </div>
       )}

@@ -270,3 +270,45 @@
   }
   .rank-dot { width: 28px; height: 28px; font-size: 11px; }
 }
+
+/* Allineamento icona principale accanto al titolo h1 */
+.title-group h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ranking-main-icon {
+  color: var(--color-highlight);
+  stroke-width: 2.2px;
+}
+
+/* Nuovo contenitore geometrico per l'icona Corona sul podio */
+.crown-icon-container {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 46px;
+  background: var(--bg-card);
+  border: 2px solid #fbbf24;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+  z-index: 3;
+}
+
+.crown-icon-lucide {
+  color: #fbbf24;
+  fill: rgba(251, 191, 36, 0.15);
+}
+
+/* Icona per messaggi vuoti */
+.inline-no-data-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+  opacity: 0.6;
+}

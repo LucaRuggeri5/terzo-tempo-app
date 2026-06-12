@@ -1,6 +1,21 @@
 import React, { useState, useMemo } from 'react';
 import './PlayerStatsPage.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  Search, 
+  X, 
+  Flame, 
+  TrendingUp, 
+  Snowflake, 
+  Scale, 
+  Sparkles,
+  Trophy,
+  History,
+  Handshake,
+  UserCheck
+} from 'lucide-react';
+
 const PlayerStatsPage = ({ players = [], matches = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
@@ -25,27 +40,35 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     .sort((a, b) => b.punti - a.punti || b.dr - a.dr || b.gf - a.gf);
   }, [players, matches]);
 
-  // 2. STILE E CALCOLO BADGE DI STATO ESTERNALIZZATO
+  // 2. STILE E CALCOLO BADGE DI STATO ESTERNALIZZATO CON STRUTTURA LUCIDE
   const calculateStatus = (playerId) => {
     const playerMatches = matches
       .filter(m => (m.match_details?.partecipanti || []).some(p => p.playerId === playerId))
       .sort((a, b) => new Date(b.data) - new Date(a.data))
       .slice(0, 3);
 
-    if (playerMatches.length < 1) return { label: 'DEBUTTANTE ⚽', class: 'stable', icon: '⚽' };
+    if (playerMatches.length < 1) {
+      return { label: 'DEBUTTANTE', class: 'stable', icon: <Sparkles className="badge-lucide-icon" /> };
+    }
     
     const results = playerMatches.map(m => {
       const p = m.match_details.partecipanti.find(part => part.playerId === playerId);
       return p.punti === 3 ? 'V' : (p.punti === 1 ? 'P' : 'S');
     });
 
-    if (results.every(r => r === 'V') && results.length >= 3) return { label: 'ON FIRE 🔥', class: 'fire', icon: '🔥' };
-    if (results.filter(r => r === 'V').length >= 2) return { label: 'IN FORMA 📈', class: 'forma', icon: '📈' };
-    if (results.every(r => r === 'S') && results.length >= 3) return { label: 'PERIODO NO 🧊', class: 'cold', icon: '🧊' };
-    return { label: 'STABILE ⚖️', class: 'stable', icon: '⚖️' };
+    if (results.every(r => r === 'V') && results.length >= 3) {
+      return { label: 'ON FIRE', class: 'fire', icon: <Flame className="badge-lucide-icon" /> };
+    }
+    if (results.filter(r => r === 'V').length >= 2) {
+      return { label: 'IN FORMA', class: 'forma', icon: <TrendingUp className="badge-lucide-icon" /> };
+    }
+    if (results.every(r => r === 'S') && results.length >= 3) {
+      return { label: 'PERIODO NO', class: 'cold', icon: <Snowflake className="badge-lucide-icon" /> };
+    }
+    return { label: 'STABILE', class: 'stable', icon: <Scale className="badge-lucide-icon" /> };
   };
 
-  // 3. AUTOCOMPLETE & GESTIONE INPUT TASTIERA
+// 3. AUTOCOMPLETE & GESTIONE INPUT TASTIERA
   const filteredSuggestions = useMemo(() => {
     if (!searchTerm || selectedPlayerId) return [];
     return players
@@ -73,7 +96,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     }
   };
 
-  // 4. ELABORAZIONE STATISTICHE CRUNCHING DEL PROFILO SELEZIONATO
+  // 4. ELABORAZIONE STATISTICHE DEL PROFILO SELEZIONATO
   const personalStats = useMemo(() => {
     if (!selectedPlayerId) return null;
 
@@ -136,7 +159,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
       <div className="player-search-section">
         <div className="search-wrapper">
           <div className={`search-box ${searchTerm ? 'has-content' : ''}`}>
-            <span className="search-icon">🔍</span>
+            <Search className="search-icon-lucide" />
             <input 
               type="text" 
               placeholder="Cerca un giocatore..." 
@@ -149,7 +172,11 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
               }}
               className="search-input"
             />
-            {searchTerm && <button onClick={() => { setSearchTerm(''); setSelectedPlayerId(null); }} className="clear-btn">✕</button>}
+            {searchTerm && (
+              <button onClick={() => { setSearchTerm(''); setSelectedPlayerId(null); }} className="clear-btn">
+                <X size={12} />
+              </button>
+            )}
           </div>
           
           {filteredSuggestions.length > 0 && (
@@ -167,7 +194,9 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
                       <span className="sugg-name">{p.nome}</span>
                       <span className="sugg-rank">{rank > 0 ? `#${rank}` : 'N/D'}</span>
                     </div>
-                    <span className={`sugg-badge ${s.class}`}>{s.icon}</span>
+                    <span className={`sugg-badge-wrapper ${s.class}`}>
+                      {s.icon}
+                    </span>
                   </li>
                 );
               })}
@@ -182,10 +211,12 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
             <div className="hero-left">
               <h1 className="display-name">{searchTerm}</h1>
               <div className="badge-container">
-                <span className={`status-badge ${personalStats.status.class}`}>
-                  {personalStats.status.label}
+                <span className={`status-badge-lucide ${personalStats.status.class}`}>
+                  {personalStats.status.icon} {personalStats.status.label}
                 </span>
-                <span className="rank-indicator">#{personalStats.rank} Ranking</span>
+                <span className="rank-indicator">
+                  <Trophy size={12} className="inline-icon" /> #{personalStats.rank} Ranking
+                </span>
               </div>
             </div>
             
@@ -220,13 +251,13 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
 
           <div className="details-layout">
             <div className="left-col section-card">
-              <h3>Ultime 5 Prestazioni</h3>
+              <h3><History size={16} className="title-icon" /> Ultime 5 Prestazioni</h3>
               <div className="history-list">
                 {personalStats.matchHistory.slice(0, 5).map((m, i) => (
                   <div key={i} className="history-item">
                     <span className="m-date">{new Date(m.data).toLocaleDateString('it-IT', { day: '2-digit', month: 'short' })}</span>
                     <span className={`m-res res-${m.risultato}`}>{m.risultato}</span>
-                    <span className="m-goals">⚽ {m.goal} Goal</span>
+                    <span className="m-goals">{m.goal} Goal</span>
                     <span className={`m-dr ${m.dr >= 0 ? 'plus' : 'minus'}`}>{m.dr > 0 ? `+${m.dr}` : m.dr} DR</span>
                   </div>
                 ))}
@@ -234,10 +265,12 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
             </div>
 
             <div className="right-col section-card">
-              <h3>Partner in Crime</h3>
+              <h3><Handshake size={16} className="title-icon" /> Partner in Crime</h3>
               {personalStats.bestPartner ? (
                 <div className="partner-content">
-                  <div className="partner-avatar">🤝</div>
+                  <div className="partner-avatar-lucide">
+                    <UserCheck size={24} />
+                  </div>
                   <div className="partner-info">
                     <span className="partner-name">{personalStats.bestPartner.nome}</span>
                     <span className="partner-sub">Vincete il <strong>{Math.round((personalStats.bestPartner.win / personalStats.bestPartner.total) * 100)}%</strong> dei match</span>
@@ -249,7 +282,9 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
         </div>
       ) : (
         <div className="empty-state">
-          <div className="empty-icon">⚽</div>
+          <div className="empty-icon-wrapper">
+            <UserCheck size={48} className="empty-icon-lucide" />
+          </div>
           <h2>Cerca un Giocatore</h2>
           <p>Naviga tra i profili per scoprire chi è in forma e chi domina la classifica</p>
         </div>

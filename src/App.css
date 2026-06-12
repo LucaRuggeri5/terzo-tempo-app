@@ -41,13 +41,48 @@
   object-fit: contain;
 }
 
-/* Brand */
-.mobile-brand { display: flex; flex-direction: column; align-items: flex-end; }
-.brand-icons-mini { font-size: 14px; margin-bottom: -4px; }
-.brand-text-mini { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; }
-.brand-text-mini .highlight { color: var(--color-highlight); }
+/* Brand Configurato con Icone Lucide */
+.mobile-brand { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-end; 
+}
 
-/* Menu */
+.brand-icons-mini { 
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: -1px; 
+}
+
+.mini-icon-item {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2px;
+}
+
+.mini-icon-item.mini-beer {
+  color: #ffb000; /* Splendido giallo birra dorato */
+}
+
+.brand-text-mini { 
+  font-size: 16px; 
+  font-weight: 900; 
+  letter-spacing: -0.5px; 
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Risoluzione definitiva font micro / disallineato */
+.brand-text-mini-highlight { 
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: var(--color-highlight); 
+}
+
+/* Menu Hamburger */
 .menu-toggle { background: transparent; border: none; cursor: pointer; display: none; }
 .hamburger-icon { display: flex; flex-direction: column; gap: 5px; }
 .hamburger-icon span { display: block; width: 22px; height: 2px; background-color: var(--color-highlight); }

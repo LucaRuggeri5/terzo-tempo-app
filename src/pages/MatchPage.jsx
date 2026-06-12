@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import './MatchPage.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  CalendarDays, 
+  Users, 
+  Info,
+  Shirt, 
+  Circle, 
+  X 
+} from 'lucide-react';
+
 const MatchPage = ({ matches = [], onStartEdit, onDeleteMatch }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
 
@@ -19,14 +29,14 @@ const MatchPage = ({ matches = [], onStartEdit, onDeleteMatch }) => {
               <div key={m.id} className="history-card-pro card-pro">
                 <div className="h-top-bar">
                   <span className="h-date">
-                    {new Date(m.data).toLocaleDateString('it-IT')} • {m.format}
+                    <CalendarDays size={14} className="inline-icon-match" /> {new Date(m.data).toLocaleDateString('it-IT')} • {m.format}
                   </span>
                   <button 
                     className="btn-info-modal"
                     onClick={() => setSelectedMatch(m)}
                     title="Visualizza Formazioni"
                   >
-                    ℹ️ Formazioni
+                    <Info size={13} /> Formazioni
                   </button>
                 </div>
 
@@ -91,29 +101,37 @@ const MatchPage = ({ matches = [], onStartEdit, onDeleteMatch }) => {
                 <div className="modal-title-container">
                   <h4>Dettaglio Formazioni</h4>
                   <span className="modal-subtitle">
-                    {new Date(selectedMatch.data).toLocaleDateString('it-IT')} • {selectedMatch.format}
+                    <CalendarDays size={12} className="inline-icon-match" /> {new Date(selectedMatch.data).toLocaleDateString('it-IT')} • {selectedMatch.format}
                   </span>
                 </div>
-                <button className="modal-close-btn" onClick={() => setSelectedMatch(null)}>&times;</button>
+                <button className="modal-close-btn" onClick={() => setSelectedMatch(null)}>
+                  <X size={20} />
+                </button>
               </div>
 
               <div className="modal-score-banner">
-                <div className="modal-banner-team text-black">Nera <span>{selectedMatch.score_nera}</span></div>
+                <div className="modal-banner-team banner-text-black">Nera <span>{selectedMatch.score_nera}</span></div>
                 <div className="modal-banner-sep">-</div>
-                <div className="modal-banner-team text-white">Bianca <span>{selectedMatch.score_bianca}</span></div>
+                <div className="modal-banner-team banner-text-white">Bianca <span>{selectedMatch.score_bianca}</span></div>
               </div>
 
               <div className="modal-body-squads">
                 {Object.entries(squadre).map(([squadraNome, listaGiocatori]) => (
                   <div key={squadraNome} className="modal-squad-block">
                     <div className={`modal-squad-header block-${squadraNome.toLowerCase()}`}>
-                      {squadraNome === 'Nera' ? '⚫' : '⚪'} Formazione {squadraNome} ({listaGiocatori.length})
+                      <Circle 
+                        size={13} 
+                        className={`squad-circle-icon circle-${squadraNome.toLowerCase()}`}
+                      /> 
+                      Formazione {squadraNome}
                     </div>
                     <ul className="modal-players-list">
                       {listaGiocatori.length > 0 ? (
                         listaGiocatori.map(p => (
-                          <li key={p.playerId || p.id || p.nome} className="modal-player-item">
-                            <div className={`modal-player-badge badge-${squadraNome.toLowerCase()}`}>👕</div>
+                          <li key={p.playerId || p.id || p.nome} className={`modal-player-item item-${squadraNome.toLowerCase()}`}>
+                            <div className={`modal-player-badge badge-${squadraNome.toLowerCase()}`}>
+                              <Shirt size={14} className="shirt-icon-lucide" />
+                            </div>
                             <span className="modal-player-name">{p.nome}</span>
                           </li>
                         ))

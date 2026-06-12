@@ -3,6 +3,11 @@
 /* ==========================================================================
    STILI CORE MARCATORI
    ========================================================================== */
+.score-title-icon {
+  color: #ff7a00 !important; /* Colore arancione fuoco per la classifica marcatori */
+  filter: drop-shadow(0 0 8px rgba(255, 122, 0, 0.4));
+}
+
 .score-text {
   color: var(--color-highlight) !important; /* Illumina i gol con il colore neon della coppa attiva */
   font-size: 1.1rem !important;

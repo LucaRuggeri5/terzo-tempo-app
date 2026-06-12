@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import {
+    Trophy,
+    Users,
+    Calendar,
+    Quote,
+    Icon
+} from 'lucide-react';
+
+import {
+    soccerBall as SoccerBall,
+    soccerPitch as SoccerPitch
+} from '@lucide/lab';
+
+
 const HomePage = ({ players, matches }) => {
     const navigate = useNavigate();
     const [currentQuote, setCurrentQuote] = useState(0);
@@ -33,16 +48,20 @@ const HomePage = ({ players, matches }) => {
 
     return (
         <div className="home-container">
-            {/* HERO SECTION */}
+            {/* HERO SECTION / JUMBOTRON */}
             <section className="home-hero">
                 <div className="hero-content">
-                    <h1>
-                        Benvenuto su <span className="highlight">Terzo Tempo</span>
+                    <h1 className="hero-main-title">
+                        Benvenuto su <span className="hero-title-highlight">Terzo Tempo</span>
                     </h1>
-                    <p>Il posto dove i gol contano, ma la birra dopo la partita conta di più.</p>
+                    <p className="hero-subtitle">Il posto dove i gol contano, ma la birra dopo la partita conta di più.</p>
                     <div className="hero-buttons">
-                        <button onClick={() => navigate('/classifica')} className="btn-primary">🏆 Classifica Generale</button>
-                        <button onClick={() => navigate('/classifica-marcatori')} className="btn-secondary">⚽ Classifica Marcatori</button>
+                        <button onClick={() => navigate('/classifica')} className="btn-primary">
+                            <Trophy className="btn-icon" /> Classifica Generale
+                        </button>
+                        <button onClick={() => navigate('/classifica-marcatori')} className="btn-secondary">
+                            <Icon iconNode={SoccerBall} className="btn-icon" /> Classifica Marcatori
+                        </button>
                     </div>
                 </div>
             </section>
@@ -50,21 +69,29 @@ const HomePage = ({ players, matches }) => {
             {/* STATS CARDS */}
             <section className="stats-grid">
                 <div className="stat-card">
-                    <span className="stat-icon">👤</span>
+                    <div className="stat-icon-wrapper wrapper-players">
+                        <Users className="stat-icon-lucide" />
+                    </div>
                     <div className="stat-info">
                         <span className="stat-value">{totalPlayers}</span>
                         <span className="stat-label">Giocatori Iscritti</span>
                     </div>
                 </div>
+
                 <div className="stat-card">
-                    <span className="stat-icon">🏟️</span>
+                    <div className="stat-icon-wrapper wrapper-matches">
+                        <Icon iconNode={SoccerPitch} className="stat-icon-lucide" />
+                    </div>
                     <div className="stat-info">
                         <span className="stat-value">{totalMatches}</span>
                         <span className="stat-label">Partite Giocate</span>
                     </div>
                 </div>
+
                 <div className="stat-card">
-                    <span className="stat-icon">📅</span>
+                    <div className="stat-icon-wrapper wrapper-date">
+                        <Calendar className="stat-icon-lucide" />
+                    </div>
                     <div className="stat-info">
                         <span className="stat-value">{lastMatchDate}</span>
                         <span className="stat-label">Ultimo Match</span>
@@ -76,6 +103,9 @@ const HomePage = ({ players, matches }) => {
             <section className="quotes-section">
                 <h3 className="section-title">Cosa dicono di noi:</h3>
                 <div className="quotes-carousel">
+                    <div className="quote-decoration">
+                        <Quote size={40} />
+                    </div>
                     <div className="quote-card">
                         <p className="quote-text">"{quotes[currentQuote].text}"</p>
                         <span className="quote-author">- {quotes[currentQuote].author}</span>

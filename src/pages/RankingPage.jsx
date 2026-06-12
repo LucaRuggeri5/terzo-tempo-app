@@ -2,6 +2,15 @@ import React, { useState, useMemo } from 'react';
 import OverlayPlayerStats from '../components/OverlayPlayerStats/OverlayPlayerStats';
 import './RankingPage.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  Trophy, 
+  Crown, 
+  Calendar, 
+  TrendingUp, 
+  AlertCircle 
+} from 'lucide-react';
+
 const RankingPage = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
@@ -83,36 +92,42 @@ const RankingPage = ({ players = [], matches = [] }) => {
     <div className="ranking-container">
       <div className="ranking-header">
         <div className="title-group">
-          <h1>Classifica Generale</h1>
+          <h1>
+            <Trophy size={24} className="ranking-main-icon" /> Classifica Generale
+          </h1>
         </div>
 
         <div className="filters-group">
-          <select 
-            value={filterYear} 
-            onChange={(e) => {
-              setFilterYear(e.target.value);
-              setFilterMonth('all');
-            }} 
-            className="modern-select"
-          >
-            <option value="all">Tutti gli Anni</option>
-            {availableYears.map(year => <option key={year} value={year}>{year}</option>)}
-          </select>
+          <div className="select-icon-wrapper">
+            <select 
+              value={filterYear} 
+              onChange={(e) => {
+                setFilterYear(e.target.value);
+                setFilterMonth('all');
+              }} 
+              className="modern-select"
+            >
+              <option value="all">Tutti gli Anni</option>
+              {availableYears.map(year => <option key={year} value={year}>{year}</option>)}
+            </select>
+          </div>
 
-          <select 
-            value={filterMonth} 
-            onChange={(e) => setFilterMonth(e.target.value)} 
-            className="modern-select"
-          >
-            <option value="all">Tutti i Mesi</option>
-            {availableMonths.map(m => (
-              <option key={m.value} value={m.value}>{m.label}</option>
-            ))}
-          </select>
+          <div className="select-icon-wrapper">
+            <select 
+              value={filterMonth} 
+              onChange={(e) => setFilterMonth(e.target.value)} 
+              className="modern-select"
+            >
+              <option value="all">Tutti i Mesi</option>
+              {availableMonths.map(m => (
+                <option key={m.value} value={m.value}>{m.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* 🏆 PODIO */}
+      {/* 👑 ACCENTI DEL PODIO STRUTTURATI */}
       {podium.length > 0 && (
         <div className="elite-podium">
           <div 
@@ -134,7 +149,9 @@ const RankingPage = ({ players = [], matches = [] }) => {
             className="elite-card gold clickable-card"
             onClick={() => setSelectedPlayer({ data: podium[0], rank: podium[0].displayRank })}
           >
-            <div className="crown-icon">👑</div>
+            <div className="crown-icon-container">
+              <Crown size={32} className="crown-icon-lucide" />
+            </div>
             <span className="elite-rank">1</span>
             <div className="elite-info-rank">
               <span className="elite-name">{podium[0].nome}</span>
@@ -196,7 +213,11 @@ const RankingPage = ({ players = [], matches = [] }) => {
           </tbody>
         </table>
       </div>
-      {rankedList.length === 0 && <p className="no-data-msg">Nessuna partita registrata.</p>}
+      {rankedList.length === 0 && (
+        <p className="no-data-msg">
+          <AlertCircle size={16} className="inline-no-data-icon" /> Nessuna partita registrata.
+        </p>
+      )}
 
       {/* RENDER DELL'OVERLAY SE SELEZIONATO */}
       {selectedPlayer && (

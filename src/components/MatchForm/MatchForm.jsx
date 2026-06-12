@@ -1,6 +1,27 @@
 import React from 'react';
 import './MatchForm.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  FilePlus2, 
+  FileCode, 
+  CalendarDays, 
+  Settings2, 
+  Users, 
+  UserPlus2, 
+  Plus, 
+  Minus, 
+  Trash2, 
+  CheckCircle2, 
+  AlertCircle,
+  Icon
+} from 'lucide-react';
+
+import {
+    soccerBall as SoccerBall,
+    soccerPitch as SoccerPitch
+} from '@lucide/lab';
+
 const MatchForm = ({
   editingMatchId,
   matchType, setMatchType,
@@ -39,10 +60,20 @@ const MatchForm = ({
   return (
     <div className="main-match-card card-pro">
       <div className="card-header-pro">
-        <h2>{editingMatchId ? "📝 Modifica Partita" : "⚽ Nuova Partita"}</h2>
+        <h2>
+          {editingMatchId ? (
+            <>
+              <FileCode className="header-title-icon" size={22} /> Modifica Partita
+            </>
+          ) : (
+            <>
+              <FilePlus2 className="header-title-icon" size={22} /> Nuova Partita
+            </>
+          )}
+        </h2>
         <div className="header-controls">
           <div className="control-field">
-            <label>Formato</label>
+            <label><Settings2 size={10} className="label-icon-inline" /> Formato</label>
             <select
               className="modern-select"
               value={matchType}
@@ -52,7 +83,7 @@ const MatchForm = ({
             </select>
           </div>
           <div className="control-field">
-            <label>Data</label>
+            <label><CalendarDays size={10} className="label-icon-inline" /> Data</label>
             <input
               type="date"
               className="modern-date-input"
@@ -86,17 +117,22 @@ const MatchForm = ({
                 <h3>SQUADRA {team.toUpperCase()}</h3>
                 <div className="squad-badges-group">
                   <span className={`squad-badge ${teamCounts[team.toLowerCase()] === matchType ? 'ok' : ''}`}>
-                    👤 {teamCounts[team.toLowerCase()]}/{matchType}
+                    <Users size={12} className="badge-inner-icon" /> {teamCounts[team.toLowerCase()]}/{matchType}
                   </span>
                   <span className={`squad-badge badge-goals ${goalStatus.isOk ? 'ok' : ''}`}>
-                    ⚽ {goalStatus.assigned}/{goalStatus.target}
+                    {goalStatus.isOk ? (
+                      <Icon iconNode={SoccerBall} size={12} className="badge-inner-icon text-ready" />
+                    ) : (
+                      <AlertCircle size={12} className="badge-inner-icon" />
+                    )}
+                    {goalStatus.assigned}/{goalStatus.target}
                   </span>
                 </div>
               </div>
 
               {teamCounts[team.toLowerCase()] < matchType && (
                 <button className="btn-add-p-trigger" onClick={() => setActiveDrawerTeam(team)}>
-                  + Aggiungi Convocati
+                  <UserPlus2 size={14} /> Aggiungi Convocati
                 </button>
               )}
 
@@ -109,22 +145,32 @@ const MatchForm = ({
                       <div className="stat-group goal-group">
                         <label>GOAL</label>
                         <div className="stepper-pro">
-                          <button onClick={() => adjustStat(p.playerId, 'goal', -1)}>-</button>
+                          <button onClick={() => adjustStat(p.playerId, 'goal', -1)}>
+                            <Minus size={10} />
+                          </button>
                           <span>{p.goal}</span>
-                          <button onClick={() => adjustStat(p.playerId, 'goal', 1)}>+</button>
+                          <button onClick={() => adjustStat(p.playerId, 'goal', 1)}>
+                            <Plus size={10} />
+                          </button>
                         </div>
                       </div>
 
                       <div className="stat-group ag-group">
                         <label>AUTOGOAL</label>
                         <div className="stepper-pro">
-                          <button onClick={() => adjustStat(p.playerId, 'ag', -1)}>-</button>
+                          <button onClick={() => adjustStat(p.playerId, 'ag', -1)}>
+                            <Minus size={10} />
+                          </button>
                           <span>{p.ag}</span>
-                          <button onClick={() => adjustStat(p.playerId, 'ag', 1)}>+</button>
+                          <button onClick={() => adjustStat(p.playerId, 'ag', 1)}>
+                            <Plus size={10} />
+                          </button>
                         </div>
                       </div>
 
-                      <button className="btn-remove-p" onClick={() => removePlayerFromMatch(p.playerId)}>×</button>
+                      <button className="btn-remove-p-lucide" onClick={() => removePlayerFromMatch(p.playerId)} title="Rimuovi">
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   </div>
                 ))}

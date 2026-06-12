@@ -29,7 +29,7 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 4px 16px;
-  gap: 10px;
+  gap: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -40,9 +40,11 @@
   transform: translateY(-1px);
 }
 
-.search-icon {
-  font-size: 16px;
+.search-icon-lucide {
+  width: 18px;
+  height: 18px;
   color: var(--text-muted);
+  stroke-width: 2.2px;
 }
 
 .search-input {
@@ -64,7 +66,6 @@
   border-radius: 50%;
   cursor: pointer;
   color: var(--text-main);
-  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,6 +141,21 @@
   color: var(--color-highlight);
 }
 
+.sugg-badge-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.badge-lucide-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5px;
+}
+
 /* ==========================================================================
    HERO PROFILE CARD (ALLINEATA AD ASSE ORIZZONTALE)
    ========================================================================== */
@@ -166,6 +182,7 @@
 
 .badge-container {
   display: flex;
+  align-items: center;
   gap: 10px;
   margin-top: 14px;
 }
@@ -247,6 +264,9 @@
 }
 
 .section-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 800;
   margin-top: 0;
@@ -254,6 +274,11 @@
   color: var(--text-main);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   padding-bottom: 12px;
+}
+
+.title-icon {
+  color: var(--text-muted);
+  stroke-width: 2.2px;
 }
 
 /* STORICO PARTITE ALLINEATO IN ROW */
@@ -310,7 +335,7 @@
 .m-dr.plus { color: var(--color-highlight); }
 .m-dr.minus { color: #f87171; }
 
-/* SEZIONE AFFINITÀ PARTNER */
+/* SEZIONE AFFINITÀ PARTNER CON ICONA VETTORIALE */
 .partner-content {
   display: flex;
   align-items: center;
@@ -321,9 +346,16 @@
   border: 1px solid rgba(16, 185, 129, 0.15);
 }
 
-.partner-avatar {
-  font-size: 32px;
-  line-height: 1;
+.partner-avatar-lucide {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .partner-info {
@@ -357,11 +389,19 @@
 /* ==========================================================================
    BADGES & CHIPS COLORATE
    ========================================================================== */
-.status-badge {
+.status-badge-lucide {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 5px 14px;
   border-radius: 50px;
   font-size: 11px;
   font-weight: 800;
+}
+
+.status-badge-lucide .badge-lucide-icon {
+  width: 12px;
+  height: 12px;
 }
 
 .fire { background: rgba(225, 29, 72, 0.1); color: #fb7185; border: 1px solid rgba(225, 29, 72, 0.2); }
@@ -370,6 +410,9 @@
 .stable { background: rgba(217, 119, 6, 0.1); color: #fbbf24; border: 1px solid rgba(217, 119, 6, 0.2); }
 
 .rank-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 5px 14px;
   background: rgba(59, 130, 246, 0.1);
   color: #60a5fa;
@@ -379,7 +422,11 @@
   border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-/* UTILITY DI GENERALE */
+.inline-icon {
+  stroke-width: 2.5px;
+}
+
+/* UTILITY GENERALI */
 .text-green { color: var(--color-highlight) !important; }
 .text-orange { color: #fb923c !important; }
 .text-red { color: #f87171 !important; }
@@ -391,10 +438,22 @@
   color: var(--text-muted);
 }
 
-.empty-icon {
-  font-size: 54px;
-  margin-bottom: 16px;
-  opacity: 0.25;
+.empty-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.empty-icon-lucide {
+  color: var(--text-muted);
+  opacity: 0.3;
+  stroke-width: 1.5px;
 }
 
 .animate-in {
@@ -432,7 +491,6 @@
   .badge-container { justify-content: center; }
   .hero-right-stats { width: 100%; justify-content: center; gap: 30px; }
   .horizontal-analysis { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .m-goals { display: none; }
 }
 
 @media (max-width: 480px) {

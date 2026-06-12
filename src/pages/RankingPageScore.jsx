@@ -2,6 +2,20 @@ import React, { useState, useMemo } from 'react';
 import OverlayPlayerStats from '../components/OverlayPlayerStats/OverlayPlayerStats';
 import './RankingPageScore.css';
 
+// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
+import { 
+  Flame, 
+  Crown, 
+  Calendar, 
+  AlertCircle,
+  Icon
+} from 'lucide-react';
+
+import {
+    soccerBall as SoccerBall,
+    soccerPitch as SoccerPitch
+} from '@lucide/lab';
+
 const RankingPageScore = ({ players = [], matches = [] }) => {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterYear, setFilterYear] = useState('all');
@@ -78,38 +92,44 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
     <div className="ranking-container">
       <div className="ranking-header">
         <div className="title-group">
-          <h1>Classifica Marcatori</h1>
+          <h1>
+            <Icon iconNode={SoccerBall} size={24} className="ranking-main-icon score-title-icon" /> Classifica Marcatori
+          </h1>
         </div>
 
         <div className="filters-group">
-          <select 
-            value={filterYear} 
-            onChange={(e) => {
-              setFilterYear(e.target.value);
-              setFilterMonth('all');
-            }} 
-            className="modern-select"
-          >
-            <option value="all">Tutti gli Anni</option>
-            {availableYears.map(y => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
+          <div className="select-icon-wrapper">
+            <select 
+              value={filterYear} 
+              onChange={(e) => {
+                setFilterYear(e.target.value);
+                setFilterMonth('all');
+              }} 
+              className="modern-select"
+            >
+              <option value="all">Tutti gli Anni</option>
+              {availableYears.map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
 
-          <select 
-            value={filterMonth} 
-            onChange={(e) => setFilterMonth(e.target.value)} 
-            className="modern-select"
-          >
-            <option value="all">Tutti i Mesi</option>
-            {availableMonths.map(m => (
-              <option key={m.value} value={m.value}>{m.label}</option>
-            ))}
-          </select>
+          <div className="select-icon-wrapper">
+            <select 
+              value={filterMonth} 
+              onChange={(e) => setFilterMonth(e.target.value)} 
+              className="modern-select"
+            >
+              <option value="all">Tutti i Mesi</option>
+              {availableMonths.map(m => (
+                <option key={m.value} value={m.value}>{m.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* 🏆 PODIO (Solo Desktop/Tablet) */}
+      {/* PODIO */}
       {podium.length > 0 && (
         <div className="elite-podium">
           {/* SECONDO POSTO */}
@@ -133,7 +153,9 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
             className="elite-card gold gold-score clickable-card"
             onClick={() => setSelectedPlayer({ data: podium[0], rank: podium[0].displayRank })}
           >
-            <div className="crown-icon">⚽</div>
+            <div className="crown-icon-container">
+              <Icon iconNode={SoccerBall} size={32} className="crown-icon-lucide" />
+            </div>
             <span className="elite-rank">1</span>
             <div className="elite-info-score">
               <span className="elite-name">{podium[0].nome}</span>
@@ -196,7 +218,9 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
       </div>
       
       {rankedList.length === 0 && (
-        <p className="no-data-msg">Nessun gol registrato in questo periodo.</p>
+        <p className="no-data-msg">
+          <AlertCircle size={16} className="inline-no-data-icon" /> Nessun gol registrato in questo periodo.
+        </p>
       )}
 
       {/* OVERLAY DELLE STATISTICHE COMPLESSIVE */}
