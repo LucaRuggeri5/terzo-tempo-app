@@ -1,31 +1,27 @@
 /* ==========================================================================
    STORICO SECTION & GRID ALIGNMENT
    ========================================================================== */
-.history-section-pro {
+.mp-history-section {
     margin-top: 20px;
     padding-bottom: 40px;
-    animation: fadeIn 0.4s ease-in-out;
+    animation: mp-fadeIn 0.4s ease-in-out;
 }
 
-.section-title-pro {
-    font-size: 20px;
+.mp-section-title {
+    font-size: 22px;
     font-weight: 800;
     color: var(--text-main);
     margin-bottom: 25px;
-    border-left: 5px solid var(--color-highlight);
-    padding-left: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-.history-grid-pro {
+.mp-history-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
     align-items: stretch; 
 }
 
-.empty-history {
+.mp-empty-history-notice {
     grid-column: 1 / -1;
     text-align: center;
     padding: 50px;
@@ -36,8 +32,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* UTILITY UTILI ALLE NUOVE ICONE INLINE */
-.inline-icon-match {
+.mp-inline-icon {
     vertical-align: -2px;
     margin-right: 4px;
     display: inline-block;
@@ -45,9 +40,9 @@
 }
 
 /* ==========================================================================
-   MATCH CARD DESIGN (ALLINEATA AD ASSE GLOBALE)
+   MATCH CARD DESIGN
    ========================================================================== */
-.history-card-pro {
+.mp-history-card {
     background: var(--bg-card);
     padding: 25px;
     border-radius: 24px;
@@ -58,14 +53,14 @@
     box-sizing: border-box;
 }
 
-.h-top-bar {
+.mp-card-top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.h-date {
+.mp-card-date {
     display: flex;
     align-items: center;
     font-size: 12px;
@@ -73,8 +68,7 @@
     color: var(--text-muted);
 }
 
-/* INTERFACCIA BOTTONE ALLINEATO WITH LUCIDE */
-.btn-info-modal {
+.mp-btn-trigger-modal {
     background: rgba(255, 255, 255, 0.06);
     color: var(--text-main);
     border: 1px solid rgba(255, 255, 255, 0.04);
@@ -89,16 +83,16 @@
     transition: all 0.2s;
 }
 
-.btn-info-modal:hover {
+.mp-btn-trigger-modal:hover {
     background: var(--color-highlight);
     color: #000000;
     border-color: var(--color-highlight);
 }
 
 /* ==========================================================================
-   SCORE ROW (GEOMETRIA DI RETICOLO INTERNO)
+   SCORE ROW
    ========================================================================== */
-.h-score-row {
+.mp-score-row {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,14 +102,14 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.h-team {
+.mp-team-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
 }
 
-.h-name {
+.mp-team-name {
     font-size: 11px;
     font-weight: 800;
     color: var(--text-muted);
@@ -124,28 +118,28 @@
     letter-spacing: 0.5px;
 }
 
-.h-val {
+.mp-team-score-val {
     font-size: 34px;
     font-weight: 900;
     color: var(--text-main);
     line-height: 1;
 }
 
-.h-team.winner .h-val {
+.mp-team-block.mp-is-winner .mp-team-score-val {
     color: var(--color-highlight);
     text-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.4);
 }
 
-.h-sep {
+.mp-score-separator {
     font-size: 22px;
     font-weight: 800;
     color: rgba(255, 255, 255, 0.15);
 }
 
 /* ==========================================================================
-   MARCATORI ED AUTOGOL (STRUTTURA BILANCIATA A DUE COLONNE)
+   MARCATORI ED AUTOGOL CARD FOOTER
    ========================================================================== */
-.h-footer-scorers {
+.mp-card-footer-scorers {
     margin-top: 15px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -153,13 +147,13 @@
     flex-grow: 1; 
 }
 
-.h-col {
+.mp-scorer-column {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.h-col strong {
+.mp-scorer-title {
     display: block;
     font-size: 10px;
     color: var(--color-highlight);
@@ -168,18 +162,18 @@
     letter-spacing: 0.3px;
 }
 
-.scorers-list {
+.mp-scorers-names-list {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-muted);
     line-height: 1.4;
 }
 
-.ag-label {
+.mp-label-autogoal {
     color: #f87171 !important;
 }
 
-.ag-list {
+.mp-ag-names-list {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-muted);
@@ -187,9 +181,9 @@
 }
 
 /* ==========================================================================
-   🏆 MODAL DESIGN SINFONICO (FORMAZIONI)
+   MODAL DESIGN (FORMAZIONI)
    ========================================================================== */
-.modal-overlay-pro {
+.mp-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -203,10 +197,10 @@
     z-index: 9999;
     padding: 20px;
     box-sizing: border-box;
-    animation: modalFadeIn 0.25s ease-out;
+    animation: mp-modalFadeIn 0.25s ease-out;
 }
 
-.modal-content-pro {
+.mp-modal-window {
     background: var(--bg-card);
     width: 100%;
     max-width: 650px;
@@ -216,10 +210,10 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: mp-modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.modal-header-pro {
+.mp-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -228,14 +222,14 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.modal-title-container h4 {
+.mp-modal-main-title {
     font-size: 17px;
     font-weight: 800;
     color: var(--text-main);
     margin: 0 0 2px 0;
 }
 
-.modal-subtitle {
+.mp-modal-subtitle {
     display: flex;
     align-items: center;
     font-size: 12px;
@@ -243,7 +237,7 @@
     font-weight: 600;
 }
 
-.modal-close-btn {
+.mp-modal-close-action {
     background: none;
     border: none;
     color: var(--text-muted);
@@ -256,12 +250,12 @@
     transition: background 0.2s, color 0.2s;
 }
 
-.modal-close-btn:hover {
+.mp-modal-close-action:hover {
     background: rgba(255, 255, 255, 0.08);
     color: var(--text-main);
 }
 
-.modal-score-banner {
+.mp-modal-score-banner {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -274,14 +268,14 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.modal-banner-team {
+.mp-modal-banner-team {
     display: flex;
     align-items: center;
     gap: 10px;
     letter-spacing: 0.5px;
 }
 
-.modal-banner-team span {
+.mp-modal-banner-team span {
     background: rgba(255, 255, 255, 0.12);
     padding: 4px 10px;
     border-radius: 8px;
@@ -290,12 +284,12 @@
     color: var(--text-main);
 }
 
-.modal-banner-team.banner-text-black { color: var(--color-highlight); } /* Colore highlight/accento per dare risalto */
-.modal-banner-team.banner-text-white { color: var(--text-main); }
-.modal-banner-sep { color: rgba(255, 255, 255, 0.3); font-size: 16px; }
+.mp-modal-banner-team.mp-banner-text-nera { color: var(--color-highlight); } 
+.mp-modal-banner-team.mp-banner-text-bianca { color: var(--text-main); }
+.mp-modal-banner-divider { color: rgba(255, 255, 255, 0.3); font-size: 16px; }
 
-/* CORPO DEL POPUP SQUADRE IN DUE RETICOLI */
-.modal-body-squads {
+/* CORPO DEL POPUP SQUADRE */
+.mp-modal-body-content {
     padding: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -304,13 +298,12 @@
     overflow-y: auto;
 }
 
-.modal-squad-block {
+.mp-modal-squad-section {
     display: flex;
     flex-direction: column;
 }
 
-/* HEADER DI FORMAZIONE CORRETTI E VISIBILI */
-.modal-squad-header {
+.mp-modal-squad-heading {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -323,34 +316,33 @@
     letter-spacing: 0.5px;
 }
 
-.block-black { 
+.mp-heading-group-nera { 
     background: #000000; 
     color: #ffffff; 
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-.block-white { 
+.mp-heading-group-bianca { 
     background: #ffffff; 
     color: #000000; 
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 12px rgba(255,255,255,0.05);
 }
 
-/* CERCHI COMPATIBILI AD ALTO IMPATTO VISIVO */
-.squad-circle-icon {
+.mp-squad-circle-marker {
     stroke-width: 3.5px;
 }
-.circle-black {
+.mp-marker-nera {
     fill: #000000;
     stroke: #ffffff;
 }
-.circle-white {
+.mp-marker-bianca {
     fill: #ffffff;
     stroke: #000000;
 }
 
-.modal-players-list {
+.mp-modal-list-players {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -359,34 +351,30 @@
     gap: 8px;
 }
 
-/* CARD DEGLI ATLETI PERSONALIZZATE PER SQUADRA */
-.modal-player-item {
+.mp-modal-player-row {
     display: flex;
     align-items: center;
-    gap: 12px;
     padding: 10px 14px;
     border-radius: 14px;
     transition: transform 0.15s;
+    position: relative;
 }
 
-.modal-player-item:hover {
+.mp-modal-player-row:hover {
     transform: translateX(2px);
 }
 
-/* Sfondo personalizzato per i giocatori della squadra nera */
-.item-nera {
+.mp-row-team-nera {
     background: rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Sfondo personalizzato per i giocatori della squadra bianca */
-.item-bianca {
+.mp-row-team-bianca {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* BADGE DELLE MAGLIETTE */
-.modal-player-badge {
+.mp-modal-shirt-badge {
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -395,46 +383,45 @@
     justify-content: center;
     flex-shrink: 0;
     box-sizing: border-box;
+    margin-right: 12px;
 }
 
-/* Maglietta Nera */
-.badge-nera { 
+.mp-shirt-badge-nera { 
     background: #000000; 
     border: 1.5px solid #ffffff; 
     box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
-.badge-nera .shirt-icon-lucide {
+.mp-shirt-badge-nera .mp-shirt-icon-render {
     fill: #000000;
     color: #ffffff;
 }
 
-/* Maglietta Bianca */
-.badge-bianca { 
+.mp-shirt-badge-bianca { 
     background: #ffffff; 
     border: 1.5px solid #000000; 
     box-shadow: 0 2px 6px rgba(255,255,255,0.2);
 }
-.badge-bianca .shirt-icon-lucide {
+.mp-shirt-badge-bianca .mp-shirt-icon-render {
     fill: #ffffff;
     color: #000000;
 }
 
-.shirt-icon-lucide {
+.mp-shirt-icon-render {
     stroke-width: 2.5px;
 }
 
-.modal-player-name {
+.mp-modal-player-display-name {
     font-size: 13px;
     font-weight: 700;
     color: var(--text-main);
+    flex: 1;
 }
 
-/* Forzatura colore nome se la card bianca richiede maggiore contrasto text */
-.item-bianca .modal-player-name {
+.mp-row-team-bianca .mp-modal-player-display-name {
     color: #ffffff;
 }
 
-.modal-no-players {
+.mp-modal-no-players-fallback {
     font-size: 12px;
     color: var(--text-muted);
     font-style: italic;
@@ -443,36 +430,82 @@
 }
 
 /* ==========================================================================
-   ANIMATIONS & RESPONSIVE DESIGN (ALLINEAMENTI LIQUIDI)
+   ICONE GOAL / AUTOGOL INLINE NEL MODAL
    ========================================================================== */
-@keyframes modalFadeIn {
+.mp-modal-player-inline-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto; 
+}
+
+.mp-modal-stat-pill-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mp-modal-ball-svg {
+    width: 13px;
+    height: 13px;
+}
+
+.mp-modal-ball-svg.mp-ball-color-goal {
+    color: var(--color-highlight);
+    filter: drop-shadow(0 0 6px rgba(var(--color-accent-rgb), 0.4));
+}
+
+.mp-modal-ball-svg.mp-ball-color-autogoal {
+    color: #ef4444;
+    filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.4));
+}
+
+.mp-modal-stat-multiplier {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   ANIMATIONS & RESPONSIVE DESIGN
+   ========================================================================== */
+@keyframes mp-fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-@keyframes modalSlideUp {
+@keyframes mp-modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes mp-modalSlideUp {
     from { transform: translateY(15px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
 @media (max-width: 600px) {
-    .modal-body-squads {
+    .mp-modal-body-content {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    .modal-content-pro {
+    .mp-modal-window {
         border-radius: 20px;
     }
 }
 
 @media (max-width: 480px) {
-    .history-grid-pro {
+    .mp-history-grid {
         grid-template-columns: 1fr;
     }
-    .h-score-row {
+    .mp-score-row {
         gap: 15px;
     }
-    .h-val {
+    .mp-team-score-val {
         font-size: 28px;
     }
 }

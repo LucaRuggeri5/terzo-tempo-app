@@ -41,17 +41,16 @@
   box-shadow: 0 0 12px rgba(var(--color-accent-rgb), 0.2);
 }
 
-/* LENTE DI INGRANDIMENTO BLINDATA */
 .search-icon-lucide {
   color: var(--text-muted);
   width: 20px;
   height: 20px;
-  flex-shrink: 0; /* Impedisce la deformazione su schermi stretti */
+  flex-shrink: 0;
 }
 
 .search-input {
   flex: 1;
-  min-width: 0; /* Permette all'input di restringersi correttamente lasciando spazio alle icone */
+  min-width: 0;
   border: none;
   background: transparent;
   padding: 12px 0;
@@ -61,7 +60,6 @@
   color: var(--text-main);
 }
 
-/* PULSANTE CANCELLA BLINDATO */
 .clear-btn {
   background: rgba(255, 255, 255, 0.08);
   border: none;
@@ -73,14 +71,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; /* Impedisce la deformazione su schermi stretti */
+  flex-shrink: 0;
 }
 
 .clear-btn:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* DROPDOWN MENU DI SUGGERIMENTO */
 .suggestions-list {
   position: absolute;
   top: calc(100% + 8px);
@@ -151,7 +148,7 @@
 }
 
 /* ==========================================================================
-   HERO PROFILE CARD (NOME BLINDATO GRANDE)
+   HERO PROFILE CARD
    ========================================================================== */
 .player-hero-card {
   background: var(--bg-card);
@@ -166,7 +163,7 @@
 }
 
 .display-name {
-  font-size: 42px; /* Forzato fisso a dimensione grande */
+  font-size: 42px;
   font-weight: 950;
   color: var(--text-main);
   margin: 0;
@@ -267,9 +264,11 @@
 
 .title-icon {
   color: var(--text-muted);
+  display: inline-block;
+  vertical-align: middle;
 }
 
-/* STORICO PRESTAZIONI (PULITO SENZA GOL) */
+/* STORICO PRESTAZIONI */
 .history-list {
   display: flex;
   flex-direction: column;
@@ -318,7 +317,12 @@
 .m-dr.plus { color: #10b981; }
 .m-dr.minus { color: #f87171; }
 
-/* SEZIONE PARTNER IN CRIME */
+/* SEZIONE PARTNER IN CRIME & MODIFICHE COMPAGNI FREQUENTI */
+.shared-affinities-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .partner-content {
   display: flex;
   align-items: center;
@@ -361,10 +365,61 @@
   color: var(--color-highlight);
 }
 
-.empty-info {
+.empty-info, .empty-info-sub {
   color: var(--text-muted);
   font-style: italic;
   margin: 0;
+}
+
+/* NUOVI STILI PER I COMPAGNI PIÙ FREQUENTI */
+.frequent-partners-section {
+  margin-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+}
+
+.sub-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+}
+
+.frequent-partners-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.frequent-partner-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+}
+
+.freq-partner-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.freq-partner-count {
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-highlight);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 /* ==========================================================================
@@ -449,7 +504,7 @@
   .badge-container { justify-content: center; }
   .hero-right-stats { width: 100%; justify-content: center; gap: 25px; }
   .horizontal-analysis { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .display-name { font-size: 34px; } /* Mantiene una forte rilevanza anche su schermi ridotti */
+  .display-name { font-size: 34px; }
 }
 
 @media (max-width: 560px) {

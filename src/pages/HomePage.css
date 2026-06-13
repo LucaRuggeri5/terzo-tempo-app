@@ -10,10 +10,11 @@
    ENHANCED HERO SECTION (JUMBOTRON CON IMMAGINE DINAMICA)
    ========================================================================== */
 .home-hero {
+    /* ABBIAMO ABBASSATO L'OPACITÀ DA 0.88/0.75 A 0.50/0.35 */
     background: linear-gradient(
         135deg, 
-        rgba(11, 14, 20, 0.88) 0%, 
-        rgba(20, 27, 39, 0.75) 100%
+        rgba(11, 14, 20, 0.50) 0%, 
+        rgba(20, 27, 39, 0.35) 100%
       ), 
       var(--hero-bg-image);
     background-size: cover;

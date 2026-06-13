@@ -13,7 +13,8 @@ import {
   Trophy,
   History,
   Handshake,
-  UserCheck
+  UserCheck,
+  Users
 } from 'lucide-react';
 
 const PlayerStatsPage = ({ players = [], matches = [] }) => {
@@ -150,8 +151,16 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
       }
     });
 
-    const partnerArray = Object.values(stats.partners).filter(p => p.total >= 2);
-    stats.bestPartner = partnerArray.sort((a, b) => (b.win / b.total) - (a.win / a.total) || b.total - a.total)[0];
+    const partnerArray = Object.values(stats.partners);
+    
+    // Calcolo del Best Partner (richiede almeno 2 match e si basa sul Win Rate)
+    const validForBest = partnerArray.filter(p => p.total >= 2);
+    stats.bestPartner = validForBest.sort((a, b) => (b.win / b.total) - (a.win / a.total) || b.total - a.total)[0];
+
+    // Calcolo dei top 5 compagni più frequenti per partite totali
+    stats.topFrequentPartners = partnerArray
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 5);
 
     return stats;
   }, [selectedPlayerId, matches, players, sortedRanking]);
@@ -265,7 +274,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
               </div>
             </div>
 
-            <div className="right-col section-card">
+            <div className="right-col section-card shared-affinities-card">
               <h3><Handshake size={16} className="title-icon" /> Partner in Crime</h3>
               {personalStats.bestPartner ? (
                 <div className="partner-content">
@@ -278,6 +287,24 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
                   </div>
                 </div>
               ) : <p className="empty-info">Affinità non sufficiente o dati insufficienti.</p>}
+
+              {/* SEZIONE COMPAGNI PIÙ FREQUENTI AGGIUNTA SOTTO */}
+              <div className="frequent-partners-section">
+                <h4 className="sub-section-title"><Users size={14} className="title-icon" /> Compagni più Frequenti</h4>
+                {personalStats.topFrequentPartners.length > 0 ? (
+                  <div className="frequent-partners-list">
+                    {personalStats.topFrequentPartners.map((p, index) => (
+                      <div key={index} className="frequent-partner-row">
+                        <span className="freq-partner-name">{p.nome}</span>
+                        <span className="freq-partner-count">{p.total} {p.total === 1 ? 'partita' : 'partite'}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="empty-info-sub">Nessun compagno registrato.</p>
+                )}
+              </div>
+
             </div>
           </div>
         </div>
