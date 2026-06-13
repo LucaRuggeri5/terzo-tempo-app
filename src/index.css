@@ -21,8 +21,8 @@
   --bg-sidebar: #0d0b0b;
   --text-main: #ffffff;
   --text-muted: #a3a3a3;
-  --color-accent: #e65c00;        /* Arancione Europa League */
-  --color-highlight: #f79315;     /* Giallo/Arancio Oro */
+  --color-highlight: #e65c00;        /* Arancione Europa League */
+  --color-accent: #f79315;     /* Giallo/Arancio Oro */
   --color-accent-rgb: 230, 92, 0;
 }
 
@@ -33,8 +33,8 @@
   --bg-sidebar: #090d0a;
   --text-main: #ffffff;
   --text-muted: #94a3b8;
-  --color-accent: #08ae0e;        /* Verde Conference vivo */
-  --color-highlight: #00ff88;     /* Verde Neon chiaro */
+  --color-highlight: #08ae0e;        /* Verde Conference vivo */
+  --color-accent: #00ff88;     /* Verde Neon chiaro */
   --color-accent-rgb: 8, 174, 14;
 }
 

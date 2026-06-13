@@ -84,7 +84,6 @@
   flex: 1;
 }
 
-/* Gestione metallica del Podio con retroilluminazione del tema */
 .gold {
   transform: scale(1.15);
   border: 2px solid #fbbf24;
@@ -143,15 +142,6 @@
   border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.crown-icon {
-  position: absolute;
-  top: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 32px;
-  filter: drop-shadow(0 4px 8px rgba(251, 191, 36, 0.4));
-}
-
 /* ==========================================================================
    RANKING TABLE
    ========================================================================== */
@@ -194,11 +184,18 @@
   color: var(--text-main);
 }
 
-/* Evidenziazione righe podio in classifica */
-.row-highlight {
-  background: rgba(255, 255, 255, 0.01);
+/* Evidenziazione sfumata ad effetto trasparenza per le righe del podio */
+.row-gold {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.04) 0%, rgba(251, 191, 36, 0.01) 100%);
+}
+.row-silver {
+  background: linear-gradient(90deg, rgba(164, 181, 203, 0.04) 0%, rgba(164, 181, 203, 0.01) 100%);
+}
+.row-bronze {
+  background: linear-gradient(90deg, rgba(217, 119, 6, 0.04) 0%, rgba(217, 119, 6, 0.01) 100%);
 }
 
+/* Stilizzazione e separazione cromatica dei Rank Dots della tabella */
 .rank-dot {
   width: 32px;
   height: 32px;
@@ -207,21 +204,40 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 13px;
   color: var(--text-muted);
   border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-.dot-1 { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); }
-.dot-2 { background: rgba(148, 163, 184, 0.1); color: #a4b5cb; border: 1px solid rgba(148, 163, 184, 0.2); }
-.dot-3 { background: rgba(217, 119, 6, 0.1); color: #d97706; border: 1px solid rgba(217, 119, 6, 0.2); }
+/* Colori pieni a contrasto per staccarsi dal background e dal podio superiore */
+.dot-1 { 
+  background: #fbbf24; 
+  color: #111827; 
+  border: 1px solid #fcd34d;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+.dot-2 { 
+  background: #cbd5e1; 
+  color: #111827; 
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(203, 213, 225, 0.2);
+}
+.dot-3 { 
+  background: #d97706; 
+  color: #ffffff; 
+  border: 1px solid #f59e0b;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
 
 /* ==========================================================================
-   UTILITIES
+   UTILITIES CROMATICHE
    ========================================================================== */
-.text-green { color: var(--color-highlight) !important; }
+.text-highlight { color: var(--color-highlight) !important; }
+.text-green { color: #10B981 !important; }
 .text-red { color: #f87171 !important; }
+.text-neutral { color: var(--text-main) !important; } /* Colore standard per lo 0 */
+
 .font-bold { font-weight: 800; }
 .invisible { opacity: 0; pointer-events: none; }
 .no-data-msg {
@@ -233,11 +249,11 @@
 
 .clickable-card, .ranking-row-clickable {
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .ranking-row-clickable:hover {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(255, 255, 255, 0.03) !important; /* Sovrascrive delicatamente anche i gradienti */
 }
 
 .clickable-card:hover {

@@ -14,10 +14,6 @@ import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
 import './index.css';
 
-// IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT PER HEADER MOBILE
-import { Beer, Icon } from 'lucide-react';
-import { soccerBall as SoccerBall } from '@lucide/lab';
-
 import logoChampions from './assets/LogoTemi/logo_champions_league.svg';
 import logoEuropa from './assets/LogoTemi/logo_europa_league.svg';
 import logoConference from './assets/LogoTemi/logo_conference_league.svg';
@@ -32,7 +28,6 @@ const AppContent = () => {
   const [loading, setLoading] = useState(true);
 
   const [theme, setTheme] = useState(() => localStorage.getItem('terzo-tempo-theme') || 'champions');
-  // Stato per gestire l'innesco dell'animazione a onda su tutta l'app
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
@@ -62,12 +57,8 @@ const AppContent = () => {
   useEffect(() => { setSidebarOpen(false); }, [location]);
 
   const handleThemeCycle = () => {
-    // Attiva l'animazione di transizione dinamica
     setIsTransitioning(true);
-    
     setTheme(prev => prev === 'champions' ? 'europa' : prev === 'europa' ? 'conference' : 'champions');
-
-    // Rimuove la classe di transizione dopo il completamento dell'effetto CSS (600ms)
     setTimeout(() => {
       setIsTransitioning(false);
     }, 600);
@@ -81,7 +72,15 @@ const AppContent = () => {
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''} ${isTransitioning ? 'theme-reveal-active' : ''}`}>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} session={session} />
+      {/* Passiamo lo stato del tema e la funzione di ciclo alla Sidebar per renderla disponibile anche lì */}
+      <Sidebar 
+        isOpen={sidebarOpen} 
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
+        session={session} 
+        currentTheme={theme}
+        onThemeCycle={handleThemeCycle}
+        currentThemeLogo={currentThemeLogo()}
+      />
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)}></div>}
 
       <div className="main-layout">
@@ -102,12 +101,9 @@ const AppContent = () => {
             </button>
 
             <div className="mobile-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-              <div className="brand-icons-mini">
-                <Icon iconNode={SoccerBall} className="mini-icon-item" />
-                <Beer className="mini-icon-item mini-beer" />
-              </div>
-              <h2 className="brand-text-mini">
-                TERZO<span className="brand-text-mini-highlight">TEMPO</span>
+              <h2 className="brand-text-stacked">
+                <span className="brand-word-top">TERZO</span>
+                <span className="brand-word-bottom">TEMPO</span>
               </h2>
             </div>
           </div>

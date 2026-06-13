@@ -4,7 +4,7 @@
 .sidebar {
   width: 280px;
   height: 100vh;
-  height: 100dvh; /* Altezza dinamica per mobile */
+  height: 100dvh; 
   position: fixed;
   left: 0;
   top: 0;
@@ -20,7 +20,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Impedisce alla sidebar intera di scrollare */
+  overflow: hidden; 
 }
 
 .close-sidebar-btn {
@@ -39,13 +39,43 @@
 }
 
 /* ==========================================================================
-   HEADER & LOGO DI SFONDO CON ICONE SULLA SCRITTA
+   HEADER & PULSANTE TEMA (IN ALTO A SINISTRA SU DESKTOP)
    ========================================================================== */
 .sidebar-header {
-  padding: 40px 20px 25px 20px;
-  flex-shrink: 0; /* Impedisce all'header di rimpicciolirsi */
+  padding: 50px 20px 25px 20px;
+  flex-shrink: 0; 
   text-align: center;
   position: relative;
+}
+
+/* Stile del pulsante tema ancorato in alto a sinistra della sidebar */
+.sidebar-theme-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  z-index: 10;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.sidebar-theme-btn:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-theme-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .brand-container {
@@ -55,86 +85,64 @@
   gap: 12px;
 }
 
-/* Contenitore per le icone sopra alla scritta */
 .brand-icons {
   position: relative;
-  width: 80px;
-  height: 48px;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2px;
-}
-
-/* Wrapper assoluto per le icone per allinearle in riga */
-.brand-vignette-icons {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  z-index: 2;
-}
-
-.brand-icon-item {
-  width: 26px;
-  height: 26px;
-  stroke-width: 2px;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-}
-
-.brand-icon-item.ball-icon {
-  color: var(--color-accent);
-}
-
-.brand-icon-item.beer-icon {
-  color: #ffb000; /* Splendido giallo/oro birra intenso */
-  filter: drop-shadow(0 0 8px rgba(255, 176, 0, 0.4));
 }
 
 .brand-logo-glow {
-  width: 50px;
-  height: 32px;
+  position: absolute;
+  width: 120px;
+  height: 40px;
   border-radius: 50%;
   background: var(--color-highlight);
-  filter: blur(14px);
-  opacity: 0.25;
-  box-shadow: 0 0 25px var(--color-highlight);
-  animation: pulseGlow 3s infinite ease-in-out;
+  filter: blur(20px);
+  opacity: 0.15;
+  box-shadow: 0 0 30px var(--color-highlight);
+  z-index: 1;
+  pointer-events: none;
 }
 
-.brand-text {
-  font-size: 22px;
-  font-weight: 950;
-  letter-spacing: -0.5px;
-  margin: 0;
-  color: var(--text-main);
+/* Nuovo testo impilato coordinato per la Sidebar */
+.brand-text-stacked-sidebar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
+  margin: 0;
+  line-height: 1;
+  z-index: 2;
 }
 
-/* Protezione e uguaglianza del font-size per "TEMPO" */
-.brand-text-highlight {
-  font-size: inherit !important;
-  font-weight: inherit !important;
+.brand-sidebar-word-top {
+  font-size: 24px;
+  font-weight: 950;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.brand-sidebar-word-bottom {
+  font-size: 24px;
+  font-weight: 950;
   color: var(--color-highlight);
-  text-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.4);
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.3);
 }
 
 /* ==========================================================================
    CONTENT (SCROLLABILE CON GESTIONE ICONE NAV-LINK)
    ========================================================================== */
 .sidebar-content {
-  flex: 1; /* Prende tutto lo spazio centrale */
-  overflow-y: auto; /* Abilita lo scroll solo qui */
+  flex: 1; 
+  overflow-y: auto; 
   padding: 10px 15px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
 }
 
-/* Styling scrollbar per Chrome/Safari */
 .sidebar-content::-webkit-scrollbar {
   width: 4px;
 }
@@ -165,7 +173,6 @@
   margin: 0;
 }
 
-/* STRUTTURA AD INCASTRO DEI LINK NAVIGAZIONE CON ICONE LUCIDE */
 .sidebar-nav a {
   display: flex;
   align-items: center;
@@ -176,15 +183,14 @@
   font-size: 13.5px;
   border-radius: 12px;
   margin-bottom: 4px;
-  gap: 12px; /* Fornisce lo spazio perfetto tra l'icona Lucide ed il testo */
+  gap: 12px; 
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Controllo geometrico centralizzato sul tratto delle icone */
 .nav-icon {
   width: 18px;
   height: 18px;
-  stroke-width: 2.2px; /* Tratto leggermente più spesso per risaltare sul fondo scuro */
+  stroke-width: 2.2px; 
   color: var(--text-muted);
   flex-shrink: 0;
   transition: transform 0.2s ease, color 0.2s ease;
@@ -200,7 +206,6 @@
   transform: translateX(1px);
 }
 
-/* STATO ATTIVO */
 .sidebar-nav a.active {
   background: rgba(var(--color-accent-rgb), 0.15);
   color: var(--color-highlight);
@@ -215,13 +220,13 @@
 }
 
 /* ==========================================================================
-   FOOTER CON TASTI DI LOG-AUTH INTERNI
+   FOOTER
    ========================================================================== */
 .sidebar-footer {
-  flex-shrink: 0; /* Fondamentale: non si deve mai schiacciare */
+  flex-shrink: 0; 
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  background-color: var(--bg-sidebar); /* Copre eventuale contenuto che scorre sotto */
+  background-color: var(--bg-sidebar); 
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -285,6 +290,11 @@
    RESPONSIVE DESIGN AD INCASTRO FLUIDO (1100px)
    ========================================================================== */
 @media (max-width: 1100px) {
+  /* NASCONDE IL PULSANTE DI CAMBIO TEMA DALLA SIDEBAR SOTTO I 1100px */
+  .sidebar-theme-btn {
+    display: none;
+  }
+
   .sidebar {
     width: 280px;
     transform: translateX(-100%);

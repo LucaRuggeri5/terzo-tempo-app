@@ -1,6 +1,7 @@
-/* Layout base e Header */
+/* ==========================================================================
+   LAYOUT BASE ED HEADER PRINCIPALE (DESKTOP DI PREDEFINITO)
+   ========================================================================== */
 .app-container { 
-  display: flex; 
   width: 100%; 
 }
 
@@ -9,8 +10,6 @@
   margin-left: 280px; 
   display: flex; 
   flex-direction: column; 
-  padding-top: 70px; 
-  /* Preparazione per le transizioni fluide di colore dello sfondo generale */
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -21,8 +20,9 @@
   margin: 0 auto; 
 }
 
+/* Header mobile visibile sotto i 1100px */
 .mobile-header {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
@@ -35,7 +35,11 @@
   transition: background-color 0.4s ease;
 }
 
-.header-center-right { display: flex; align-items: center; gap: 15px; }
+.header-center-right { 
+  display: flex; 
+  align-items: center; 
+  gap: 15px; 
+}
 
 /* Tasto Logo Ciclico */
 .theme-cycle-btn {
@@ -49,6 +53,11 @@
   align-items: center;
   justify-content: center;
   padding: 6px;
+  transition: transform 0.2s ease;
+}
+
+.theme-cycle-btn:hover {
+  transform: scale(1.05);
 }
 
 .theme-cycle-logo {
@@ -57,44 +66,33 @@
   object-fit: contain;
 }
 
-/* Brand Configurato con Icone Lucide */
+/* Brand con scritte una sopra l'altra */
 .mobile-brand { 
   display: flex; 
-  flex-direction: column; 
-  align-items: flex-end; 
-}
-
-.brand-icons-mini { 
-  display: flex;
   align-items: center;
-  gap: 4px;
-  margin-bottom: -1px; 
+  user-select: none;
 }
 
-.mini-icon-item {
-  width: 14px;
-  height: 14px;
-  stroke-width: 2px;
-}
-
-.mini-icon-item.mini-beer {
-  color: #ffb000;
-}
-
-.brand-text-mini { 
-  font-size: 16px; 
-  font-weight: 900; 
-  letter-spacing: -0.5px; 
+.brand-text-stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Allinea i testi a destra verso il logo del torneo */
   margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 2px;
+  line-height: 0.95; /* Stringe l'interlinea per tenerle compatte ed eleganti */
 }
 
-.brand-text-mini-highlight { 
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  color: var(--color-highlight); 
+.brand-word-top {
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff; /* Forza la prima parola in bianco */
+  letter-spacing: 0.5px;
+}
+
+.brand-word-bottom {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--color-highlight); /* Forza la seconda parola con il colore highlight del tema attuale */
+  letter-spacing: 0.5px;
 }
 
 /* Menu Hamburger */
@@ -103,28 +101,61 @@
 .hamburger-icon span { display: block; width: 22px; height: 2px; background-color: var(--color-highlight); }
 
 /* ==========================================================================
-   ANIMAZIONE DINAMICA CAMBIO TEMA DIAGONAL SHIMMER FLAS
+   ANIMAZIONE DI TRANSIZIONE (DIAGONAL SHIMMER FLASH)
    ========================================================================== */
-   
-   .theme-reveal-active::after {
-     content: '';
-     position: fixed;
-     top: 0; left: -150%; width: 150%; height: 100%;
-     background: linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.15), transparent);
-     transform: skewX(-20deg);
-     z-index: 9999;
-     animation: shimmerFlash 1s ease-out;
-     pointer-events: none;
-   }
-   @keyframes shimmerFlash {
-     to { left: 150%; }
-   }
+.theme-reveal-active::after {
+  content: '';
+  position: fixed;
+  top: 0; left: -150%; width: 150%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.20), transparent);
+  transform: skewX(-20deg);
+  z-index: 99999;
+  animation: shimmerFlash 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
 
+@keyframes shimmerFlash {
+  to { left: 150%; }
+}
 
-
-/* Responsive design */
+/* ==========================================================================
+   STEP 1: BREAKPOINT RESPONSIVE INTERMEDIO (MAX 1100px - TABLET)
+   ========================================================================== */
 @media (max-width: 1100px) {
-  .main-layout { margin-left: 0; }
-  .mobile-header { left: 0; padding: 0 16px; }
-  .menu-toggle { display: flex; }
+  .main-layout { 
+    margin-left: 0; 
+    padding-top: 70px; 
+  }
+  
+  .mobile-header { 
+    display: flex; 
+    left: 0; 
+    padding: 0 20px; 
+  }
+  
+  .menu-toggle { 
+    display: flex; 
+  }
+}
+
+/* ==========================================================================
+   STEP 2: BREAKPOINT PORTRAIT (MAX 768px - MINI TABLET)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .content-area { 
+    padding: 24px 16px; 
+  }
+}
+
+/* ==========================================================================
+   STEP 3: BREAKPOINT MOBILE STANDARD (MAX 480px - SMARTPHONE STANDARD)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .mobile-header {
+    padding: 0 12px;
+  }
+  
+  .header-center-right {
+    gap: 10px; 
+  }
 }

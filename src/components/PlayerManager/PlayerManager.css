@@ -375,4 +375,4 @@
   .admin-add-player button { padding: 12px; }
   .admin-player-chips-container { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 475px) { .admin-player-chips-container { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .admin-player-chips-container { grid-template-columns: 1fr; } }

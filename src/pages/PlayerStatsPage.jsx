@@ -68,7 +68,7 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
     return { label: 'STABILE', class: 'stable', icon: <Scale className="badge-lucide-icon" /> };
   };
 
-// 3. AUTOCOMPLETE & GESTIONE INPUT TASTIERA
+  // 3. AUTOCOMPLETE & GESTIONE INPUT TASTIERA
   const filteredSuggestions = useMemo(() => {
     if (!searchTerm || selectedPlayerId) return [];
     return players
@@ -85,8 +85,10 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
   const handleKeyDown = (e) => {
     if (filteredSuggestions.length === 0) return;
     if (e.key === "ArrowDown") {
+      e.preventDefault();
       setActiveIndex(prev => (prev < filteredSuggestions.length - 1 ? prev + 1 : prev));
     } else if (e.key === "ArrowUp") {
+      e.preventDefault();
       setActiveIndex(prev => (prev > 0 ? prev - 1 : 0));
     } else if (e.key === "Enter" && activeIndex !== -1) {
       selectPlayer(filteredSuggestions[activeIndex]);
@@ -257,7 +259,6 @@ const PlayerStatsPage = ({ players = [], matches = [] }) => {
                   <div key={i} className="history-item">
                     <span className="m-date">{new Date(m.data).toLocaleDateString('it-IT', { day: '2-digit', month: 'short' })}</span>
                     <span className={`m-res res-${m.risultato}`}>{m.risultato}</span>
-                    <span className="m-goals">{m.goal} Goal</span>
                     <span className={`m-dr ${m.dr >= 0 ? 'plus' : 'minus'}`}>{m.dr > 0 ? `+${m.dr}` : m.dr} DR</span>
                   </div>
                 ))}

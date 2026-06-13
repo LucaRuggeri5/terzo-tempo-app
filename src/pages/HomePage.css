@@ -10,7 +10,6 @@
    ENHANCED HERO SECTION (JUMBOTRON CON IMMAGINE DINAMICA)
    ========================================================================== */
 .home-hero {
-    /* Unisce un gradiente scuro protettivo all'immagine dinamica passata da React */
     background: linear-gradient(
         135deg, 
         rgba(11, 14, 20, 0.88) 0%, 
@@ -22,19 +21,16 @@
     background-repeat: no-repeat;
     
     border-radius: 24px;
-    padding: 90px 40px; /* Aumentato leggermente per dare maggiore sfogo visivo alle immagini */
+    padding: 90px 40px;
     color: var(--text-main);
     text-align: center;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.06);
     position: relative;
     overflow: hidden;
-    
-    /* Transizione premium sul cambio immagine di sfondo */
     transition: background-image 0.4s ease-in-out, border-color 0.3s ease;
 }
 
-/* Effetto luce radiale aggiuntivo tarato per far esplodere i colori del torneo attivo */
 .home-hero::before {
     content: '';
     position: absolute;
@@ -47,7 +43,6 @@
     z-index: 0;
 }
 
-/* Bordo luminoso che si adatta alle tonalità della competizione attiva */
 body[data-theme="champions"] .home-hero { border-color: var(--color-accent); }
 body[data-theme="europa"] .home-hero { border-color: var(--color-accent); }
 body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
@@ -68,7 +63,6 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Forzatura specifica per evitare il rimpicciolimento anomalo del testo evidenziato */
 .hero-title-highlight {
     font-size: inherit; 
     font-weight: inherit;
@@ -83,7 +77,7 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
     font-style: italic;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
     margin-bottom: 45px;
-    color: #e2e8f0; /* Più chiaro per eccellere visivamente sopra le foto di sfondo */
+    color: #e2e8f0;
     font-weight: 600;
     opacity: 0.95;
 }
@@ -125,7 +119,7 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
     background: rgba(15, 23, 42, 0.6);
     color: var(--text-main);
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(8px); /* Rende il tasto opaco in modo trasparente e moderno sull'immagine */
+    backdrop-filter: blur(8px);
 }
 
 .hero-buttons button:hover {
@@ -173,18 +167,9 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
     stroke-width: 2px;
 }
 
-.wrapper-players {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-}
-.wrapper-matches {
-    background: rgba(var(--color-accent-rgb), 0.1);
-    color: var(--color-highlight);
-}
-.wrapper-date {
-    background: rgba(168, 85, 247, 0.1);
-    color: #a855f7;
-}
+.wrapper-players { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.wrapper-matches { background: rgba(var(--color-accent-rgb), 0.1); color: var(--color-highlight); }
+.wrapper-date { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
 
 .stat-info {
     display: flex;
@@ -279,26 +264,34 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==========================================================================
+   STEP 1: RESPONSIVE INTERMEDIO (MAX 900px) - TABLET/NOTEBOOK
+   ========================================================================== */
+@media (max-width: 900px) {
+    .hero-main-title {
+        font-size: 2.8rem;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .hero-subtitle {
+        font-size: 1.2rem;
     }
 }
 
 /* ==========================================================================
-   RESPONSIVE OPTIMIZATION
+   STEP 2: PORTRAIT MEDIA QUERY (MAX 700px) - SMARTPHONE LANDSCAPE
    ========================================================================== */
 @media (max-width: 700px) {
     .home-hero {
-        padding: 60px 20px;
+        padding: 55px 24px;
+        border-radius: 16px;
     }
 
     .hero-main-title {
-        font-size: 2.3rem;
+        font-size: 2.2rem;
     }
 
     .hero-subtitle {
@@ -306,16 +299,97 @@ body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
         margin-bottom: 35px;
     }
 
-    .hero-buttons button {
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
         width: 100%;
-        padding: 12px 20px;
     }
 
-    .quote-text {
-        font-size: 1rem;
+    .hero-buttons button {
+        width: 100%;
+        padding: 14px 20px;
     }
     
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Le card passano a colonna intera */
+        gap: 14px;
+    }
+
+    .quotes-carousel {
+        padding: 35px 20px 20px 20px;
+    }
+}
+
+/* ==========================================================================
+   STEP 3: SMARTPHONE PICCOLI (MAX 400px) - MOBILE STANDARD
+   ========================================================================== */
+@media (max-width: 400px) {
+    .home-container {
+        gap: 20px;
+    }
+
+    .home-hero {
+        padding: 40px 16px;
+    }
+
+    .hero-main-title {
+        font-size: 1.8rem;
+        letter-spacing: -1px;
+    }
+
+    /* Rimuoviamo la forzatura del no-wrap per evitare che "Terzo Tempo" esca fuori schermo */
+    .hero-title-highlight {
+        white-space: normal;
+        display: inline;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+
+    .quote-text {
+        font-size: 1.05rem;
+    }
+}
+
+/* ==========================================================================
+   STEP 4: SOGLIA LIMITE ESTREMA (FINO A 320px) - SMARTPHONE VINTAGE/COMPATTI
+   ========================================================================== */
+@media (max-width: 330px) {
+    .home-hero {
+        padding: 35px 12px;
+        border-radius: 12px;
+    }
+
+    .hero-main-title {
+        font-size: 1.6rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .stat-icon-wrapper {
+        width: 46px;
+        height: 46px;
+    }
+
+    .quote-text {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    .quotes-carousel {
+        padding: 30px 12px 16px 12px;
     }
 }

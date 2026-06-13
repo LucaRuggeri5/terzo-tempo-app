@@ -17,7 +17,7 @@ import {
 } from '@lucide/lab';
 
 // IMPORTAZIONE DELLE IMMAGINI DI SFONDO DALLA CARTELLA ASSETS
-import championsBg from '../assets/Background/champions_background.jpg'; // adatta l'estensione (.jpg/.png/.webp) se differente
+import championsBg from '../assets/Background/champions_background.jpg';
 import europaBg from '../assets/Background/europa_background.jpg';
 import conferenceBg from '../assets/Background/conference_background.jpg';
 
@@ -43,10 +43,8 @@ const HomePage = ({ players, matches }) => {
             setActiveTheme(currentTheme);
         };
 
-        // Aggiorna subito all'avvio del componente
         updateTheme();
 
-        // MutationObserver per intercettare istantaneamente il cambio tema avviato da App.jsx
         const observer = new MutationObserver(updateTheme);
         observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 

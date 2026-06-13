@@ -8,16 +8,13 @@ import './Sidebar.css';
 import { 
   Home, 
   Trophy, 
-  Flame, 
   BarChart3, 
   User, 
-  History, 
   FileEdit, 
   LogIn, 
   LogOut,
   X,
-  Icon,
-  Beer
+  Icon
 } from 'lucide-react';
 
 import {
@@ -25,7 +22,7 @@ import {
     soccerPitch as SoccerPitch
 } from '@lucide/lab';
 
-const Sidebar = ({ isOpen, toggleSidebar, session }) => {
+const Sidebar = ({ isOpen, toggleSidebar, session, currentTheme, onThemeCycle, currentThemeLogo }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,22 +55,29 @@ const Sidebar = ({ isOpen, toggleSidebar, session }) => {
 
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-sticky-wrapper">
-          {/* Header con pulsante di chiusura */}
+          {/* Header con pulsante cambio tema (In alto a Sx) e pulsante di chiusura (In alto a Dx) */}
           <div className="sidebar-header">
+            {/* TASTO CAMBIO TEMA: Visibile solo sopra i 1100px tramite CSS */}
+            <button 
+              className={`sidebar-theme-btn theme-${currentTheme}`}
+              onClick={onThemeCycle}
+              title="Cambia Torneo"
+            >
+              <img src={currentThemeLogo} alt="Logo Torneo" className="sidebar-theme-logo" />
+            </button>
+
             <button className="close-sidebar-btn" onClick={toggleSidebar}>
               <X size={18} />
             </button>
+            
             <NavLink to="/" className="brand-container" onClick={toggleSidebar} style={{ textDecoration: 'none' }}>
               <div className="brand-icons">
                 <div className="brand-logo-glow"></div>
-                <div className="brand-vignette-icons">
-                  <Icon iconNode={SoccerBall} className="brand-icon-item ball-icon" />
-                  <Beer className="brand-icon-item beer-icon" />
+                <div className="brand-text-stacked-sidebar">
+                  <span className="brand-sidebar-word-top">TERZO</span>
+                  <span className="brand-sidebar-word-bottom">TEMPO</span>
                 </div>
               </div>
-              <h2 className="brand-text">
-                TERZO<span className="brand-text-highlight">TEMPO</span>
-              </h2>
             </NavLink>
           </div>
 

@@ -193,7 +193,11 @@ const RankingPage = ({ players = [], matches = [] }) => {
             {rankedList.map((player) => (
               <tr 
                 key={player.id} 
-                className={`ranking-row-clickable ${player.displayRank <= 3 ? 'row-highlight' : ''}`}
+                className={`ranking-row-clickable ${
+                  player.displayRank === 1 ? 'row-gold' : 
+                  player.displayRank === 2 ? 'row-silver' : 
+                  player.displayRank === 3 ? 'row-bronze' : ''
+                }`}
                 onClick={() => setSelectedPlayer({ data: player, rank: player.displayRank })}
               >
                 <td className="w-pos">
@@ -202,9 +206,9 @@ const RankingPage = ({ players = [], matches = [] }) => {
                   </span>
                 </td>
                 <td className="w-name name-text">{player.nome}</td>
-                <td className="w-data font-bold">{player.punti}</td>
+                <td className="w-data font-bold text-highlight">{player.punti}</td>
                 <td className="w-data hide-mobile">{player.partite}</td>
-                <td className={`w-data font-bold ${player.dr > 0 ? 'text-green' : player.dr < 0 ? 'text-red' : ''}`}>
+                <td className={`w-data font-bold ${player.dr > 0 ? 'text-green' : player.dr < 0 ? 'text-red' : 'text-neutral'}`}>
                   {player.dr > 0 ? `+${player.dr}` : player.dr}
                 </td>
                 <td className="w-data hide-mobile">{player.goal}</td>
