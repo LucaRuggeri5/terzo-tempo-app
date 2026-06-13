@@ -20,6 +20,7 @@ import {
 import championsBg from '../assets/Background/champions_background.jpg';
 import europaBg from '../assets/Background/europa_background.jpg';
 import conferenceBg from '../assets/Background/conference_background.jpg';
+import terzotempoBg from '../assets/Background/terzo_tempo_background.jpg';
 
 const HomePage = ({ players, matches }) => {
     const navigate = useNavigate();
@@ -63,6 +64,7 @@ const HomePage = ({ players, matches }) => {
     const getHeroBackground = () => {
         if (activeTheme === 'europa') return europaBg;
         if (activeTheme === 'conference') return conferenceBg;
+        if (activeTheme === 'terzotempo') return terzotempoBg;
         return championsBg;
     };
 

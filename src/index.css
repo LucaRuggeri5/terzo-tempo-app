@@ -2,7 +2,20 @@
    TEMI DELL'APPLICAZIONE (CSS VARIABLES)
    ========================================================================== */
 
-/* Tema di Default: Champions League */
+
+/* Tema: Terzo Tempo */
+[data-theme="terzotempo"] {
+  --bg-primary: #14130f;
+  --bg-card: #1f1d17;
+  --bg-sidebar: #0d0d09;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --color-highlight: #FFCC00;        /* Verde Conference vivo */
+  --color-accent: #FFCC00;     /* Verde Neon chiaro */
+  --color-accent-rgb: 8, 174, 14;
+}
+
+   /* Tema di Default: Champions League */
 :root, [data-theme="champions"] {
   --bg-primary: #121620;          /* Sfondo principale dell'app molto scuro */
   --bg-card: #1c2333;             /* Sfondo delle card e dei componenti */

@@ -17,6 +17,7 @@ import './index.css';
 import logoChampions from './assets/LogoTemi/logo_champions_league.svg';
 import logoEuropa from './assets/LogoTemi/logo_europa_league.svg';
 import logoConference from './assets/LogoTemi/logo_conference_league.svg';
+import logoTerzoTempo from './assets/LogoTemi/logo_birra.svg';
 
 const AppContent = () => {
   const location = useLocation();
@@ -56,23 +57,31 @@ const AppContent = () => {
 
   useEffect(() => { setSidebarOpen(false); }, [location]);
 
+  // AGGIORNATO: Il ciclo ora include la quarta destinazione 'terzotempo'
   const handleThemeCycle = () => {
     setIsTransitioning(true);
-    setTheme(prev => prev === 'champions' ? 'europa' : prev === 'europa' ? 'conference' : 'champions');
+    setTheme(prev => {
+      if (prev === 'champions') return 'europa';
+      if (prev === 'europa') return 'conference';
+      if (prev === 'conference') return 'terzotempo';
+      return 'champions';
+    });
     setTimeout(() => {
       setIsTransitioning(false);
     }, 600);
   };
 
+  // AGGIORNATO: Ritorna il logo del pallone per il nuovo tema
   const currentThemeLogo = () => {
     if (theme === 'champions') return logoChampions;
     if (theme === 'europa') return logoEuropa;
-    return logoConference;
+    if (theme === 'conference') return logoConference;
+    if (theme === 'terzotempo') return logoTerzoTempo;
+    return logoChampions;
   };
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''} ${isTransitioning ? 'theme-reveal-active' : ''}`}>
-      {/* Passiamo lo stato del tema e la funzione di ciclo alla Sidebar per renderla disponibile anche lì */}
       <Sidebar 
         isOpen={sidebarOpen} 
         toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 

@@ -47,6 +47,7 @@
 body[data-theme="champions"] .home-hero { border-color: var(--color-accent); }
 body[data-theme="europa"] .home-hero { border-color: var(--color-accent); }
 body[data-theme="conference"] .home-hero { border-color: var(--color-accent); }
+body[data-theme="terzotempo"] .home-hero { border-color: var(--color-accent); }
 
 .hero-content {
     position: relative;
