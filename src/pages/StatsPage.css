@@ -56,7 +56,7 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  max-height: 70vh; 
+  max-height: 70vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -69,7 +69,8 @@
 
 .stats-table-native {
   width: 100%;
-  border-collapse: separate; /* Necessario per mantenere i bordi intatti con le colonne sticky */
+  border-collapse: separate;
+  /* Necessario per mantenere i bordi intatti con le colonne sticky */
   border-spacing: 0;
 }
 
@@ -108,7 +109,8 @@
   font-weight: 800;
   font-size: 14px;
   color: var(--text-main);
-  background: var(--bg-card); /* Copre gli elementi retrostanti durante lo scroll */
+  background: var(--bg-card);
+  /* Copre gli elementi retrostanti durante lo scroll */
   position: sticky;
   left: 0;
   z-index: 10;
@@ -124,7 +126,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  z-index: 110; 
+  z-index: 110;
 }
 
 /* ==========================================================================
@@ -142,7 +144,6 @@
 .header-row .col-data {
   font-size: 10px;
   color: var(--text-muted);
-  /* background-color: #161c27 !important; */
   background-color: var(--bg-sidebar) !important;
   text-transform: uppercase;
   font-weight: 800;
@@ -158,6 +159,7 @@
 
 .header-row .col-forma {
   font-size: 10px;
+  background-color: var(--bg-sidebar) !important;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 800;
@@ -191,19 +193,36 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.W { background-color: #10b981; } /* Vittoria - Verde Smeraldo vivo */
-.D { background-color: #64748b; } /* Pareggio - Grigio Slate neutro */
-.L { background-color: #ef4444; } /* Sconfitta - Rosso corallo */
+.W {
+  background-color: #10b981;
+}
+
+/* Vittoria - Verde Smeraldo vivo */
+.D {
+  background-color: #64748b;
+}
+
+/* Pareggio - Grigio Slate neutro */
+.L {
+  background-color: #ef4444;
+}
+
+/* Sconfitta - Rosso corallo */
 
 /* Elementi in risalto */
-.highlight { 
-  font-weight: 900; 
-  color: var(--text-main); 
+.highlight {
+  font-weight: 900;
+  color: var(--text-main);
   font-size: 15px;
 }
 
-.text-green { color: var(--color-highlight) !important; }
-.text-red { color: #f87171 !important; }
+.text-green {
+  color: var(--color-highlight) !important;
+}
+
+.text-red {
+  color: #f87171 !important;
+}
 
 .no-data {
   text-align: center;
@@ -216,12 +235,37 @@
    RESPONSIVE DESIGN (BREAKPOINTS COMPLETI)
    ========================================================================== */
 @media (max-width: 768px) {
-  .stats-container { padding: 15px; }
-  .stats-header h1 { font-size: 19px; }
-  .col-name { width: 110px; min-width: 110px; padding: 12px 10px; font-size: 13px; }
-  .col-data { padding: 12px 8px; font-size: 13px; }
-  .col-forma { width: 115px; min-width: 115px; }
-  .dot { width: 17px; height: 17px; font-size: 9px; border-radius: 4px; }
+  .stats-container {
+    padding: 15px;
+  }
+
+  .stats-header h1 {
+    font-size: 19px;
+  }
+
+  .col-name {
+    width: 110px;
+    min-width: 110px;
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+
+  .col-data {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+
+  .col-forma {
+    width: 115px;
+    min-width: 115px;
+  }
+
+  .dot {
+    width: 17px;
+    height: 17px;
+    font-size: 9px;
+    border-radius: 4px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -244,6 +288,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
