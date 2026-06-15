@@ -119,17 +119,13 @@
 
 /* Intersezione cruciale: Angolo alto sinistro (Header + Nome Giocatore) */
 .header-row .col-name {
-  background-color: #161c27 !important; /* Colore solido leggermente più scuro per stacco visivo totale */
+  background-color: var(--bg-sidebar) !important;
   color: var(--text-muted);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   z-index: 110; 
 }
-
-/* Sfumatura dinamica quando il tema cambia */
-[data-theme="europa"] .header-row .col-name { background-color: #1a1616 !important; }
-[data-theme="conference"] .header-row .col-name { background-color: #131914 !important; }
 
 /* ==========================================================================
    CELLE DATI E ORDINAMENTI
@@ -146,6 +142,8 @@
 .header-row .col-data {
   font-size: 10px;
   color: var(--text-muted);
+  /* background-color: #161c27 !important; */
+  background-color: var(--bg-sidebar) !important;
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.5px;

@@ -197,7 +197,11 @@ const RankingPageScore = ({ players = [], matches = [] }) => {
             {rankedList.map((player) => (
               <tr 
                 key={player.id} 
-                className={`ranking-row-clickable ${player.displayRank <= 3 ? 'row-highlight' : ''}`}
+                className={`ranking-row-clickable ${
+                  player.displayRank === 1 ? 'row-gold' : 
+                  player.displayRank === 2 ? 'row-silver' : 
+                  player.displayRank === 3 ? 'row-bronze' : ''
+                }`}
                 onClick={() => setSelectedPlayer({ data: player, rank: player.displayRank })}
               >
                 <td className="w-pos">

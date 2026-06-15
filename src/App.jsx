@@ -61,10 +61,10 @@ const AppContent = () => {
   const handleThemeCycle = () => {
     setIsTransitioning(true);
     setTheme(prev => {
+      if (prev === 'terzotempo') return 'champions';
       if (prev === 'champions') return 'europa';
       if (prev === 'europa') return 'conference';
-      if (prev === 'conference') return 'terzotempo';
-      return 'champions';
+      return 'terzotempo';
     });
     setTimeout(() => {
       setIsTransitioning(false);
@@ -73,11 +73,11 @@ const AppContent = () => {
 
   // AGGIORNATO: Ritorna il logo del pallone per il nuovo tema
   const currentThemeLogo = () => {
+    if (theme === 'terzotempo') return logoTerzoTempo;
     if (theme === 'champions') return logoChampions;
     if (theme === 'europa') return logoEuropa;
     if (theme === 'conference') return logoConference;
-    if (theme === 'terzotempo') return logoTerzoTempo;
-    return logoChampions;
+    return logoTerzoTempo;
   };
 
   return (
