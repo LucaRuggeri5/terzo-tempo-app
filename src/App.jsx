@@ -28,7 +28,7 @@ const AppContent = () => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [theme, setTheme] = useState(() => localStorage.getItem('terzo-tempo-theme') || 'champions');
+  const [theme, setTheme] = useState(() => localStorage.getItem('terzo-tempo-theme') || 'terzotempo');
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
