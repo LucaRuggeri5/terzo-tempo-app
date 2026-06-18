@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MatchForm.css';
 
 // IMPORTAZIONE DELLE ICONE DI LUCIDE-REACT
@@ -18,8 +18,8 @@ import {
 } from 'lucide-react';
 
 import {
-    soccerBall as SoccerBall,
-    soccerPitch as SoccerPitch
+  soccerBall as SoccerBall,
+  soccerPitch as SoccerPitch
 } from '@lucide/lab';
 
 const MatchForm = ({
@@ -36,6 +36,28 @@ const MatchForm = ({
   isFormValid,
   handleMatchSubmit
 }) => {
+
+  // Stato isolato per gestire la comparsa e il testo del toast locale
+  const [toastMessage, setToastMessage] = useState('');
+
+  // Wrapper locale per agganciare il toast al salvataggio prima di inviare i dati a Supabase
+  const onLocalSubmit = (e) => {
+    // Esegui la funzione nativa passata tramite props
+    handleMatchSubmit(e);
+
+    // Determina il messaggio corretto in base allo stato di modifica o nuovo inserimento
+    const messaggio = editingMatchId 
+      ? "Risultato della partita aggiornato con successo!" 
+      : "Partita salvata e registrata con successo!";
+
+    // Attiva il toast grafico
+    setToastMessage(messaggio);
+
+    // Rimuovi il toast dopo 3 secondi
+    setTimeout(() => {
+      setToastMessage('');
+    }, 3000);
+  };
 
   const getGoalStatus = (team) => {
     const totalInputScore = team === 'nera' ? parseInt(scoreNera || 0) : parseInt(scoreBianca || 0);
@@ -59,6 +81,14 @@ const MatchForm = ({
 
   return (
     <div className="main-match-card card-pro">
+      {/* RENDERIZZAZIONE DEL TOAST GRAFICO IN ALTO A DESTRA */}
+      <div className={`tactical-toast-layer ${toastMessage ? 'show-toast' : ''}`}>
+        <div className="tactical-toast-pill">
+          <CheckCircle2 size={16} className="toast-success-icon-lucide" />
+          <span>{toastMessage}</span>
+        </div>
+      </div>
+
       <div className="card-header-pro">
         <h2>
           {editingMatchId ? (
@@ -183,7 +213,7 @@ const MatchForm = ({
       <button
         className={`btn-save-match-pro ${isFormValid ? 'ready' : 'locked'}`}
         disabled={!isFormValid}
-        onClick={handleMatchSubmit}
+        onClick={onLocalSubmit} /* Sostituito con il wrapper locale */
       >
         {isFormValid ? (editingMatchId ? "AGGIORNA RISULTATO" : "SALVA PARTITA") : "DATI INCOMPLETI"}
       </button>
