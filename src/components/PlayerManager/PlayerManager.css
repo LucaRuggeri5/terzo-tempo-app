@@ -354,6 +354,63 @@
 }
 
 /* ==========================================================================
+   TOAST NOTIFICA IN ALTO A DESTRA (HARDWARE ACCELERATED)
+   ========================================================================== */
+.tactical-toast-layer {
+  position: fixed;
+  top: 85px; /* Lascia lo spazio necessario sotto l'header principale mobile/desktop */
+  right: 24px;
+  z-index: 11000; /* Superiore alle modali e alla sidebar */
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* Innesco della classe di visualizzazione attiva */
+.tactical-toast-layer.show-toast {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.tactical-toast-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #0b0e14; /* Sfondo scuro coordinato */
+  border: 1px solid var(--color-highlight); /* Sottile linea illuminata del tema corrente */
+  padding: 12px 18px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.tactical-toast-pill span {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.toast-success-icon-lucide {
+  color: var(--color-highlight); /* Icona con colore coordinato al torneo attivo */
+  flex-shrink: 0;
+}
+
+/* Ottimizzazione responsive per schermi mobile piccoli */
+@media (max-width: 480px) {
+  .tactical-toast-layer {
+    right: 12px;
+    left: 12px; /* Diventa a larghezza intera flessibile per non sforare */
+    top: 80px;
+  }
+  .tactical-toast-pill {
+    justify-content: center;
+    padding: 10px 14px;
+  }
+}
+
+/* ==========================================================================
    BREAKPOINTS RESPONSIVE SIMMETRICI
    ========================================================================== */
 @keyframes fadeInDown {

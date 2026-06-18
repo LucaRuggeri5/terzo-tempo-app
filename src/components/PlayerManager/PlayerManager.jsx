@@ -23,9 +23,21 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
   const [editingPlayerId, setEditingPlayerId] = useState(null);
   const [editValue, setEditValue] = useState('');
 
+  // Stato isolato per gestire la comparsa e il testo del toast locale
+  const [toastMessage, setToastMessage] = useState('');
+
+  // Funzione helper riutilizzabile per attivare il toast e smontarlo dopo 3 secondi
+  const triggerToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage('');
+    }, 3000);
+  };
+
   const handleAdd = () => {
     if (newPlayerName.trim()) {
       onAddPlayer(newPlayerName);
+      triggerToast(`Giocatore "${newPlayerName.trim()}" aggiunto con successo!`);
       setNewPlayerName('');
     }
   };
@@ -38,12 +50,21 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
   const saveEdit = (id) => {
     if (editValue.trim() !== "") {
       onUpdatePlayer(id, editValue);
+      triggerToast("Nome del giocatore modificato con successo!");
     }
     setEditingPlayerId(null);
   };
 
   return (
     <div className="admin-section-pro">
+      {/* RENDERIZZAZIONE DEL TOAST GRAFICO IN ALTO A DESTRA */}
+      <div className={`tactical-toast-layer ${toastMessage ? 'show-toast' : ''}`}>
+        <div className="tactical-toast-pill">
+          <UserCheck size={16} className="toast-success-icon-lucide" />
+          <span>{toastMessage}</span>
+        </div>
+      </div>
+
       {playerToDelete && (
         <div className="fixed-overlay-admin" onClick={() => setPlayerToDelete(null)}>
           <div className="confirm-modal-mini card-pro" onClick={(e) => e.stopPropagation()}>
@@ -56,6 +77,7 @@ const PlayerManager = ({ players = [], onAddPlayer, onDeletePlayer, onUpdatePlay
               <button className="btn-cancel-mini" onClick={() => setPlayerToDelete(null)}>Annulla</button>
               <button className="btn-danger-mini" onClick={() => {
                 onDeletePlayer(playerToDelete.id);
+                triggerToast(`Giocatore "${playerToDelete.nome}" eliminato`);
                 setPlayerToDelete(null);
               }}>Elimina</button>
             </div>

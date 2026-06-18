@@ -142,46 +142,6 @@
   color: var(--text-main);
 }
 
-/* ==========================================================================
-   STILE PULSANTI AUTH INTERFACCIA GLOBALE (SIDEBAR BAR)
-   ========================================================================== */
-.auth-btn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.15s, opacity 0.15s;
-}
-
-.auth-btn:active {
-  transform: scale(0.98);
-}
-
-.auth-btn.login {
-  background: var(--color-highlight);
-  color: #0b0e14;
-  box-shadow: 0 4px 12px rgba(var(--color-accent-rgb), 0.2);
-}
-
-.auth-btn.logout {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.15);
-  color: #f87171;
-}
-.auth-btn.logout:hover {
-  background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
-}
-
 @media (max-width: 450px) {
   .login-card { padding: 25px 20px; border-radius: 20px; }
 }

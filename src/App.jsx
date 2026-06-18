@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import Sidebar from './components/Sidebar/Sidebar';
-import HomePage from './pages/HomePage'; 
+import HomePage from './pages/HomePage';
 import RankingPage from './pages/RankingPage';
 import RankingPageScore from './pages/RankingPageScore';
 import StatsPage from './pages/StatsPage';
@@ -82,10 +82,10 @@ const AppContent = () => {
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-is-open' : ''} ${isTransitioning ? 'theme-reveal-active' : ''}`}>
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
-        session={session} 
+      <Sidebar
+        isOpen={sidebarOpen}
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        session={session}
         currentTheme={theme}
         onThemeCycle={handleThemeCycle}
         currentThemeLogo={currentThemeLogo()}
@@ -101,7 +101,7 @@ const AppContent = () => {
           </div>
 
           <div className="header-center-right">
-            <button 
+            <button
               className={`theme-cycle-btn theme-${theme}`}
               onClick={handleThemeCycle}
               title="Cambia Torneo"
@@ -127,7 +127,43 @@ const AppContent = () => {
             <Route path="/statistiche" element={<StatsPage players={players} matches={matches} />} />
             <Route path="/statistiche-giocatori" element={<PlayerStatsPage players={players} matches={matches} />} />
             <Route path="/login" element={<LoginPage session={session} />} />
-            <Route path="/registro" element={session ? <MatchRegisterPage players={players} matches={matches} /> : <Navigate to="/login" />} />
+            <Route
+              path="/registro"
+              element={
+                session ? (
+                  <MatchRegisterPage
+                    players={players}
+                    matches={matches}
+                    onAddPlayer={async (name) => {
+                      const { data } = await supabase.from('players').insert([{ nome: name }]).select();
+                      if (data) fetchData();
+                    }}
+                    onDeletePlayer={async (id) => {
+                      await supabase.from('players').delete().eq('id', id);
+                      fetchData();
+                    }}
+                    onUpdatePlayer={async (id, newName) => {
+                      await supabase.from('players').update({ nome: newName }).eq('id', id);
+                      fetchData();
+                    }}
+                    onAddMatch={async (match) => {
+                      await supabase.from('matches').insert([match]);
+                      fetchData();
+                    }}
+                    onUpdateMatch={async (match) => {
+                      await supabase.from('matches').update(match).eq('id', match.id);
+                      fetchData();
+                    }}
+                    onDeleteMatch={async (id) => {
+                      await supabase.from('matches').delete().eq('id', id);
+                      fetchData();
+                    }}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

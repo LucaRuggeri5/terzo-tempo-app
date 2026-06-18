@@ -234,7 +234,7 @@
 }
 
 .auth-btn {
-  display: inline-flex;
+  display: flex; /* Cambiato in flex per gestire al meglio lo spazio interno */
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -249,13 +249,16 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
-  transition: transform 0.15s, opacity 0.15s;
+  transition: transform 0.15s, opacity 0.15s, background-color 0.15s;
 }
 
 .auth-icon {
   width: 16px;
   height: 16px;
   stroke-width: 2.5px;
+  display: inline-block; /* Impedisce distorsioni dimensionali dell'SVG */
+  flex-shrink: 0; /* Evita che l'icona si rimpicciolisca se il testo è lungo */
+  transform: translateY(-0.5px); /* Micro-riallineamento ottico per compensare il font in uppercase */
 }
 
 .auth-btn:active {

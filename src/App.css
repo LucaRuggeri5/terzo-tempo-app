@@ -101,21 +101,34 @@
 .hamburger-icon span { display: block; width: 22px; height: 2px; background-color: var(--color-highlight); }
 
 /* ==========================================================================
-   ANIMAZIONE DI TRANSIZIONE (DIAGONAL SHIMMER FLASH)
+   ANIMAZIONE DI TRANSIZIONE (DIAGONAL SHIMMER FLASH POTENZIATO)
    ========================================================================== */
 .theme-reveal-active::after {
   content: '';
   position: fixed;
-  top: 0; left: -150%; width: 150%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.20), transparent);
-  transform: skewX(-20deg);
+  top: 0; 
+  left: -180%; /* Aumentato per dare più rincorsa al flash */
+  width: 180%; 
+  height: 100%;
+  /* Gradiente più denso e marcato (opacità alzata a 0.55 al centro per massima visibilità) */
+  background: linear-gradient(
+    90deg, 
+    transparent 15%, 
+    rgba(var(--color-accent-rgb), 0.35) 45%, 
+    rgba(var(--color-accent-rgb), 0.60) 50%, 
+    rgba(var(--color-accent-rgb), 0.35) 55%, 
+    transparent 85%
+  );
+  transform: skewX(-35deg); /* Inclinazione aumentata: taglia lo schermo mobile diagonalmente */
   z-index: 99999;
-  animation: shimmerFlash 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: shimmerFlash 1.50s cubic-bezier(0.25, 1, 0.5, 1); /* Curva di velocità più morbida alla fine */
   pointer-events: none;
 }
 
 @keyframes shimmerFlash {
-  to { left: 150%; }
+  to { 
+    left: 180%; /* Arrivo coordinato con la nuova larghezza */
+  }
 }
 
 /* ==========================================================================
