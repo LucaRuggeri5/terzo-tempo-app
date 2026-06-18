@@ -103,6 +103,7 @@ body[data-theme="terzotempo"] .home-hero { border-color: var(--color-accent); }
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     font-size: 1rem;
+    opacity: 0.60;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -118,10 +119,9 @@ body[data-theme="terzotempo"] .home-hero { border-color: var(--color-accent); }
 }
 
 .btn-secondary {
-    background: rgba(15, 23, 42, 0.6);
+    background: var(--bg-card);
     color: var(--text-main);
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255,) !important;
 }
 
 .hero-buttons button:hover {
